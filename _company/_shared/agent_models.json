@@ -1,0 +1,12 @@
+{
+  "ceo": "llama3.2:1b",
+  "secretary": "llama3.2:1b",
+  "youtube": "llama3.2:1b",
+  "instagram": "llama3.2:1b",
+  "designer": "llama3.2:1b",
+  "developer": "llama3.2:1b",
+  "business": "llama3.2:1b",
+  "editor": "llama3.2:1b",
+  "writer": "llama3.2:1b",
+  "researcher": "llama3.2:1b"
+}
