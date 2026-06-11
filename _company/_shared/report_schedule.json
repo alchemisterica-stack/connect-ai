@@ -1,0 +1,38 @@
+{
+  "entries": [
+    {
+      "id": "sched-1780294984738",
+      "label": "새 일정",
+      "hour": 10,
+      "minute": 0,
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "action": "briefing",
+      "enabled": true,
+      "lastFiredAt": "2026-06-11"
+    },
+    {
+      "id": "sched-blog-publish-0200",
+      "label": "매일 새벽 2시 청소년복지론 블로그 자동 발행",
+      "hour": 2,
+      "minute": 0,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
+      "enabled": true,
+      "lastFiredAt": "2026-06-11"
+    }
+  ]
+}
