@@ -555,6 +555,10 @@ def auto_publish_post(result, category, current_subject, target_file_name):
 
     # Helper function to download AI image
     def download_image_helper(prompt, path):
+        import os
+        if os.path.exists(path) and os.path.getsize(path) > 1000:
+            print(f"[INFO] Using pre-existing local image at: {path}")
+            return True
         import urllib.parse
         import random
         import time
@@ -680,9 +684,9 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 if category == "recipe":
                     dish_name = cleaned_lesson
                     wp_ing_path = os.path.join(HERE, "temp_wp_ing.png")
-                    wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for {dish_name}, cooking, raw materials, top view, studio lighting"
+                    wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for {dish_name}, cooking, raw materials, top-down flatlay angle, dark rustic wood table, moody and warm studio lighting"
                     wp_fin_path = os.path.join(HERE, "temp_wp_fin.png")
-                    wp_fin_prompt = f"professional food photography of a hot delicious finished bowl of {dish_name}, gourmet plating, styled food shot, table setting"
+                    wp_fin_prompt = f"professional food photography of a hot delicious finished bowl of {dish_name}, gourmet plating, styled food shot, table setting, dark rustic wood background, overhead top view angle, moody and warm atmosphere"
                     
                     wp_ing_url = ""
                     wp_fin_url = ""
@@ -719,18 +723,18 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     if wp_ing_url or wp_fin_url:
                         paragraphs = wp_body.split('\n\n\n')
                         if wp_ing_url and len(paragraphs) > 1:
-                            ing_tag = f'<img src="{wp_ing_url}" style="max-width:80%; height:auto; display:block; margin: 15px auto;" alt="Ingredients" />'
+                            ing_tag = f'<img src="{wp_ing_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 15px auto;" alt="Ingredients" />'
                             paragraphs.insert(1, ing_tag)
                         if wp_fin_url:
                             inserted = False
                             for idx in range(len(paragraphs) - 1, -1, -1):
                                 if paragraphs[idx].strip().startswith('#'):
-                                    fin_tag = f'<img src="{wp_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                    fin_tag = f'<img src="{wp_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
                                     paragraphs.insert(idx, fin_tag)
                                     inserted = True
                                     break
                             if not inserted and len(paragraphs) > 0:
-                                fin_tag = f'<img src="{wp_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                fin_tag = f'<img src="{wp_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
                                 paragraphs.append(fin_tag)
                         wp_body = '\n\n\n'.join(paragraphs)
                 
@@ -821,9 +825,9 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     if category == "recipe":
                         dish_name = cleaned_lesson
                         blogger_ing_path = os.path.join(HERE, "temp_blogger_ing.png")
-                        blogger_ing_prompt = f"food styling photography of fresh ingredients for {dish_name}, rustic kitchen setting, raw materials, close-up, sunlight"
+                        blogger_ing_prompt = f"food styling photography of fresh ingredients for {dish_name}, raw materials, close-up, white marble countertop background, soft natural bright daylight, modern kitchen vibe"
                         blogger_fin_path = os.path.join(HERE, "temp_blogger_fin.png")
-                        blogger_fin_prompt = f"high resolution culinary photography of a delicious cooked bowl of {dish_name}, styled dining table setting, ready to eat, depth of field"
+                        blogger_fin_prompt = f"high resolution culinary photography of a delicious cooked bowl of {dish_name}, styled dining table setting, ready to eat, side-angle close-up view, bright white marble texture backdrop, bright modern look"
                         
                         blogger_ing_url = ""
                         blogger_fin_url = ""
@@ -860,18 +864,18 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         if blogger_ing_url or blogger_fin_url:
                             paragraphs = blogger_body.split('\n\n\n')
                             if blogger_ing_url and len(paragraphs) > 1:
-                                ing_tag = f'<img src="{blogger_ing_url}" style="max-width:80%; height:auto; display:block; margin: 15px auto;" alt="Ingredients" />'
+                                ing_tag = f'<img src="{blogger_ing_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 15px auto;" alt="Ingredients" />'
                                 paragraphs.insert(1, ing_tag)
                             if blogger_fin_url:
                                 inserted = False
                                 for idx in range(len(paragraphs) - 1, -1, -1):
                                     if paragraphs[idx].strip().startswith('#'):
-                                        fin_tag = f'<img src="{blogger_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                        fin_tag = f'<img src="{blogger_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
                                         paragraphs.insert(idx, fin_tag)
                                         inserted = True
                                         break
                                 if not inserted and len(paragraphs) > 0:
-                                    fin_tag = f'<img src="{blogger_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                    fin_tag = f'<img src="{blogger_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
                                     paragraphs.append(fin_tag)
                             blogger_body = '\n\n\n'.join(paragraphs)
                     
