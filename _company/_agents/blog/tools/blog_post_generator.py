@@ -452,8 +452,12 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
 def auto_publish_post(result, category, current_subject, target_file_name):
 
     import re
-    # Clean up title: e.g. "1주차_2교시.pdf" or "1주차 2교시.pdf" -> remove week/lesson parts
-    cleaned_lesson = target_file_name.replace('.pdf','').replace('.txt','').replace('.hwp','')
+    # Clean up title: e.g. "1주차_2교시.pdf" or "recipe_메밀국수_timestamp.md" -> clean name
+    cleaned_lesson = target_file_name.replace('.pdf','').replace('.txt','').replace('.hwp','').replace('.md','')
+    if cleaned_lesson.startswith('recipe_'):
+        cleaned_lesson = cleaned_lesson.replace('recipe_', '')
+        cleaned_lesson = re.sub(r'_\d+$', '', cleaned_lesson)
+        cleaned_lesson = cleaned_lesson.replace('_', ' ')
     cleaned_lesson = re.sub(r'^\d+주차\s*\d+교시\.?\s*', '', cleaned_lesson)
     cleaned_lesson = re.sub(r'^\d+주차_\d+교시_?', '', cleaned_lesson)
     cleaned_lesson = re.sub(r'^\d+주차_?', '', cleaned_lesson)
@@ -521,6 +525,11 @@ def auto_publish_post(result, category, current_subject, target_file_name):
             text = text.replace('**', '')
             text = text.replace('***', '')
             
+        # Enforce extra spacing between paragraphs (double newline -> triple newline)
+        import re
+        text = re.sub(r'\n{3,}', '\n\n', text)
+        text = text.replace('\n\n', '\n\n\n')
+            
         return text
 
 
@@ -543,6 +552,48 @@ def auto_publish_post(result, category, current_subject, target_file_name):
     wp_url = ""
     wp_banner_url = ""
     blogger_banner_url = ""
+
+    # Helper function to download AI image
+    def download_image_helper(prompt, path):
+        import urllib.parse
+        import random
+        import time
+        import requests
+        encoded = urllib.parse.quote(prompt)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+        for attempt in range(4):
+            seed = random.randint(1, 100000)
+            url = f"https://image.pollinations.ai/prompt/{encoded}?width=800&height=600&nologo=true&seed={seed}"
+            try:
+                print(f"[INFO] Fetching AI image (attempt {attempt+1}): {url}")
+                res = requests.get(url, headers=headers, timeout=25, verify=False)
+                if res.status_code == 200 and len(res.content) > 1000:
+                    with open(path, "wb") as f:
+                        f.write(res.content)
+                    print(f"[SUCCESS] Downloaded AI image to: {path}")
+                    return True
+                elif res.status_code == 402:
+                    print(f"[WARN] Queue busy (402). Retrying in 2s...")
+                    time.sleep(2)
+                else:
+                    print(f"[WARN] Failed with status {res.status_code}. Retrying...")
+                    time.sleep(1)
+            except Exception as e:
+                print(f"[WARN] Error fetching: {e}. Retrying...")
+                time.sleep(1)
+        return False
+
+    # Map category to specific blog folder/category
+    if category == "recipe":
+        cat_name = "요리/반찬"
+    elif category == "study":
+        cat_name = current_subject if current_subject else "청소년지도사"
+    elif category == "mindset":
+        cat_name = "자기계발"
+    else:
+        cat_name = current_subject or "기타"
     try:
         config_path = os.path.join(HERE, "blog_account.json")
         if os.path.exists(config_path):
@@ -624,6 +675,64 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         print(f"[WARN] Blogger banner upload failed: {img_err}")
 
                 wp_body = wp_content
+
+                # Generate and Upload WordPress recipe photos (ingredients & finished dish)
+                if category == "recipe":
+                    dish_name = cleaned_lesson
+                    wp_ing_path = os.path.join(HERE, "temp_wp_ing.png")
+                    wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for {dish_name}, cooking, raw materials, top view, studio lighting"
+                    wp_fin_path = os.path.join(HERE, "temp_wp_fin.png")
+                    wp_fin_prompt = f"professional food photography of a hot delicious finished bowl of {dish_name}, gourmet plating, styled food shot, table setting"
+                    
+                    wp_ing_url = ""
+                    wp_fin_url = ""
+                    
+                    if download_image_helper(wp_ing_prompt, wp_ing_path):
+                        try:
+                            with open(wp_ing_path, "rb") as f:
+                                wp_ing_data = f.read()
+                            res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                "name": f"recipe_ing_{int(time.time())}_wp.png",
+                                "type": "image/png",
+                                "bits": xmlrpc.client.Binary(wp_ing_data),
+                                "overwrite": True
+                            })
+                            wp_ing_url = res.get("url")
+                        except Exception as upload_err:
+                            print(f"[WARN] WP ingredient photo upload failed: {upload_err}")
+                            
+                    if download_image_helper(wp_fin_prompt, wp_fin_path):
+                        try:
+                            with open(wp_fin_path, "rb") as f:
+                                wp_fin_data = f.read()
+                            res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                "name": f"recipe_fin_{int(time.time())}_wp.png",
+                                "type": "image/png",
+                                "bits": xmlrpc.client.Binary(wp_fin_data),
+                                "overwrite": True
+                            })
+                            wp_fin_url = res.get("url")
+                        except Exception as upload_err:
+                            print(f"[WARN] WP finished photo upload failed: {upload_err}")
+                            
+                    # Embed in wp_body
+                    if wp_ing_url or wp_fin_url:
+                        paragraphs = wp_body.split('\n\n\n')
+                        if wp_ing_url and len(paragraphs) > 1:
+                            ing_tag = f'<img src="{wp_ing_url}" style="max-width:80%; height:auto; display:block; margin: 15px auto;" alt="Ingredients" />'
+                            paragraphs.insert(1, ing_tag)
+                        if wp_fin_url:
+                            inserted = False
+                            for idx in range(len(paragraphs) - 1, -1, -1):
+                                if paragraphs[idx].strip().startswith('#'):
+                                    fin_tag = f'<img src="{wp_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                    paragraphs.insert(idx, fin_tag)
+                                    inserted = True
+                                    break
+                            if not inserted and len(paragraphs) > 0:
+                                fin_tag = f'<img src="{wp_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                paragraphs.append(fin_tag)
+                        wp_body = '\n\n\n'.join(paragraphs)
                 
                 # Generate and Upload WordPress Quiz Banner (ONLY for study summaries category)
                 wp_quiz_url = ""
@@ -659,10 +768,29 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 if wp_banner_url:
                     wp_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + wp_body
 
+                # Check and dynamically create WordPress category if not exists
+                wp_categories = []
+                try:
+                    cats = client.wp.getCategories(0, wp_user, wp_pass)
+                    wp_categories = [c.get('categoryName') for c in cats]
+                except Exception as cat_err:
+                    print(f"[WARN] Failed to fetch WordPress categories: {cat_err}")
+
+                if cat_name not in wp_categories:
+                    try:
+                        client.wp.newTerm(0, wp_user, wp_pass, {
+                            "name": cat_name,
+                            "taxonomy": "category"
+                        })
+                        print(f"[SUCCESS] Created WordPress category dynamically: {cat_name}")
+                    except Exception as create_err:
+                        print(f"[WARN] Failed to create WordPress category '{cat_name}': {create_err}")
+
                 post_data = {
                     "title": wp_title,
                     "description": wp_body,
-                    "post_status": "publish"
+                    "post_status": "publish",
+                    "categories": [cat_name]
                 }
                 post_id = client.metaWeblog.newPost("default", wp_user, wp_pass, post_data, True)
                 wp_url = f"{wp_domain}/?p={post_id}"
@@ -688,6 +816,64 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     access_token = creds.token
                     
                     blogger_body = blogger_content
+
+                    # Generate and Upload Blogger recipe photos (ingredients & finished dish)
+                    if category == "recipe":
+                        dish_name = cleaned_lesson
+                        blogger_ing_path = os.path.join(HERE, "temp_blogger_ing.png")
+                        blogger_ing_prompt = f"food styling photography of fresh ingredients for {dish_name}, rustic kitchen setting, raw materials, close-up, sunlight"
+                        blogger_fin_path = os.path.join(HERE, "temp_blogger_fin.png")
+                        blogger_fin_prompt = f"high resolution culinary photography of a delicious cooked bowl of {dish_name}, styled dining table setting, ready to eat, depth of field"
+                        
+                        blogger_ing_url = ""
+                        blogger_fin_url = ""
+                        
+                        if download_image_helper(blogger_ing_prompt, blogger_ing_path):
+                            try:
+                                with open(blogger_ing_path, "rb") as f:
+                                    blogger_ing_data = f.read()
+                                res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                    "name": f"recipe_ing_{int(time.time())}_blogger.png",
+                                    "type": "image/png",
+                                    "bits": xmlrpc.client.Binary(blogger_ing_data),
+                                    "overwrite": True
+                                })
+                                blogger_ing_url = res.get("url")
+                            except Exception as upload_err:
+                                print(f"[WARN] Blogger ingredient photo upload failed: {upload_err}")
+                                
+                        if download_image_helper(blogger_fin_prompt, blogger_fin_path):
+                            try:
+                                with open(blogger_fin_path, "rb") as f:
+                                    blogger_fin_data = f.read()
+                                res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                    "name": f"recipe_fin_{int(time.time())}_blogger.png",
+                                    "type": "image/png",
+                                    "bits": xmlrpc.client.Binary(blogger_fin_data),
+                                    "overwrite": True
+                                })
+                                blogger_fin_url = res.get("url")
+                            except Exception as upload_err:
+                                print(f"[WARN] Blogger finished photo upload failed: {upload_err}")
+                                
+                        # Embed in blogger_body
+                        if blogger_ing_url or blogger_fin_url:
+                            paragraphs = blogger_body.split('\n\n\n')
+                            if blogger_ing_url and len(paragraphs) > 1:
+                                ing_tag = f'<img src="{blogger_ing_url}" style="max-width:80%; height:auto; display:block; margin: 15px auto;" alt="Ingredients" />'
+                                paragraphs.insert(1, ing_tag)
+                            if blogger_fin_url:
+                                inserted = False
+                                for idx in range(len(paragraphs) - 1, -1, -1):
+                                    if paragraphs[idx].strip().startswith('#'):
+                                        fin_tag = f'<img src="{blogger_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                        paragraphs.insert(idx, fin_tag)
+                                        inserted = True
+                                        break
+                                if not inserted and len(paragraphs) > 0:
+                                    fin_tag = f'<img src="{blogger_fin_url}" style="max-width:80%; height:auto; display:block; margin: 20px auto;" alt="Finished Dish" />'
+                                    paragraphs.append(fin_tag)
+                            blogger_body = '\n\n\n'.join(paragraphs)
                     
                     # Generate and Upload Blogger Quiz Banner (ONLY for study summaries category)
                     blogger_quiz_url = ""
@@ -730,7 +916,8 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         "kind": "blogger#post",
                         "blog": {"id": blogger_id},
                         "title": blogger_title,
-                        "content": html_content
+                        "content": html_content,
+                        "labels": [cat_name]
                     }
                     api_url = f"https://www.googleapis.com/blogger/v3/blogs/{blogger_id}/posts"
                     headers = {
@@ -934,7 +1121,8 @@ def main():
 - 영어(sớm, also, juga 등), 베트남어, 태국어 등 외래어 토큰이나 타국어 단어가 단 한 단어도 섞여서는 안 됩니다. 
 - 한자(漢字) 역시 가급적 한글로 순화하고 한글로만 작성하십시오.
 - AI 임의의 다국어 번역 혼동이나 깨진 토큰 사용을 철저히 금지합니다.
-- [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 - [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
@@ -959,7 +1147,8 @@ def main():
 아래 키워드와 참고자료를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
 
 [중요 지시사항]
-- [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 - [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(응원 멘트나 본문 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #마인드셋 #심리테라피 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
@@ -987,7 +1176,8 @@ def main():
 1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 다듬기만 한 형태여서는 안 됩니다.
 2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 제시된 주제/키워드 중 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. (여러 요리나 다른 반찬 정보가 입력값에 섞여 있더라도, 단 하나의 핵심 요리만 집중적으로 파고드십시오.)
 3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
-4. [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+4. [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
@@ -1149,7 +1339,8 @@ def main():
 - 영어(sớm, also, juga 등), 베트남어, 태국어 등 외래어 토큰이나 타국어 단어가 단 한 단어도 섞여서는 안 됩니다. 
 - 한자(漢字) 역시 가급적 한글로 순화하고 한글로만 작성하십시오.
 - AI 임의의 다국어 번역 혼동이나 깨진 토큰 사용을 철저히 금지합니다.
-- [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 - [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
@@ -1174,7 +1365,8 @@ def main():
 아래 키워드와 참고자료를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
 
 [중요 지시사항]
-- [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 - [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(응원 멘트나 본문 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #마인드셋 #심리테라피 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
@@ -1202,7 +1394,8 @@ def main():
 1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 다듬기만 한 형태여서는 안 됩니다.
 2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 제시된 주제/키워드 중 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. (여러 요리나 다른 반찬 정보가 입력값에 섞여 있더라도, 단 하나의 핵심 요리만 집중적으로 파고드십시오.)
 3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
-4. [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+4. [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]

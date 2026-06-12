@@ -54,7 +54,8 @@ def generate_recipe_post(topic, gemini_api_key):
 1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 문장만 바꾼 형태여서는 절대 안 됩니다.
 2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 [오늘의 요리 주제]에 나오는 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. 다른 반찬이나 여러 요리를 곁들여 소개하지 마십시오.
 3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
-4. [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+4. [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
+- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
 5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [오늘의 요리 주제]
@@ -101,8 +102,24 @@ def main():
     with open(DRAFT_PATH, "w", encoding="utf-8") as f:
         f.write(result)
 
+    # Extract a clean dish name for a unique lesson key
+    dish_name = None
+    for word in ["메밀국수", "오이냉국", "야식", "간식", "김치찌개", "된장찌개", "반찬", "레시피"]:
+        if word in topic:
+            dish_name = word
+            break
+    if not dish_name:
+        match = re.search(r'[\'"]([^\'"]+)[\'"]', topic)
+        if match:
+            dish_name = match.group(1)
+    if not dish_name:
+        clean_text = re.sub(r'[^\uac00-\ud7a3\w]', '', topic)
+        dish_name = clean_text[:12] if clean_text else "요리"
+        
+    lesson_name = f"recipe_{dish_name}_{int(time.time())}.md"
+
     print("[INFO] Uploading cooking blog post to WordPress and Blogger...")
-    urls = auto_publish_post(result, "recipe", "요리/반찬", "blog_post_trendy_banchan.md")
+    urls = auto_publish_post(result, "recipe", "요리/반찬", lesson_name)
     wp_url = urls.get("wp_url", "")
     blogger_url = urls.get("blogger_url", "")
 
@@ -121,22 +138,6 @@ def main():
             "completed_history": [],
             "completed_lessons": []
         }
-
-    # Extract a clean dish name for a unique lesson key
-    dish_name = None
-    for word in ["메밀국수", "오이냉국", "야식", "간식", "김치찌개", "된장찌개", "반찬", "레시피"]:
-        if word in topic:
-            dish_name = word
-            break
-    if not dish_name:
-        match = re.search(r'[\'"]([^\'"]+)[\'"]', topic)
-        if match:
-            dish_name = match.group(1)
-    if not dish_name:
-        clean_text = re.sub(r'[^\uac00-\ud7a3\w]', '', topic)
-        dish_name = clean_text[:12] if clean_text else "요리"
-        
-    lesson_name = f"recipe_{dish_name}_{int(time.time())}.md"
 
     today_str = time.strftime("%Y-%m-%d")
     completed_entry = {
