@@ -113,7 +113,344 @@ def ask_llm(ollama_url, model, prompt, gemini_api_key=None):
                 print(f"[ERROR] LLM call failed: {e2}")
         return ""
 
+def create_dynamic_banner(title, category, subject, output_path, is_blogger=False):
+    import os
+    import datetime
+    import random
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError:
+        print("[WARN] Pillow library not found. Cannot generate dynamic banner.")
+        return
+        
+    width, height = 1200, 630
+    
+    if category in ["recipe", "mindset"]:
+        # Draw text-free minimalist seasonal landscape banner
+        img = Image.new("RGB", (width, height))
+        draw = ImageDraw.Draw(img)
+        
+        month = datetime.datetime.now().month
+        if month in [3, 4, 5]:
+            season = "spring"
+        elif month in [6, 7, 8]:
+            season = "summer"
+        elif month in [9, 10, 11]:
+            season = "autumn"
+        else:
+            season = "winter"
+            
+        if season == "spring":
+            if not is_blogger:
+                # Sky: Soft pink to light sky blue gradient
+                for y in range(height):
+                    factor = y / height
+                    r = int(224 + (186 - 224) * factor)
+                    g = int(242 + (212 - 242) * factor)
+                    b = int(254 + (235 - 254) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Soft yellow sun
+                draw.ellipse([850, 100, 970, 220], fill=(254, 240, 138))
+                # Green Hills
+                draw.ellipse([-100, 400, 700, 900], fill=(134, 239, 172))
+                draw.ellipse([400, 350, 1300, 950], fill=(74, 222, 128))
+                draw.ellipse([100, 480, 1000, 900], fill=(34, 197, 94))
+            else:
+                # Blogger Spring: Soft yellow-peach meadow with plant/blossom details
+                for y in range(height):
+                    factor = y / height
+                    r = int(254 + (253 - 254) * factor)
+                    g = int(243 + (186 - 243) * factor)
+                    b = int(199 + (116 - 199) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Sun
+                draw.ellipse([150, 100, 270, 220], fill=(251, 146, 60))
+                # Soft olive green and lavender meadow hills
+                draw.ellipse([-150, 420, 600, 850], fill=(163, 230, 53))   # Light lime/olive
+                draw.ellipse([500, 400, 1400, 900], fill=(167, 139, 250))  # Light purple/lavender
+                draw.ellipse([150, 470, 1050, 900], fill=(101, 163, 13))   # Olive green
+            
+        elif season == "summer":
+            if not is_blogger:
+                # Sky: Deep blue to bright cyan gradient
+                for y in range(height):
+                    factor = y / height
+                    r = int(14 + (6 - 14) * factor)
+                    g = int(116 + (182 - 116) * factor)
+                    b = int(144 + (212 - 144) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Golden sun
+                draw.ellipse([100, 80, 250, 230], fill=(253, 224, 71))
+                # Beach & Sea
+                draw.polygon([(0, 450), (450, 630), (0, 630)], fill=(254, 243, 199))
+                draw.polygon([(0, 530), (1200, 400), (1200, 630), (0, 630)], fill=(3, 105, 161))
+                draw.polygon([(350, 560), (1200, 470), (1200, 630), (350, 630)], fill=(2, 132, 199))
+            else:
+                # Blogger Summer: Forest & plants sunset meadow theme
+                for y in range(height):
+                    factor = y / height
+                    r = int(253 + (254 - 253) * factor)
+                    g = int(186 + (240 - 186) * factor)
+                    b = int(116 + (138 - 116) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Large setting orange sun
+                draw.ellipse([800, 150, 980, 330], fill=(249, 115, 22))
+                # Overlapping rolling forest green hills (plant-like layers)
+                draw.ellipse([-300, 380, 700, 900], fill=(20, 83, 45))     # Very dark forest green
+                draw.ellipse([400, 320, 1600, 950], fill=(22, 163, 74))    # Fresh green
+                draw.ellipse([50, 440, 1100, 900], fill=(34, 197, 94))     # Emerald green
+                # Minimalist plant/leaf shapes in foreground
+                draw.ellipse([300, 410, 340, 490], fill=(21, 128, 61))
+                draw.ellipse([330, 420, 360, 490], fill=(21, 128, 61))
+            
+        elif season == "autumn":
+            if not is_blogger:
+                # Sky: Sunset gradient (violet to orange)
+                for y in range(height):
+                    factor = y / height
+                    r = int(109 + (249 - 109) * factor)
+                    g = int(40 + (115 - 40) * factor)
+                    b = int(217 + (22 - 217) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Red Sun
+                draw.ellipse([900, 150, 1020, 270], fill=(239, 68, 68))
+                # Autumn Mountains
+                draw.polygon([(200, 630), (550, 300), (900, 630)], fill=(120, 53, 4))
+                draw.polygon([(-100, 630), (250, 350), (600, 630)], fill=(180, 83, 9))
+                draw.polygon([(600, 630), (950, 380), (1300, 630)], fill=(146, 64, 14))
+            else:
+                # Blogger Autumn: Misty grey-blue sky with golden-yellow and red maple hills
+                for y in range(height):
+                    factor = y / height
+                    r = int(203 + (148 - 203) * factor)
+                    g = int(163 + (163 - 163) * factor) # Make it distinct grey-blue
+                    b = int(225 + (184 - 225) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Sun
+                draw.ellipse([150, 120, 250, 220], fill=(251, 146, 60))
+                # Golden and red maple hills
+                draw.ellipse([-200, 420, 600, 900], fill=(234, 179, 8))     # Golden yellow
+                draw.ellipse([500, 360, 1500, 950], fill=(185, 28, 28))     # Dark red
+                draw.ellipse([100, 460, 1100, 900], fill=(217, 119, 6))     # Amber orange
+            
+        else:  # winter
+            if not is_blogger:
+                # Sky: Twilight indigo to purple
+                for y in range(height):
+                    factor = y / height
+                    r = int(30 + (88 - 30) * factor)
+                    g = int(58 + (28 - 58) * factor)
+                    b = int(138 + (135 - 138) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Moon
+                draw.ellipse([800, 80, 920, 200], fill=(241, 245, 249))
+                # Snow Hills
+                draw.ellipse([-200, 450, 600, 900], fill=(226, 232, 240))
+                draw.ellipse([400, 400, 1400, 1000], fill=(241, 245, 249))
+                # Falling snow
+                random.seed(42)
+                for _ in range(50):
+                    sx = random.randint(0, width)
+                    sy = random.randint(0, height - 200)
+                    sr = random.randint(2, 5)
+                    draw.ellipse([sx - sr, sy - sr, sx + sr, sy + sr], fill=(255, 255, 255))
+            else:
+                # Blogger Winter: Ice-blue twilight sky with silver/white snow hills and evergreen tree shapes
+                for y in range(height):
+                    factor = y / height
+                    r = int(15 + (8 - 15) * factor)
+                    g = int(23 + (47 - 23) * factor)
+                    b = int(42 + (73 - 42) * factor)
+                    draw.line([(0, y), (width, y)], fill=(r, g, b))
+                # Yellow moon
+                draw.ellipse([200, 100, 300, 200], fill=(254, 240, 138))
+                # White snow hills
+                draw.ellipse([-300, 440, 500, 900], fill=(241, 245, 249))
+                draw.ellipse([300, 410, 1300, 950], fill=(226, 232, 240))
+                # Dark evergreen silhouettes in background
+                draw.polygon([(650, 410), (670, 360), (690, 410)], fill=(30, 41, 59))
+                draw.polygon([(700, 430), (720, 380), (740, 430)], fill=(30, 41, 59))
+                
+        img.convert("RGB").save(output_path, "PNG")
+        print(f"[DYNAMIC BANNER] Created text-free {season} landscape banner for {category} at: {output_path}")
+        return
+
+    # Standard card banner for study summary
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    
+    # 1. Gradient background selection
+    color1 = (30, 58, 138, 255)  # #1e3a8a (Navy blue)
+    color2 = (6, 182, 212, 255)  # #06b6d4 (Teal/cyan)
+        
+    # Draw linear gradient from top-left to bottom-right
+    for y in range(height):
+        for x in range(width):
+            factor = (x / width + y / height) / 2
+            r = int(color1[0] + (color2[0] - color1[0]) * factor)
+            g = int(color1[1] + (color2[1] - color1[1]) * factor)
+            b = int(color1[2] + (color2[2] - color1[2]) * factor)
+            img.putpixel((x, y), (r, g, b, 255))
+            
+    # Redraw draw object
+    draw = ImageDraw.Draw(img)
+    
+    # 2. Draw modern Card overlay
+    card_margin = 60
+    card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    card_draw = ImageDraw.Draw(card_overlay)
+    card_draw.rounded_rectangle(
+        [card_margin, card_margin, width - card_margin, height - card_margin],
+        radius=24,
+        fill=(255, 255, 255, 30),
+        outline=(255, 255, 255, 60),
+        width=2
+    )
+    img = Image.alpha_composite(img, card_overlay)
+    draw = ImageDraw.Draw(img)
+    
+    # 3. Load font (Malgun Gothic or default)
+    font_path = "C:\\Windows\\Fonts\\malgun.ttf"
+    if not os.path.exists(font_path):
+        font_path = "C:\\Windows\\Fonts\\arial.ttf"
+        
+    try:
+        font_title = ImageFont.truetype(font_path, 48)
+        font_subtitle = ImageFont.truetype(font_path, 32)
+        font_tag = ImageFont.truetype(font_path, 22)
+    except Exception:
+        font_title = ImageFont.load_default()
+        font_subtitle = ImageFont.load_default()
+        font_tag = ImageFont.load_default()
+        
+    # 4. Draw Pill Badge tag
+    tag_text = f"📚 {subject} 학습 요약"
+        
+    tag_w = 320
+    tag_h = 42
+    tag_x = width // 2 - tag_w // 2
+    tag_y = card_margin + 40
+    draw.rounded_rectangle(
+        [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
+        radius=20,
+        fill=(255, 255, 255, 50),
+        outline=(255, 255, 255, 100),
+        width=1
+    )
+    draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
+    
+    # 5. Draw Title text
+    import re
+    title_text = title
+    max_len = 24
+    lines = []
+    if len(title_text) > max_len:
+        words = title_text.split()
+        current_line = ""
+        for word in words:
+            if len(current_line + " " + word) <= max_len:
+                current_line = (current_line + " " + word).strip()
+            else:
+                lines.append(current_line)
+                current_line = word
+        if current_line:
+            lines.append(current_line)
+    else:
+        lines.append(title_text)
+        
+    lines = lines[:2]
+    title_y = height // 2 - 20
+    if len(lines) == 1:
+        draw.text((width // 2, title_y), lines[0], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+    else:
+        draw.text((width // 2, title_y - 35), lines[0], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+        draw.text((width // 2, title_y + 35), lines[1], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+        
+    # 6. Draw footer logo
+    footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
+    draw.text((width // 2, height - card_margin - 60), footer_text, fill=(255, 255, 255, 180), font=font_subtitle, anchor="mm")
+    
+    img.convert("RGB").save(output_path, "PNG")
+    print(f"[DYNAMIC BANNER] Created banner for '{title}' at: {output_path}")
+
+def create_quiz_banner(subject, output_path, is_blogger=False):
+    import os
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError:
+        print("[WARN] Pillow library not found. Cannot generate quiz banner.")
+        return
+        
+    width, height = 1000, 380
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    
+    # Gradient: indigo to violet/pink
+    color1 = (79, 70, 229, 255)   # #4f46e5 (Indigo)
+    color2 = (219, 39, 119, 255)  # #db2777 (Deep pink)
+    
+    for y in range(height):
+        for x in range(width):
+            factor = (x / width + y / height) / 2
+            r = int(color1[0] + (color2[0] - color1[0]) * factor)
+            g = int(color1[1] + (color2[1] - color1[1]) * factor)
+            b = int(color1[2] + (color2[2] - color1[2]) * factor)
+            img.putpixel((x, y), (r, g, b, 255))
+            
+    draw = ImageDraw.Draw(img)
+    
+    # Card overlay
+    card_margin = 35
+    card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    card_draw = ImageDraw.Draw(card_overlay)
+    card_draw.rounded_rectangle(
+        [card_margin, card_margin, width - card_margin, height - card_margin],
+        radius=20,
+        fill=(255, 255, 255, 25),
+        outline=(255, 255, 255, 50),
+        width=1
+    )
+    img = Image.alpha_composite(img, card_overlay)
+    draw = ImageDraw.Draw(img)
+    
+    # Fonts
+    font_path = "C:\\Windows\\Fonts\\malgun.ttf"
+    if not os.path.exists(font_path):
+        font_path = "C:\\Windows\\Fonts\\arial.ttf"
+        
+    try:
+        font_title = ImageFont.truetype(font_path, 42)
+        font_subtitle = ImageFont.truetype(font_path, 22)
+        font_tag = ImageFont.truetype(font_path, 18)
+    except Exception:
+        font_title = ImageFont.load_default()
+        font_subtitle = ImageFont.load_default()
+        font_tag = ImageFont.load_default()
+        
+    # Draw Subject Pill
+    tag_text = f"📚 {subject}"
+    tag_w = 220
+    tag_h = 32
+    tag_x = width // 2 - tag_w // 2
+    tag_y = card_margin + 25
+    draw.rounded_rectangle(
+        [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
+        radius=16,
+        fill=(255, 255, 255, 40),
+        outline=(255, 255, 255, 80),
+        width=1
+    )
+    draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
+    
+    # Draw Quiz Title
+    draw.text((width // 2, height // 2 + 10), "✓ 자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+    
+    # Draw Subtitle
+    draw.text((width // 2, height // 2 + 65), "문제를 풀며 오늘 배운 핵심 내용을 최종 점검해 보세요!", fill=(255, 255, 255, 200), font=font_subtitle, anchor="mm")
+    
+    img.convert("RGB").save(output_path, "PNG")
+    print(f"[DYNAMIC QUIZ BANNER] Created quiz banner at: {output_path}")
+
 def auto_publish_post(result, category, current_subject, target_file_name):
+
     import re
     # Clean up title: e.g. "1주차_2교시.pdf" or "1주차 2교시.pdf" -> remove week/lesson parts
     cleaned_lesson = target_file_name.replace('.pdf','').replace('.txt','').replace('.hwp','')
@@ -219,13 +556,50 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 import xmlrpc.client
                 client = xmlrpc.client.ServerProxy(xmlrpc_url)
                 
-                banner_path = os.path.join(HERE, "youth_instructor_banner.png")
+                # Check for custom media uploaded by user
+                custom_banner_path = None
+                
+                # Check 02_미디어 directory
+                media_dir = os.path.abspath(os.path.join(HERE, "..", "..", "..", "02_미디어"))
+                if os.path.exists(media_dir):
+                    media_files = [f for f in os.listdir(media_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+                    if media_files:
+                        custom_banner_path = os.path.join(media_dir, media_files[0])
+                        print(f"[INFO] Found custom user image in 02_미디어: {custom_banner_path}")
+                        
+                # Check subject raw directory
+                if not custom_banner_path:
+                    raw_subject_dir = os.path.abspath(os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject))
+                    if os.path.exists(raw_subject_dir):
+                        raw_media = [f for f in os.listdir(raw_subject_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg')) and not f.endswith('banner.png')]
+                        if raw_media:
+                            custom_banner_path = os.path.join(raw_subject_dir, raw_media[0])
+                            print(f"[INFO] Found custom image in raw directory: {custom_banner_path}")
+                            
+                # Determine paths to upload
+                if custom_banner_path and os.path.exists(custom_banner_path):
+                    banner_path = custom_banner_path
+                    blogger_banner_path = custom_banner_path
+                else:
+                    # Generate dynamic banner using Pillow
+                    banner_path = os.path.join(HERE, "temp_wp_banner.png")
+                    blogger_banner_path = os.path.join(HERE, "temp_blogger_banner.png")
+                    try:
+                        create_dynamic_banner(wp_title, category, current_subject, banner_path, is_blogger=False)
+                        create_dynamic_banner(blogger_title, category, current_subject, blogger_banner_path, is_blogger=True)
+                    except Exception as gen_err:
+                        print(f"[WARN] Dynamic banner generation failed: {gen_err}")
+                        # Fallback to default banners if they exist
+                        banner_path = os.path.join(HERE, "youth_instructor_banner.png")
+                        blogger_banner_path = os.path.join(HERE, "youth_instructor_banner_blogger.png")
+                
+                # Upload WordPress Banner
                 if os.path.exists(banner_path):
                     try:
                         with open(banner_path, "rb") as f:
                             banner_data = f.read()
                         res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                            "name": "youth_instructor_banner_wp.png",
+                            "name": f"blog_banner_{int(time.time())}_wp.png",
                             "type": "image/png",
                             "bits": xmlrpc.client.Binary(banner_data),
                             "overwrite": True
@@ -234,13 +608,13 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     except Exception as img_err:
                         print(f"[WARN] WordPress banner upload failed: {img_err}")
 
-                blogger_banner_path = os.path.join(HERE, "youth_instructor_banner_blogger.png")
+                # Upload Blogger Banner
                 if os.path.exists(blogger_banner_path):
                     try:
                         with open(blogger_banner_path, "rb") as f:
                             blogger_data = f.read()
                         res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                            "name": "youth_instructor_banner_blogger.png",
+                            "name": f"blog_banner_{int(time.time())}_blogger.png",
                             "type": "image/png",
                             "bits": xmlrpc.client.Binary(blogger_data),
                             "overwrite": True
@@ -250,6 +624,38 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         print(f"[WARN] Blogger banner upload failed: {img_err}")
 
                 wp_body = wp_content
+                
+                # Generate and Upload WordPress Quiz Banner (ONLY for study summaries category)
+                wp_quiz_url = ""
+                if category == "study":
+                    wp_quiz_path = os.path.join(HERE, "temp_wp_quiz.png")
+                    try:
+                        create_quiz_banner(current_subject, wp_quiz_path)
+                        if os.path.exists(wp_quiz_path):
+                            with open(wp_quiz_path, "rb") as f:
+                                quiz_data = f.read()
+                            res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                "name": f"quiz_banner_{int(time.time())}_wp.png",
+                                "type": "image/png",
+                                "bits": xmlrpc.client.Binary(quiz_data),
+                                "overwrite": True
+                            })
+                            wp_quiz_url = res.get("url")
+                    except Exception as q_err:
+                        print(f"[WARN] WordPress quiz banner failed: {q_err}")
+
+                    if wp_quiz_url:
+                        img_tag = f'\n\n<img src="{wp_quiz_url}" style="max-width:70%; height:auto; display:block; margin: 20px auto;" alt="Quiz Banner" />\n\n'
+                        pattern = r'\[?이곳에\s*학습\s*퀴즈\s*관련\s*이미지가?\s*들어갈\s*자리입니다\.?\]?'
+                        if re.search(pattern, wp_body):
+                            wp_body = re.sub(pattern, img_tag, wp_body)
+                        else:
+                            quiz_pattern = r'(###?\s*(?:자가진단|퀴즈|평가|QUIZ|핵심\s*문제|문제))'
+                            if re.search(quiz_pattern, wp_body):
+                                wp_body = re.sub(quiz_pattern, img_tag + r'\1', wp_body, count=1)
+                            else:
+                                wp_body = wp_body + img_tag
+
                 if wp_banner_url:
                     wp_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + wp_body
 
@@ -282,6 +688,38 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     access_token = creds.token
                     
                     blogger_body = blogger_content
+                    
+                    # Generate and Upload Blogger Quiz Banner (ONLY for study summaries category)
+                    blogger_quiz_url = ""
+                    if category == "study":
+                        blogger_quiz_path = os.path.join(HERE, "temp_blogger_quiz.png")
+                        try:
+                            create_quiz_banner(current_subject, blogger_quiz_path)
+                            if os.path.exists(blogger_quiz_path):
+                                with open(blogger_quiz_path, "rb") as f:
+                                    quiz_data = f.read()
+                                res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                    "name": f"quiz_banner_{int(time.time())}_blogger.png",
+                                    "type": "image/png",
+                                    "bits": xmlrpc.client.Binary(quiz_data),
+                                    "overwrite": True
+                                })
+                                blogger_quiz_url = res.get("url")
+                        except Exception as q_err:
+                            print(f"[WARN] Blogger quiz banner failed: {q_err}")
+
+                        if blogger_quiz_url:
+                            img_tag = f'\n\n<img src="{blogger_quiz_url}" style="max-width:70%; height:auto; display:block; margin: 20px auto;" alt="Quiz Banner" />\n\n'
+                            pattern = r'\[?이곳에\s*학습\s*퀴즈\s*관련\s*이미지가?\s*들어갈\s*자리입니다\.?\]?'
+                            if re.search(pattern, blogger_body):
+                                blogger_body = re.sub(pattern, img_tag, blogger_body)
+                            else:
+                                quiz_pattern = r'(###?\s*(?:자가진단|퀴즈|평가|QUIZ|핵심\s*문제|문제))'
+                                if re.search(quiz_pattern, blogger_body):
+                                    blogger_body = re.sub(quiz_pattern, img_tag + r'\1', blogger_body, count=1)
+                                else:
+                                    blogger_body = blogger_body + img_tag
+
                     if blogger_banner_url:
                         blogger_body = f'<img src="{blogger_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
                     elif wp_banner_url:
@@ -542,12 +980,15 @@ def main():
 (본문은 정돈되고 전문적인 에세이 톤으로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "recipe":
-            prompt = f"""당신은 친근한 요리 파워 블로거입니다.
-아래 레시피 정보를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
+            prompt = f"""당신은 요리 및 집밥 전문 파워 블로거입니다.
+아래 제공된 정보 및 레시피 키워드를 바탕으로 워드프레스(WordPress)와 구글 블로거(Blogger)에 각각 업로드할 두 가지 버전의 글을 작성하세요.
 
 [중요 지시사항]
-- [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
-- [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
+1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 다듬기만 한 형태여서는 안 됩니다.
+2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 제시된 주제/키워드 중 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. (여러 요리나 다른 반찬 정보가 입력값에 섞여 있더라도, 단 하나의 핵심 요리만 집중적으로 파고드십시오.)
+3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
+4. [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -560,11 +1001,11 @@ def main():
 
 ========== WORDPRESS VERSION ==========
 # [워드프레스용 제목]
-(본문은 이웃집 이웃처럼 친밀한 어조로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 이웃집 다정한 이웃이 본인의 일상 이야기나 가족과의 추억, 요리하는 과정에서 느낀 소소한 감정을 털어놓는 듯한 '친근하고 따뜻한 스토리텔링 어조'로 작성해 주세요. 요리에 담긴 사연이나 요리할 때 집안에 풍기는 냄새, 맛에 대한 묘사 등 풍성한 이야기 중심의 글이어야 합니다. 요리 순서도 딱딱한 개조식이 아니라 자연스럽게 이야기하듯 풀어내어 정겨움을 주도록 작성하세요. 마지막에 해시태그를 추가해 주세요.)
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 깔끔하고 명확한 레시피 위주로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 깔끔하고 명확하며 군더더기 없는 '구조적이고 전문적인 레시피 카드 어조'로 작성해 주세요. 불필요한 일상 이야기나 감정 묘사는 일체 배제하고, 필요한 재료 목록(정량 표기 포함)을 표(Table) 또는 명확한 리스트 형식으로 정리해 제시하십시오. 조리 단계(Step-by-step)를 시간순으로 명확하고 간결하게 기입하고, 불을 다룰 때의 주의점이나 맛을 더하는 비법 팁을 객관적인 어조로 정리해 주십시오. 마크다운 기호 # 나 ** 는 제거하여 가독성을 높여 주시고 마지막에 해시태그를 추가해 주세요.)
 """
         else:
             prompt = content
@@ -626,6 +1067,29 @@ def main():
             if "completed_lessons" not in queue_data:
                 queue_data["completed_lessons"] = []
             queue_data["completed_lessons"].append(completed_entry)
+
+            # Update memory.md
+            memory_path = os.path.join(HERE, "..", "memory.md")
+            if os.path.exists(memory_path):
+                try:
+                    with open(memory_path, "r", encoding="utf-8") as mem_f:
+                        mem_lines = mem_f.read().splitlines()
+                    insert_idx = -1
+                    for idx_l, line in enumerate(mem_lines):
+                        if "## 최근 소식 & 히스토리" in line:
+                            insert_idx = idx_l + 1
+                            break
+                    status_text = "발행 완료" if (wp_url or blogger_url) else "초안 작성"
+                    log_line = f"- [{today_str}] {current_subject} - {target_file_name} {status_text} (WordPress: {wp_url or '실패'}, Blogger: {blogger_url or '실패'})"
+                    if insert_idx != -1:
+                        mem_lines.insert(insert_idx, log_line)
+                    else:
+                        mem_lines.append(log_line)
+                    with open(memory_path, "w", encoding="utf-8") as mem_f:
+                        mem_f.write("\n".join(mem_lines) + "\n")
+                    print(f"[SUCCESS] Updated blog memory.md with publishing status.")
+                except Exception as mem_err:
+                    print(f"[WARN] Failed to update memory.md: {mem_err}")
 
             next_idx = current_idx + 1
             if next_idx >= len(files):
@@ -731,12 +1195,15 @@ def main():
 (본문은 정돈되고 전문적인 에세이 톤으로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "recipe":
-            prompt = f"""당신은 친근한 요리 파워 블로거입니다.
-아래 레시피 정보를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
+            prompt = f"""당신은 요리 및 집밥 전문 파워 블로거입니다.
+아래 제공된 정보 및 레시피 키워드를 바탕으로 워드프레스(WordPress)와 구글 블로거(Blogger)에 각각 업로드할 두 가지 버전의 글을 작성하세요.
 
 [중요 지시사항]
-- [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
-- [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
+1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 다듬기만 한 형태여서는 안 됩니다.
+2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 제시된 주제/키워드 중 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. (여러 요리나 다른 반찬 정보가 입력값에 섞여 있더라도, 단 하나의 핵심 요리만 집중적으로 파고드십시오.)
+3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
+4. [가독성 극대화 지시사항] 모든 본문 문장은 가로로 너무 길게 이어지지 않도록 하십시오. 의미 단위 또는 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 극대화해 주십시오.
+5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -749,11 +1216,11 @@ def main():
 
 ========== WORDPRESS VERSION ==========
 # [워드프레스용 제목]
-(본문은 이웃집 이웃처럼 친밀한 어조로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 이웃집 다정한 이웃이 본인의 일상 이야기나 가족과의 추억, 요리하는 과정에서 느낀 소소한 감정을 털어놓는 듯한 '친근하고 따뜻한 스토리텔링 어조'로 작성해 주세요. 요리에 담긴 사연이나 요리할 때 집안에 풍기는 냄새, 맛에 대한 묘사 등 풍성한 이야기 중심의 글이어야 합니다. 요리 순서도 딱딱한 개조식이 아니라 자연스럽게 이야기하듯 풀어내어 정겨움을 주도록 작성하세요. 마지막에 해시태그를 추가해 주세요.)
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 깔끔하고 명확한 레시피 위주로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 깔끔하고 명확하며 군더더기 없는 '구조적이고 전문적인 레시피 카드 어조'로 작성해 주세요. 불필요한 일상 이야기나 감정 묘사는 일체 배제하고, 필요한 재료 목록(정량 표기 포함)을 표(Table) 또는 명확한 리스트 형식으로 정리해 제시하십시오. 조리 단계(Step-by-step)를 시간순으로 명확하고 간결하게 기입하고, 불을 다룰 때의 주의점이나 맛을 더하는 비법 팁을 객관적인 어조로 정리해 주십시오. 마크다운 기호 # 나 ** 는 제거하여 가독성을 높여 주시고 마지막에 해시태그를 추가해 주세요.)
 """
         else:
             prompt = content
@@ -791,6 +1258,29 @@ def main():
                 f.write(f"# 📝 블로그 포스팅 초안 ({category.upper()})\n\n")
                 f.write(result)
             print(f"[SUCCESS] Blog post draft written to: {filepath}")
+
+            # Update memory.md
+            memory_path = os.path.join(HERE, "..", "memory.md")
+            if os.path.exists(memory_path):
+                try:
+                    with open(memory_path, "r", encoding="utf-8") as mem_f:
+                        mem_lines = mem_f.read().splitlines()
+                    insert_idx = -1
+                    for idx_l, line in enumerate(mem_lines):
+                        if "## 최근 소식 & 히스토리" in line:
+                            insert_idx = idx_l + 1
+                            break
+                    today_str = time.strftime("%Y-%m-%d")
+                    log_line = f"- [{today_str}] 수동 블로그 초안 생성 완료 ({category.upper()} - {target_file_name})"
+                    if insert_idx != -1:
+                        mem_lines.insert(insert_idx, log_line)
+                    else:
+                        mem_lines.append(log_line)
+                    with open(memory_path, "w", encoding="utf-8") as mem_f:
+                        mem_f.write("\n".join(mem_lines) + "\n")
+                    print(f"[SUCCESS] Updated blog memory.md with manual draft status.")
+                except Exception as mem_err:
+                    print(f"[WARN] Failed to update memory.md: {mem_err}")
         except Exception as e:
             print(f"[ERROR] Failed to save draft file: {e}")
             sys.exit(1)
