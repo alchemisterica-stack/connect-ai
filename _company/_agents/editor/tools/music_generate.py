@@ -13,6 +13,12 @@ config:
 """
 import os, sys, json, subprocess, time
 
+# Windows encoding wrapper to prevent CP949 emoji crashes
+if sys.platform.startswith('win'):
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 SETUP_CONFIG = os.path.join(HERE, "music_studio_setup.json")
 GEN_CONFIG = os.path.join(HERE, "music_generate.json")
