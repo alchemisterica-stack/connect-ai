@@ -556,6 +556,27 @@ def auto_publish_post(result, category, current_subject, target_file_name):
     # Helper function to download AI image
     def download_image_helper(prompt, path):
         import os
+        import shutil
+        # Check if there's a custom photo in assets/custom_recipe_photos/
+        if category == "recipe" and cleaned_lesson:
+            user_home = os.path.expanduser("~")
+            custom_dir = os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos")
+            photo_type = "ing" if "ing" in os.path.basename(path) else "fin"
+            found_custom = False
+            for ext in [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]:
+                custom_file_name = f"{cleaned_lesson}_{photo_type}{ext}"
+                custom_file_path = os.path.join(custom_dir, custom_file_name)
+                if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
+                    try:
+                        shutil.copy(custom_file_path, path)
+                        print(f"[SUCCESS] Copied custom user photo: {custom_file_path} -> {path}")
+                        found_custom = True
+                        break
+                    except Exception as copy_err:
+                        print(f"[WARN] Failed to copy custom photo {custom_file_path}: {copy_err}")
+            if found_custom:
+                return True
+
         if os.path.exists(path) and os.path.getsize(path) > 1000:
             print(f"[INFO] Using pre-existing local image at: {path}")
             return True

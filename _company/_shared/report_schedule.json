@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "id": "sched-blog-trend-saturday",
+      "label": "매주 토요일 요리 추천 및 트렌드 분석 브리핑",
+      "hour": 10,
+      "minute": 0,
+      "days": [
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_trend_reader.py",
+      "enabled": true
+    },
+    {
       "id": "sched-1780294984738",
       "label": "새 일정",
       "hour": 10,
