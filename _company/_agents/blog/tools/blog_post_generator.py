@@ -557,6 +557,21 @@ def auto_publish_post(result, category, current_subject, target_file_name):
     wp_content = clean_remnants(wp_content, strip_markdown=True)
     blogger_content = clean_remnants(blogger_content)
     
+    # Automatically append hashtags for recipe posts if none exist in the draft
+    if category == "recipe" and cleaned_lesson:
+        if "#" not in wp_content:
+            tags = [
+                "#요리레시피", "#집밥반찬", "#간단요리", "#홈쿡", 
+                "#맛있는레시피", "#집밥레시피", "#요리추천", f"#{cleaned_lesson.replace(' ', '')}"
+            ]
+            wp_content = wp_content + "\n\n\n" + " ".join(tags)
+        if "#" not in blogger_content:
+            tags = [
+                "#요리레시피", "#집밥반찬", "#간단요리", "#홈쿡", 
+                "#맛있는레시피", "#집밥레시피", "#요리추천", f"#{cleaned_lesson.replace(' ', '')}"
+            ]
+            blogger_content = blogger_content + "\n\n\n" + " ".join(tags)
+    
     # Also clean up the titles if they somehow still contain brackets/weeks/instructions
     wp_title = re.sub(r'^\d+주차\s*\d+교시\.?\s*', '', wp_title)
     wp_title = re.sub(r'^\d+주차_\d+교시_?', '', wp_title)
@@ -583,18 +598,35 @@ def auto_publish_post(result, category, current_subject, target_file_name):
             user_home = os.path.expanduser("~")
             custom_dir = os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos")
             photo_type = "ing" if "ing" in os.path.basename(path) else "fin"
+            channel = "wp" if "wp" in os.path.basename(path) else "blogger"
             found_custom = False
+            
+            # Try channel-specific first: e.g. 감자떡_wp_fin.png
             for ext in [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]:
-                custom_file_name = f"{cleaned_lesson}_{photo_type}{ext}"
+                custom_file_name = f"{cleaned_lesson}_{channel}_{photo_type}{ext}"
                 custom_file_path = os.path.join(custom_dir, custom_file_name)
                 if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
                     try:
                         shutil.copy(custom_file_path, path)
-                        print(f"[SUCCESS] Copied custom user photo: {custom_file_path} -> {path}")
+                        print(f"[SUCCESS] Copied channel-specific user photo: {custom_file_path} -> {path}")
                         found_custom = True
                         break
                     except Exception as copy_err:
                         print(f"[WARN] Failed to copy custom photo {custom_file_path}: {copy_err}")
+                        
+            if not found_custom:
+                # Fallback to general: e.g. 감자떡_fin.png
+                for ext in [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]:
+                    custom_file_name = f"{cleaned_lesson}_{photo_type}{ext}"
+                    custom_file_path = os.path.join(custom_dir, custom_file_name)
+                    if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
+                        try:
+                            shutil.copy(custom_file_path, path)
+                            print(f"[SUCCESS] Copied custom user photo: {custom_file_path} -> {path}")
+                            found_custom = True
+                            break
+                        except Exception as copy_err:
+                            print(f"[WARN] Failed to copy custom photo {custom_file_path}: {copy_err}")
             if found_custom:
                 return True
 

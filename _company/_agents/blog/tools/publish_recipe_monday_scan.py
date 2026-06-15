@@ -5,13 +5,9 @@ import json
 import sys
 import time
 
-# Encoding is handled by blog_post_generator import
-
 HERE = os.path.dirname(os.path.abspath(__file__))
 COMPANY_DIR = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SESSIONS_DIR = os.path.join(COMPANY_DIR, "sessions")
-REPORT_PATH = os.path.join(SESSIONS_DIR, "latest_trend_report.md")
-DRAFT_PATH = os.path.join(SESSIONS_DIR, "blog_post_trendy_banchan.md")
 QUEUE_PATH = os.path.join(HERE, "blog_queue.json")
 ACCOUNT_PATH = os.path.join(HERE, "blog_account.json")
 
@@ -19,10 +15,44 @@ ACCOUNT_PATH = os.path.join(HERE, "blog_account.json")
 sys.path.append(HERE)
 from blog_post_generator import auto_publish_post, ask_llm
 
-def get_recipe_topic():
-    default_topic = "여름철 더위를 시원하게 날려주는 오이냉국"
+def scan_custom_dishes():
+    """
+    Scans custom_recipe_photos and 자료 directories for custom recipe photos.
+    Groups them by dish name (prefix before the suffix).
+    """
+    user_home = os.path.expanduser("~")
+    folders = [
+        os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos"),
+        os.path.join(user_home, "my-ai-office", "_company", "자료")
+    ]
     
-    # Load completed lessons from blog_queue.json
+    found_dishes = set()
+    for folder in folders:
+        if not os.path.exists(folder):
+            continue
+        try:
+            for f in os.listdir(folder):
+                if not f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                    continue
+                
+                # Match suffix patterns like: _ing, _fin, _step*, _wp_fin, _blogger_fin, _cozy_nori, _finished, _modern_plain
+                match = re.match(r'^([^\s_]+)(_(ing|fin|step\d+|wp_fin|blogger_fin|cozy_nori|finished|modern_plain|cozy))\b', f, re.IGNORECASE)
+                if match:
+                    dish = match.group(1).strip()
+                    # Exclude known generic agent/app files
+                    if dish in ["blog", "quiz", "temp_wp", "temp_blogger", "youth", "book"]:
+                        continue
+                    
+                    # Exclude files that are too small (placeholder or broken)
+                    file_path = os.path.join(folder, f)
+                    if os.path.getsize(file_path) > 1000:
+                        found_dishes.add(dish)
+        except Exception as e:
+            print(f"[WARN] Failed to scan directory {folder}: {e}")
+            
+    return sorted(list(found_dishes))
+
+def get_completed_dishes():
     completed_dishes = []
     if os.path.exists(QUEUE_PATH):
         try:
@@ -39,60 +69,10 @@ def get_recipe_topic():
                             completed_dishes.append(cleaned.lower())
         except Exception as q_err:
             print(f"[WARN] Failed to load completed lessons: {q_err}")
+    return completed_dishes
 
-    print(f"[INFO] Completed dishes list: {completed_dishes}")
-
-    if os.path.exists(REPORT_PATH):
-        try:
-            with open(REPORT_PATH, "r", encoding="utf-8") as f:
-                content = f.read()
-            
-            # Extract the recipe section
-            recipe_section = re.search(r'### 2\.\s*\[요리/반찬\]([\s\S]*?)(?:###|$)', content)
-            if recipe_section:
-                section_text = recipe_section.group(1)
-                # Clean asterisks to make regex matching robust
-                clean_section = section_text.replace("**", "")
-                
-                # Find all suggested titles or bullet points
-                candidates = []
-                titles = re.findall(r'제목 초안 \d+:\s*(.*)', clean_section)
-                for t in titles:
-                    candidates.append(t.strip())
-                
-                points = re.findall(r'-\s*(.*)', clean_section)
-                for p in points:
-                    if "제목 초안" not in p and "포스팅 주제" not in p:
-                        candidates.append(p.strip())
-                        
-                # Pick the first one that is NOT already published
-                for candidate in candidates:
-                    # Clean the candidate to find dish name
-                    dish_name = ""
-                    for word in ["메밀국수", "오이냉국", "감자떡", "이모모찌", "애호박죽", "애호박 주", "애호박 죽", "깻잎장아찌", "김치찌개", "된장찌개"]:
-                        if word in candidate:
-                            dish_name = word.replace(" ", "")
-                            break
-                    if not dish_name:
-                        dish_name = re.sub(r'[^\uac00-\ud7a3\w]', '', candidate)[:12]
-                    
-                    if dish_name.lower() not in completed_dishes:
-                        print(f"[INFO] Selected unpublished topic from trend report: {candidate}")
-                        return candidate
-                    else:
-                        print(f"[INFO] Skipping already published topic: {candidate} ({dish_name})")
-                        
-        except Exception as e:
-            print(f"[WARN] Failed to parse trend report: {e}. Using default topic.")
-    
-    # Fallback to default if not already published
-    default_dish = "오이냉국"
-    if default_dish.lower() not in completed_dishes:
-        return default_topic
-        
-    return default_topic
-
-def generate_recipe_post(topic, gemini_api_key):
+def generate_recipe_post(dish_name, gemini_api_key):
+    topic = f"사용자가 직접 준비한 실사 사진을 기반으로 요리하는 맛있는 {dish_name} 레시피"
     prompt = f"""당신은 요리 및 집밥 전문 파워 블로거입니다.
 아래 제공된 [오늘의 요리 주제]를 바탕으로 워드프레스(WordPress)와 구글 블로거(Blogger)에 각각 업로드할 두 가지 버전의 레시피 글을 작성하세요.
 
@@ -121,12 +101,31 @@ def generate_recipe_post(topic, gemini_api_key):
 
     cfg = {"OLLAMA_URL": "http://127.0.0.1:11434", "MODEL": "gemma2:2b"}
     
-    print(f"[INFO] Calling Gemini/LLM to generate cooking blog for topic: {topic}")
+    print(f"[INFO] Calling Gemini/LLM to generate cooking blog for dish: {dish_name}")
     result = ask_llm(cfg["OLLAMA_URL"], cfg["MODEL"], prompt, gemini_api_key)
     return result
 
 def main():
-    topic = get_recipe_topic()
+    print("[INFO] Starting Monday Scan for unpublished custom recipe photos...")
+    
+    # Scan files for custom dishes
+    custom_dishes = scan_custom_dishes()
+    print(f"[INFO] Detected custom dishes in folders: {custom_dishes}")
+    
+    # Get already published dishes
+    completed_dishes = get_completed_dishes()
+    print(f"[INFO] Already published dishes: {completed_dishes}")
+    
+    # Find unpublished custom dishes
+    unpublished = [d for d in custom_dishes if d.lower() not in completed_dishes]
+    
+    if not unpublished:
+        print("[INFO] No unpublished custom recipe photos found. Skipping Monday Scan.")
+        sys.exit(0)
+        
+    # Select the first unpublished dish
+    selected_dish = unpublished[0]
+    print(f"[INFO] Selected unpublished dish for Monday Scan publishing: {selected_dish}")
     
     # Load account config for API key
     gemini_api_key = ""
@@ -138,33 +137,23 @@ def main():
         except Exception:
             pass
 
-    result = generate_recipe_post(topic, gemini_api_key)
+    result = generate_recipe_post(selected_dish, gemini_api_key)
     if not result:
         print("[ERROR] Failed to generate recipe blog post content.")
         sys.exit(1)
 
-    print(f"[INFO] Writing generated content to draft: {DRAFT_PATH}")
+    draft_filename = f"recipe_{selected_dish}.md"
+    draft_path = os.path.join(SESSIONS_DIR, draft_filename)
+    
+    print(f"[INFO] Writing generated content to draft: {draft_path}")
     os.makedirs(SESSIONS_DIR, exist_ok=True)
-    with open(DRAFT_PATH, "w", encoding="utf-8") as f:
+    with open(draft_path, "w", encoding="utf-8") as f:
         f.write(result)
 
-    # Extract a clean dish name for a unique lesson key
-    dish_name = None
-    for word in ["메밀국수", "오이냉국", "야식", "간식", "김치찌개", "된장찌개", "반찬", "레시피", "감자떡", "이모모찌"]:
-        if word in topic:
-            dish_name = word
-            break
-    if not dish_name:
-        match = re.search(r'[\'"]([^\'"]+)[\'"]', topic)
-        if match:
-            dish_name = match.group(1)
-    if not dish_name:
-        clean_text = re.sub(r'[^\uac00-\ud7a3\w]', '', topic)
-        dish_name = clean_text[:12] if clean_text else "요리"
-        
-    lesson_name = f"recipe_{dish_name}_{int(time.time())}.md"
+    timestamp = int(time.time())
+    lesson_name = f"recipe_{selected_dish}_{timestamp}.md"
 
-    print("[INFO] Uploading cooking blog post to WordPress and Blogger...")
+    print(f"[INFO] Uploading cooking blog post for '{selected_dish}' to WordPress and Blogger...")
     urls = auto_publish_post(result, "recipe", "요리/반찬", lesson_name)
     wp_url = urls.get("wp_url", "")
     blogger_url = urls.get("blogger_url", "")
@@ -190,7 +179,7 @@ def main():
         "subject": "요리/반찬",
         "lesson": lesson_name,
         "date": today_str,
-        "draft_path": DRAFT_PATH,
+        "draft_path": draft_path,
         "status": "published" if (wp_url or blogger_url) else "draft",
         "url": wp_url or blogger_url,
         "wp_url": wp_url,
@@ -209,15 +198,15 @@ def main():
 
     if existing_idx != -1:
         queue_data["completed_lessons"][existing_idx] = completed_entry
-        print("[INFO] Updated existing calendar entry for cooking blog.")
+        print("[INFO] Updated existing calendar entry for Monday Scan cooking blog.")
     else:
         queue_data["completed_lessons"].append(completed_entry)
-        print("[INFO] Appended new calendar entry for cooking blog.")
+        print("[INFO] Appended new calendar entry for Monday Scan cooking blog.")
 
     with open(QUEUE_PATH, "w", encoding="utf-8") as f:
         json.dump(queue_data, f, indent=2, ensure_ascii=False)
 
-    print("[SUCCESS] Successfully updated blog_queue.json and recorded to calendar!")
+    print("[SUCCESS] Successfully updated blog_queue.json and recorded Monday Scan post to calendar!")
 
 if __name__ == "__main__":
     main()
