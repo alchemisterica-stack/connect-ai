@@ -279,8 +279,12 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
     img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     
     # 1. Gradient background selection
-    color1 = (30, 58, 138, 255)  # #1e3a8a (Navy blue)
-    color2 = (6, 182, 212, 255)  # #06b6d4 (Teal/cyan)
+    if not is_blogger:
+        color1 = (30, 58, 138, 255)  # #1e3a8a (Navy blue)
+        color2 = (6, 182, 212, 255)  # #06b6d4 (Teal/cyan)
+    else:
+        color1 = (124, 45, 18, 255)  # #7c2d12 (Deep Orange-Red)
+        color2 = (245, 158, 11, 255) # #f59e0b (Amber/Gold)
         
     # Draw linear gradient from top-left to bottom-right
     for y in range(height):
@@ -383,9 +387,15 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
     width, height = 1000, 380
     img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     
-    # Gradient: indigo to violet/pink
-    color1 = (79, 70, 229, 255)   # #4f46e5 (Indigo)
-    color2 = (219, 39, 119, 255)  # #db2777 (Deep pink)
+    # Gradient background selection: different for WP and Blogger
+    if not is_blogger:
+        # WordPress Quiz: Deep Indigo to Violet
+        color1 = (49, 46, 129, 255)   # #312e81
+        color2 = (124, 58, 237, 255)  # #7c3aed
+    else:
+        # Blogger Quiz: Deep Plum/Magenta to Rose
+        color1 = (76, 5, 25, 255)     # #4c0519
+        color2 = (244, 63, 94, 255)   # #f43f5e
     
     for y in range(height):
         for x in range(width):
@@ -408,6 +418,13 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
         outline=(255, 255, 255, 50),
         width=1
     )
+    
+    # Premium dotted grid pattern in the background card overlay
+    dot_spacing = 30
+    for dy in range(card_margin + 20, height - card_margin - 20, dot_spacing):
+        for dx in range(card_margin + 20, width - card_margin - 20, dot_spacing):
+            card_draw.ellipse([dx - 1, dy - 1, dx + 1, dy + 1], fill=(255, 255, 255, 30))
+            
     img = Image.alpha_composite(img, card_overlay)
     draw = ImageDraw.Draw(img)
     
@@ -441,10 +458,14 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
     draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
     
     # Draw Quiz Title
-    draw.text((width // 2, height // 2 + 10), "✓ 자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+    draw.text((width // 2, height // 2), "✓ 자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
     
     # Draw Subtitle
-    draw.text((width // 2, height // 2 + 65), "문제를 풀며 오늘 배운 핵심 내용을 최종 점검해 보세요!", fill=(255, 255, 255, 200), font=font_subtitle, anchor="mm")
+    draw.text((width // 2, height // 2 + 50), "문제를 풀며 오늘 배운 핵심 내용을 최종 점검해 보세요!", fill=(255, 255, 255, 200), font=font_subtitle, anchor="mm")
+    
+    # Draw footer logo/URL
+    footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
+    draw.text((width // 2, height - card_margin - 30), footer_text, fill=(255, 255, 255, 150), font=font_subtitle, anchor="mm")
     
     img.convert("RGB").save(output_path, "PNG")
     print(f"[DYNAMIC QUIZ BANNER] Created quiz banner at: {output_path}")
@@ -764,7 +785,7 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 if category == "study":
                     wp_quiz_path = os.path.join(HERE, "temp_wp_quiz.png")
                     try:
-                        create_quiz_banner(current_subject, wp_quiz_path)
+                        create_quiz_banner(current_subject, wp_quiz_path, is_blogger=False)
                         if os.path.exists(wp_quiz_path):
                             with open(wp_quiz_path, "rb") as f:
                                 quiz_data = f.read()
@@ -905,7 +926,7 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     if category == "study":
                         blogger_quiz_path = os.path.join(HERE, "temp_blogger_quiz.png")
                         try:
-                            create_quiz_banner(current_subject, blogger_quiz_path)
+                            create_quiz_banner(current_subject, blogger_quiz_path, is_blogger=True)
                             if os.path.exists(blogger_quiz_path):
                                 with open(blogger_quiz_path, "rb") as f:
                                     quiz_data = f.read()
