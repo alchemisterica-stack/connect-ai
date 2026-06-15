@@ -21,7 +21,8 @@
         1
       ],
       "action": "briefing",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-06-15"
     },
     {
       "id": "sched-briefing-weekday-evening",
@@ -35,7 +36,8 @@
         5
       ],
       "action": "briefing",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-06-15"
     },
     {
       "id": "sched-blog-publish-0200",
