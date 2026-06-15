@@ -16,3 +16,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-13] 트렌드 수집 및 데이터 분석 → 산출물 sessions/2026-06-13T05-47/researcher.md
 - [2026-06-15] 2026-06-14일경에 가장 가치 있는 단일任务을 결정하고, humansafe 네트워크를 위한 최적 작업 분배 → 산출물 sessions/2026-06-15T01-13/researcher.md
 - [2026-06-15] 기회를 identify & analyze using keyword matching → 산출물 sessions/2026-06-15T03-28/researcher.md
+- [2026-06-15] 2026-06-15일자자와 2명 에이전트 사이의 각 도메인에서 가장 가치 있는 작업을 xác định합니다. 예: YouTube数据, Instagram 데이터 → 산출물 sessions/2026-06-15T05-13/researcher.md
