@@ -34,6 +34,12 @@ AUTONOMY_LEVEL: 2
 - 실행: `python instagram_feed_drafter.py`
 - 결과 파일: `_agents/instagram/drafts/instagram_post_draft.md`
 
+### `publish_instagram.py`
+발급된 Meta Graph API 토큰을 사용하여 인스타그램 계정 연결을 검증하거나, 로컬 이미지 또는 이미지 URL을 지정된 캡션과 함께 인스타그램 피드에 자동으로 게시합니다. (로컬 이미지의 경우 연동된 워드프레스를 이미지 CDN으로 활용해 임시 업로드 후 발행합니다.)
+
+- 검증 실행: `python publish_instagram.py verify`
+- 발행 실행: `python publish_instagram.py publish <image_path_or_url> <caption_text>`
+
 
 ---
 
