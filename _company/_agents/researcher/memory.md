@@ -19,3 +19,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-15] 2026-06-15일자자와 2명 에이전트 사이의 각 도메인에서 가장 가치 있는 작업을 xác định합니다. 예: YouTube数据, Instagram 데이터 → 산출물 sessions/2026-06-15T05-13/researcher.md
 - [2026-06-15] 이러한 특정한 Design 브리프와 캡션이gether로 what kind of usergroup(target audience)과 target message가 될지에 대한 research를 done하고, 그에 맞게 대체하는 디자인 브리프 및 캡션을 작성해 주고 싶다. → 산출물 sessions/2026-06-15T09-28/researcher.md
 - [2026-06-15] 최근 1인 AI 기업, 생산성 도구, 또는 콘텐츠 제작 관련 유튜브 트렌드를 분석하고, 콩콩캔디 채널에 적용할 수 있는 유망한 키워드 3가지와 각 키워드별 예상 시청자 반응을 요약합니다. → 산출물 sessions/2026-06-15T11-19/researcher.md
+- [2026-06-15] 트렌드 Research → 산출물 sessions/2026-06-15T14-28/researcher.md

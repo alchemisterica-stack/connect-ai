@@ -68,7 +68,8 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-06-15"
     },
     {
       "id": "sched-blog-publish-monday-scan",
@@ -79,7 +80,8 @@
         1
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_monday_scan.py",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-06-15"
     }
   ]
 }
