@@ -72,6 +72,40 @@ def get_completed_dishes():
     return completed_dishes
 
 def generate_recipe_post(dish_name, gemini_api_key):
+    user_home = os.path.expanduser("~")
+    folders = [
+        os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos"),
+        os.path.join(user_home, "my-ai-office", "_company", "자료")
+    ]
+    
+    memo_content = ""
+    memo_file_found = None
+    for folder in folders:
+        if not os.path.exists(folder):
+            continue
+        for ext in ["_memo.txt", "_memo.md", "_초안.txt", "_draft.txt", " memo.txt", " 초안.txt"]:
+            test_path = os.path.join(folder, f"{dish_name}{ext}")
+            if os.path.exists(test_path):
+                memo_file_found = test_path
+                break
+        if memo_file_found:
+            break
+            
+    if memo_file_found:
+        try:
+            with open(memo_file_found, "r", encoding="utf-8") as mf:
+                memo_content = mf.read().strip()
+            print(f"[INFO] Found custom memo file for {dish_name}: {os.path.basename(memo_file_found)}")
+        except UnicodeDecodeError:
+            try:
+                with open(memo_file_found, "r", encoding="cp949") as mf:
+                    memo_content = mf.read().strip()
+                print(f"[INFO] Found custom memo file for {dish_name} (CP949): {os.path.basename(memo_file_found)}")
+            except Exception as e:
+                print(f"[WARN] Failed to read memo file {memo_file_found}: {e}")
+        except Exception as e:
+            print(f"[WARN] Failed to read memo file {memo_file_found}: {e}")
+
     topic = f"사용자가 직접 준비한 실사 사진을 기반으로 요리하는 맛있는 {dish_name} 레시피"
     prompt = f"""당신은 요리 및 집밥 전문 파워 블로거입니다.
 아래 제공된 [오늘의 요리 주제]를 바탕으로 워드프레스(WordPress)와 구글 블로거(Blogger)에 각각 업로드할 두 가지 버전의 레시피 글을 작성하세요.
@@ -86,7 +120,12 @@ def generate_recipe_post(dish_name, gemini_api_key):
 
 [오늘의 요리 주제]
 {topic}
+"""
 
+    if memo_content:
+        prompt += f"\n[사용자 추가 요청 사항 및 레시피 메모]\n{memo_content}\n"
+
+    prompt += """
 [출력 요구사항 및 포맷]
 반드시 다음 구분자(Delimiter)를 정확히 사용하여 각각 다른 스타일로 작성하세요.
 
