@@ -1,6 +1,7 @@
 # 📝 블로그 에이전트 메모리 (Memory)
 
 ## 최근 소식 & 히스토리
+- [2026-06-18] 청소년복지론 - 7주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=189, Blogger: 실패)
 - [2026-06-17] 청소년복지론 - 6주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=184, Blogger: 실패)
 - [2026-06-16] 청소년복지론 - 6주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=170, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_41.html)
 - [2026-06-15] 청소년복지론 - 5주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=149, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_834.html)
