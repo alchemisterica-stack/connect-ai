@@ -60,6 +60,214 @@ def load_config():
     except Exception:
         return DEFAULT_CONFIG
 
+def markdown_to_html_for_blogger(md_text):
+    import re
+    
+    html = md_text
+    
+    # 1. Parse Blockquotes
+    lines = html.split('\n')
+    in_blockquote = False
+    new_lines = []
+    blockquote_lines = []
+    
+    for line in lines:
+        if line.strip().startswith('>'):
+            in_blockquote = True
+            content = line.strip()[1:].strip()
+            blockquote_lines.append(content)
+        else:
+            if in_blockquote:
+                bq_content = '<br>'.join(blockquote_lines)
+                bq_html = (
+                    f'<blockquote style="border-left: 4px solid #f59e0b; '
+                    f'padding: 12px 18px; margin: 18px 0; background-color: #fffbeb; '
+                    f'color: #7c2d12; border-radius: 4px; font-size: 0.95em; line-height: 1.6;">'
+                    f'{bq_content}</blockquote>'
+                )
+                new_lines.append(bq_html)
+                blockquote_lines = []
+                in_blockquote = False
+            new_lines.append(line)
+            
+    if in_blockquote:
+        bq_content = '<br>'.join(blockquote_lines)
+        bq_html = (
+            f'<blockquote style="border-left: 4px solid #f59e0b; '
+            f'padding: 12px 18px; margin: 18px 0; background-color: #fffbeb; '
+            f'color: #7c2d12; border-radius: 4px; font-size: 0.95em; line-height: 1.6;">'
+            f'{bq_content}</blockquote>'
+        )
+        new_lines.append(bq_html)
+        
+    html = '\n'.join(new_lines)
+    
+    # 2. Headings
+    def replace_h3(match):
+        title = match.group(1).strip()
+        return (
+            f'<h3 style="font-size: 1.2em; color: #7c2d12; margin-top: 24px; '
+            f'margin-bottom: 12px; font-weight: bold; border-left: 3px solid #7c2d12; '
+            f'padding-left: 10px; line-height: 1.4;">{title}</h3>'
+        )
+    html = re.sub(r'^###\s+(.*)$', replace_h3, html, flags=re.MULTILINE)
+    
+    def replace_h2(match):
+        title = match.group(1).strip()
+        return (
+            f'<h2 style="font-size: 1.4em; color: #431407; margin-top: 32px; '
+            f'margin-bottom: 16px; font-weight: bold; border-bottom: 1px solid #fed7aa; '
+            f'padding-bottom: 8px; line-height: 1.4;">{title}</h2>'
+        )
+    html = re.sub(r'^##\s+(.*)$', replace_h2, html, flags=re.MULTILINE)
+    
+    def replace_h1(match):
+        title = match.group(1).strip()
+        return (
+            f'<h1 style="font-size: 1.75em; color: #431407; margin-top: 36px; '
+            f'margin-bottom: 20px; font-weight: bold; line-height: 1.3;">{title}</h1>'
+        )
+    html = re.sub(r'^#\s+(.*)$', replace_h1, html, flags=re.MULTILINE)
+
+    # 3. Links and Horizontal Rules
+    html = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" style="color: #7c2d12; text-decoration: underline;">\1</a>', html)
+    html = re.sub(r'^---$', r'<hr style="border: 0; border-top: 1px solid #fed7aa; margin: 24px 0;" />', html, flags=re.MULTILINE)
+
+    # 4. Bold
+    html = re.sub(r'\*\*(.*?)\*\*', r'<strong style="color: #431407; font-weight: bold;">\1</strong>', html)
+    
+    # 5. Lists (Unordered & Ordered)
+    lines = html.split('\n')
+    in_ul = False
+    in_ol = False
+    new_lines = []
+    
+    for line in lines:
+        strip_line = line.strip()
+        is_ul_item = False
+        is_ol_item = False
+        
+        m_ul = re.match(r'^[\-\*•]\s+(.*)$', strip_line)
+        m_ol = re.match(r'^(\d+)\.\s+(.*)$', strip_line)
+        
+        if m_ul:
+            is_ul_item = True
+            content = m_ul.group(1).strip()
+        elif m_ol:
+            is_ol_item = True
+            content = m_ol.group(2).strip()
+            
+        if is_ul_item:
+            if in_ol:
+                new_lines.append('</ol>')
+                in_ol = False
+            if not in_ul:
+                new_lines.append('<ul style="margin: 12px 0; padding-left: 20px; list-style-type: disc; line-height: 1.7;">')
+                in_ul = True
+            new_lines.append(f'<li style="margin-bottom: 6px; color: #27272a;">{content}</li>')
+        elif is_ol_item:
+            if in_ul:
+                new_lines.append('</ul>')
+                in_ul = False
+            if not in_ol:
+                new_lines.append('<ol style="margin: 12px 0; padding-left: 20px; list-style-type: decimal; line-height: 1.7;">')
+                in_ol = True
+            new_lines.append(f'<li style="margin-bottom: 6px; color: #27272a;">{content}</li>')
+        else:
+            if in_ul:
+                new_lines.append('</ul>')
+                in_ul = False
+            if in_ol:
+                new_lines.append('</ol>')
+                in_ol = False
+            new_lines.append(line)
+            
+    if in_ul:
+        new_lines.append('</ul>')
+    if in_ol:
+        new_lines.append('</ol>')
+        
+    html = '\n'.join(new_lines)
+    
+    # 5. Tables
+    lines = html.split('\n')
+    in_table = False
+    table_lines = []
+    new_lines = []
+    
+    for line in lines:
+        strip_line = line.strip()
+        if '|' in strip_line:
+            if re.match(r'^[\s\|:\-\u2014]+$', strip_line):
+                continue
+            in_table = True
+            table_lines.append(strip_line)
+        else:
+            if in_table:
+                table_html = (
+                    '<table style="width: 100%; border-collapse: collapse; margin: 20px 0; '
+                    'font-size: 0.95em; text-align: left; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">'
+                )
+                for idx, tline in enumerate(table_lines):
+                    cells = [c.strip() for c in tline.split('|') if c.strip() or tline.startswith('|') or tline.endswith('|')]
+                    if len(cells) > 0:
+                        tr_style = "border-bottom: 1px solid #e2e8f0;"
+                        if idx == 0:
+                            tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
+                            for cell in cells:
+                                tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
+                            tr_html += '</tr>'
+                        else:
+                            bg = "#fff" if idx % 2 == 1 else "#fffaf0"
+                            tr_html = f'<tr style="background-color: {bg}; {tr_style}">'
+                            for cell in cells:
+                                tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
+                            tr_html += '</tr>'
+                        table_html += tr_html
+                table_html += '</table>'
+                new_lines.append(table_html)
+                table_lines = []
+                in_table = False
+            new_lines.append(line)
+            
+    if in_table:
+        table_html = (
+            '<table style="width: 100%; border-collapse: collapse; margin: 20px 0; '
+            'font-size: 0.95em; text-align: left; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">'
+        )
+        for idx, tline in enumerate(table_lines):
+            cells = [c.strip() for c in tline.split('|') if c.strip() or tline.startswith('|') or tline.endswith('|')]
+            if len(cells) > 0:
+                tr_style = "border-bottom: 1px solid #e2e8f0;"
+                if idx == 0:
+                    tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
+                    for cell in cells:
+                        tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
+                    tr_html += '</tr>'
+                else:
+                    bg = "#fff" if idx % 2 == 1 else "#fffaf0"
+                    tr_html = f'<tr style="background-color: {bg}; {tr_style}">'
+                    for cell in cells:
+                        tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
+                    tr_html += '</tr>'
+                table_html += tr_html
+        table_html += '</table>'
+        new_lines.append(table_html)
+        
+    html = '\n'.join(new_lines)
+    
+    # 6. Convert newlines to <br> safely (only in non-HTML parts)
+    parts = re.split(r'(<[^>]+>)', html)
+    for idx in range(len(parts)):
+        if idx % 2 == 0:
+            parts[idx] = parts[idx].replace('\n', '<br>')
+            
+    html = ''.join(parts)
+    html = re.sub(r'(<br>\s*){3,}', '<br><br>', html)
+    
+    # Wrap in container with modern fonts, line-height, and slate-gray text color
+    return f'<div style="font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif; font-size: 16px; line-height: 1.8; color: #334155;">{html}</div>'
+
 def ask_llm(ollama_url, model, prompt, gemini_api_key=None):
     if gemini_api_key:
         print("[LLM] Generating blog post draft using Google Gemini API...")
@@ -593,6 +801,34 @@ def auto_publish_post(result, category, current_subject, target_file_name):
     def download_image_helper(prompt, path):
         import os
         import shutil
+        
+        def preprocess_custom_image(src_path, dst_path, target_width=1080):
+            try:
+                from PIL import Image, ImageOps
+                img = Image.open(src_path)
+                img = ImageOps.exif_transpose(img)
+                w, h = img.size
+                if w > target_width:
+                    ratio = target_width / float(w)
+                    new_h = int(float(h) * ratio)
+                    img = img.resize((target_width, new_h), Image.Resampling.LANCZOS)
+                    print(f"[IMAGE_PROCESS] Resized custom image: {w}x{h} -> {target_width}x{new_h}")
+                else:
+                    print(f"[IMAGE_PROCESS] Keeping original dimensions: {w}x{h}")
+                
+                # Save as JPEG web-optimized
+                img.convert("RGB").save(dst_path, "JPEG", quality=85)
+                print(f"[SUCCESS] Preprocessed and saved custom image to: {dst_path}")
+                return True
+            except Exception as e:
+                print(f"[WARN] Image preprocessing failed: {e}. Falling back to standard copy.")
+                try:
+                    shutil.copy(src_path, dst_path)
+                    return True
+                except Exception as copy_err:
+                    print(f"[ERROR] Failed fallback copy: {copy_err}")
+                    return False
+
         # Check if there's a custom photo in assets/custom_recipe_photos/
         if category == "recipe" and cleaned_lesson:
             user_home = os.path.expanduser("~")
@@ -606,13 +842,9 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 custom_file_name = f"{cleaned_lesson}_{channel}_{photo_type}{ext}"
                 custom_file_path = os.path.join(custom_dir, custom_file_name)
                 if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
-                    try:
-                        shutil.copy(custom_file_path, path)
-                        print(f"[SUCCESS] Copied channel-specific user photo: {custom_file_path} -> {path}")
+                    if preprocess_custom_image(custom_file_path, path):
                         found_custom = True
                         break
-                    except Exception as copy_err:
-                        print(f"[WARN] Failed to copy custom photo {custom_file_path}: {copy_err}")
                         
             if not found_custom:
                 # Fallback to general: e.g. 감자떡_fin.png
@@ -620,13 +852,9 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     custom_file_name = f"{cleaned_lesson}_{photo_type}{ext}"
                     custom_file_path = os.path.join(custom_dir, custom_file_name)
                     if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
-                        try:
-                            shutil.copy(custom_file_path, path)
-                            print(f"[SUCCESS] Copied custom user photo: {custom_file_path} -> {path}")
+                        if preprocess_custom_image(custom_file_path, path):
                             found_custom = True
                             break
-                        except Exception as copy_err:
-                            print(f"[WARN] Failed to copy custom photo {custom_file_path}: {copy_err}")
             if found_custom:
                 return True
 
@@ -989,7 +1217,7 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     elif wp_banner_url:
                         blogger_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
                         
-                    html_content = blogger_body.replace("\n", "<br>")
+                    html_content = markdown_to_html_for_blogger(blogger_body)
                     payload = {
                         "kind": "blogger#post",
                         "blog": {"id": blogger_id},
@@ -1199,9 +1427,15 @@ def main():
 - 영어(sớm, also, juga 등), 베트남어, 태국어 등 외래어 토큰이나 타국어 단어가 단 한 단어도 섞여서는 안 됩니다. 
 - 한자(漢字) 역시 가급적 한글로 순화하고 한글로만 작성하십시오.
 - AI 임의의 다국어 번역 혼동이나 깨진 토큰 사용을 철저히 금지합니다.
-- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
-- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
-- [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+
+[가독성 극대화 및 레이아웃 지시사항 (네이버 블로그 스타일 가독성)]
+1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
+2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
+3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식이나 리스트(- 또는 •)를 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
+6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -1214,20 +1448,21 @@ def main():
 
 ========== WORDPRESS VERSION ==========
 # [워드프레스용 제목]
-(본문은 아주 따뜻하고 친근하며 다정한 어조로 작성해 주세요. 불릿 포인트나 정리 표 등을 통해 상세히 설명해 주세요. 마크다운 예시 기호 # 나 bold 기호 ** 는 제거하고 줄바꿈과 텍스트 위주로 작성하세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 점검할 수 있도록 4지선다형 객관식 퀴즈 1문항과 정답 및 해설을 추가해 주세요. 마지막에 독자들을 응원하는 다정한 멘트와 해시태그를 작성해 주세요.)
+(본문은 아주 따뜻하고 친근하며 다정한 어조로 작성해 주세요. 요약 리스트(•)와 단락 구분, 깔끔한 소제목을 적극적으로 활용하여 가독성 있게 정리해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 점검할 수 있도록 4지선다형 객관식 퀴즈 1문항과 정답 및 해설을 추가해 주세요. 마지막에 독자들을 응원하는 다정한 멘트와 해시태그를 작성해 주세요.)
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 핵심 본문은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 마크다운 기호 # 나 ** 는 제거하고 핵심만 빠르게 읽을 수 있도록 요약해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항과 각각의 정답 및 해설을 추가해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 글을 작성할 때 반드시 적절한 위치에 마크다운 소제목 기호(##, ###)와 핵심 강조용 굵게 기호(**강조**) 및 인용구 기호(> )를 필수적으로 적극 활용하여 시각적인 강약과 대비가 확실하도록 구성해 주십시오. 핵심 개념 설명은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 요약 리스트(•)를 풍부하게 배치하여 핵심만 빠르게 읽을 수 있도록 해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항과 각각의 정답 및 해설을 추가해 주세요. 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "mindset":
             prompt = f"""당신은 마음 치유 및 심리 전문 블로거입니다.
 아래 키워드와 참고자료를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
 
 [중요 지시사항]
-- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
-- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
-- [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(응원 멘트나 본문 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #마인드셋 #심리테라피 등)으로 5~10개 반드시 첨부하십시오.
+1. [마이크로 문단 및 충분한 여백 (네이버 블로그 스타일)]: 문장은 1~2개 문장 단위로 매우 짧게 단락을 나누어 작성하고, 문단과 문단 사이에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 모바일 가독성을 극대화하십시오.
+2. [시각적 강약 조절 (강조)]: 글 전체에 어조의 강약이 느껴지도록, 가벼운 설명과 강조해야 할 핵심 인사이트 및 마음에 와닿는 구절을 명확히 구분하십시오. 특히 핵심 단어나 핵심이 되는 한 줄 문장은 마크다운 굵게(**텍스트**)로 감싸 포인트를 주십시오.
+3. [인용구 및 마크다운 헤더 활용]: 에세이 중간에 깊은 통찰을 주는 문장이나 마음을 치유하는 한마디는 마크다운 인용구(> ) 형식을 활용해 독자의 시선을 사로잡고, 각 단락의 주제는 `##` 또는 `###` 마크다운 헤더로 명확히 표시하여 글에 뼈대와 깊이를 주십시오.
+4. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(응원 멘트나 본문 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #마인드셋 #심리테라피 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -1244,7 +1479,7 @@ def main():
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 정돈되고 전문적인 에세이 톤으로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 정돈되고 전문적인 에세이 톤으로 작성해 주세요. 밋밋하고 평평한 문장이 되지 않도록 깊은 울림을 주는 통찰 문장이나 핵심 메시지는 마크다운 굵게 기호(**강조**)를 사용해 강약을 주고, 주요 생각이나 질문은 인용구 기호(> )를 사용해 시각적으로 도드라지게 하십시오. 본문 단락에는 소제목(##, ###)을 붙여 구조화하고, 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "recipe":
             prompt = f"""당신은 요리 및 집밥 전문 파워 블로거입니다.
@@ -1254,9 +1489,12 @@ def main():
 1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 다듬기만 한 형태여서는 안 됩니다.
 2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 제시된 주제/키워드 중 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. (여러 요리나 다른 반찬 정보가 입력값에 섞여 있더라도, 단 하나의 핵심 요리만 집중적으로 파고드십시오.)
 3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
-4. [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
-- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
-5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
+4. [마이크로 문단 및 충분한 여백 (네이버 블로그 스타일)]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 모바일 화면에서 쾌적하게 보이도록 충분한 숨구멍 여백을 확보하십시오.
+5. [시각적 강약 조절 (강조와 구조화)]:
+   - 각 요리 과정의 핵심 비법이나 주요 팁은 마크다운 굵게(**텍스트**)와 인용구(> ) 기호를 적극적으로 사용하여 시각적 강약을 뚜렷하게 구분해 주십시오.
+   - 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 표시하십시오.
+   - 필요한 재료 목록은 반드시 표(Table) 또는 명확한 글머리 기호 리스트 형식으로 깔끔하게 정리해 한눈에 들어오게 제시하십시오.
+6. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -1273,7 +1511,7 @@ def main():
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 깔끔하고 명확하며 군더더기 없는 '구조적이고 전문적인 레시피 카드 어조'로 작성해 주세요. 불필요한 일상 이야기나 감정 묘사는 일체 배제하고, 필요한 재료 목록(정량 표기 포함)을 표(Table) 또는 명확한 리스트 형식으로 정리해 제시하십시오. 조리 단계(Step-by-step)를 시간순으로 명확하고 간결하게 기입하고, 불을 다룰 때의 주의점이나 맛을 더하는 비법 팁을 객관적인 어조로 정리해 주십시오. 마크다운 기호 # 나 ** 는 제거하여 가독성을 높여 주시고 마지막에 해시태그를 추가해 주세요.)
+(본문은 깔끔하고 명확하며 군더더기 없는 '구조적이고 전문적인 레시피 카드 어조'로 작성해 주세요. 불필요한 일상 이야기나 감정 묘사는 일체 배제하고, 필요한 재료 목록(정량 표기 포함)을 표(Table) 또는 명확한 리스트 형식으로 정리해 제시하십시오. 조리 단계(Step-by-step)를 시간순으로 명확하고 간결하게 기입하되, 각 단계와 핵심 팁에는 적절히 마크다운 소제목(##, ###)과 강조 기호(**강조**) 및 인용구 기호(> )를 꼭 사용하여 시각적인 강약과 가독성을 확실하게 확보하십시오. 마지막에 해시태그를 추가해 주세요.)
 """
         else:
             prompt = content
@@ -1417,9 +1655,15 @@ def main():
 - 영어(sớm, also, juga 등), 베트남어, 태국어 등 외래어 토큰이나 타국어 단어가 단 한 단어도 섞여서는 안 됩니다. 
 - 한자(漢字) 역시 가급적 한글로 순화하고 한글로만 작성하십시오.
 - AI 임의의 다국어 번역 혼동이나 깨진 토큰 사용을 철저히 금지합니다.
-- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
-- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
-- [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+
+[가독성 극대화 및 레이아웃 지시사항 (네이버 블로그 스타일 가독성)]
+1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
+2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
+3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식이나 리스트(- 또는 •)를 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
+6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -1432,20 +1676,21 @@ def main():
 
 ========== WORDPRESS VERSION ==========
 # [워드프레스용 제목]
-(본문은 아주 따뜻하고 친근하며 다정한 어조로 작성해 주세요. 불릿 포인트나 정리 표 등을 통해 상세히 설명해 주세요. 마크다운 예시 기호 # 나 bold 기호 ** 는 제거하고 줄바꿈과 텍스트 위주로 작성하세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 점검할 수 있도록 4지선다형 객관식 퀴즈 1문항과 정답 및 해설을 추가해 주세요. 마지막에 독자들을 응원하는 다정한 멘트와 해시태그를 작성해 주세요.)
+(본문은 아주 따뜻하고 친근하며 다정한 어조로 작성해 주세요. 요약 리스트(•)와 단락 구분, 깔끔한 소제목을 적극적으로 활용하여 가독성 있게 정리해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 점검할 수 있도록 4지선다형 객관식 퀴즈 1문항과 정답 및 해설을 추가해 주세요. 마지막에 독자들을 응원하는 다정한 멘트와 해시태그를 작성해 주세요.)
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 핵심 본문은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 마크다운 기호 # 나 ** 는 제거하고 핵심만 빠르게 읽을 수 있도록 요약해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항과 각각의 정답 및 해설을 추가해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 글을 작성할 때 반드시 적절한 위치에 마크다운 소제목 기호(##, ###)와 핵심 강조용 굵게 기호(**강조**) 및 인용구 기호(> )를 필수적으로 적극 활용하여 시각적인 강약과 대비가 확실하도록 구성해 주십시오. 핵심 개념 설명은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 요약 리스트(•)를 풍부하게 배치하여 핵심만 빠르게 읽을 수 있도록 해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항과 각각의 정답 및 해설을 추가해 주세요. 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "mindset":
             prompt = f"""당신은 마음 치유 및 심리 전문 블로거입니다.
 아래 키워드와 참고자료를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
 
 [중요 지시사항]
-- [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
-- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
-- [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(응원 멘트나 본문 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #마인드셋 #심리테라피 등)으로 5~10개 반드시 첨부하십시오.
+1. [마이크로 문단 및 충분한 여백 (네이버 블로그 스타일)]: 문장은 1~2개 문장 단위로 매우 짧게 단락을 나누어 작성하고, 문단과 문단 사이에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 모바일 가독성을 극대화하십시오.
+2. [시각적 강약 조절 (강조)]: 글 전체에 어조의 강약이 느껴지도록, 가벼운 설명과 강조해야 할 핵심 인사이트 및 마음에 와닿는 구절을 명확히 구분하십시오. 특히 핵심 단어나 핵심이 되는 한 줄 문장은 마크다운 굵게(**텍스트**)로 감싸 포인트를 주십시오.
+3. [인용구 및 마크다운 헤더 활용]: 에세이 중간에 깊은 통찰을 주는 문장이나 마음을 치유하는 한마디는 마크다운 인용구(> ) 형식을 활용해 독자의 시선을 사로잡고, 각 단락의 주제는 `##` 또는 `###` 마크다운 헤더로 명확히 표시하여 글에 뼈대와 깊이를 주십시오.
+4. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(응원 멘트나 본문 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #마인드셋 #심리테라피 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -1462,7 +1707,7 @@ def main():
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 정돈되고 전문적인 에세이 톤으로 작성해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 정돈되고 전문적인 에세이 톤으로 작성해 주세요. 밋밋하고 평평한 문장이 되지 않도록 깊은 울림을 주는 통찰 문장이나 핵심 메시지는 마크다운 굵게 기호(**강조**)를 사용해 강약을 주고, 주요 생각이나 질문은 인용구 기호(> )를 사용해 시각적으로 도드라지게 하십시오. 본문 단락에는 소제목(##, ###)을 붙여 구조화하고, 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "recipe":
             prompt = f"""당신은 요리 및 집밥 전문 파워 블로거입니다.
@@ -1472,9 +1717,12 @@ def main():
 1. 두 블로그는 완전히 다른 독자층을 대상으로 독립적으로 운영되므로, 두 버전의 문체와 내용 구성이 완전히 다르게(차별화되게) 작성되어야 합니다. 동일한 내용을 단순히 다듬기만 한 형태여서는 안 됩니다.
 2. 한 블로그 내용에 여러 요리를 함께 나열하지 마십시오. 반드시 제시된 주제/키워드 중 단 '하나'의 요리(단일 요리)만을 선정하여 그 요리 하나만 깊고 상세하게 설명해야 합니다. (여러 요리나 다른 반찬 정보가 입력값에 섞여 있더라도, 단 하나의 핵심 요리만 집중적으로 파고드십시오.)
 3. 본문 내에 절대로 '자가진단', '퀴즈', '자가진단 QUIZ' 또는 학습용 질문/평가 문제를 포함하지 마십시오.
-4. [가독성 극대화 지시사항] 문장 중간에 어색하게 엔터를 입력하여 줄바꿈을 하지 마십시오. 문장은 끊김 없이 끝까지 자연스럽게 이어 쓰되, 약 1~2개 문장마다 적절히 빈칸 줄바꿈(엔터)을 넣어 문단을 짧고 깔끔하게 쪼개어 가독성을 높여 주십시오.
-- [문단 간격 지시사항] 문단과 문단 사이(혹은 내용 단위 사이)에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 문단 간격이 충분히 넓고 쾌적하게 보이도록 하십시오.
-5. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
+4. [마이크로 문단 및 충분한 여백 (네이버 블로그 스타일)]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 반드시 빈 줄을 2줄 이상(엔터 3번) 띄워서 모바일 화면에서 쾌적하게 보이도록 충분한 숨구멍 여백을 확보하십시오.
+5. [시각적 강약 조절 (강조와 구조화)]:
+   - 각 요리 과정의 핵심 비법이나 주요 팁은 마크다운 굵게(**텍스트**)와 인용구(> ) 기호를 적극적으로 사용하여 시각적 강약을 뚜렷하게 구분해 주십시오.
+   - 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 표시하십시오.
+   - 필요한 재료 목록은 반드시 표(Table) 또는 명확한 글머리 기호 리스트 형식으로 깔끔하게 정리해 한눈에 들어오게 제시하십시오.
+6. [포스팅 하단 태그 삽입] 모든 버전의 본문 가장 최하단(본문 내용이 완전히 끝난 후)에는 해당 요리 레시피와 관련이 깊은 핵심 단어들을 해시태그 형식(예: #요리레시피 #집밥반찬 등)으로 5~10개 반드시 첨부하십시오.
 
 [요청 주제/키워드]
 {content}
@@ -1491,7 +1739,7 @@ def main():
 
 ========== BLOGGER VERSION ==========
 # [블로거용 제목]
-(본문은 깔끔하고 명확하며 군더더기 없는 '구조적이고 전문적인 레시피 카드 어조'로 작성해 주세요. 불필요한 일상 이야기나 감정 묘사는 일체 배제하고, 필요한 재료 목록(정량 표기 포함)을 표(Table) 또는 명확한 리스트 형식으로 정리해 제시하십시오. 조리 단계(Step-by-step)를 시간순으로 명확하고 간결하게 기입하고, 불을 다룰 때의 주의점이나 맛을 더하는 비법 팁을 객관적인 어조로 정리해 주십시오. 마크다운 기호 # 나 ** 는 제거하여 가독성을 높여 주시고 마지막에 해시태그를 추가해 주세요.)
+(본문은 깔끔하고 명확하며 군더더기 없는 '구조적이고 전문적인 레시피 카드 어조'로 작성해 주세요. 불필요한 일상 이야기나 감정 묘사는 일체 배제하고, 필요한 재료 목록(정량 표기 포함)을 표(Table) 또는 명확한 리스트 형식으로 정리해 제시하십시오. 조리 단계(Step-by-step)를 시간순으로 명확하고 간결하게 기입하되, 각 단계와 핵심 팁에는 적절히 마크다운 소제목(##, ###)과 강조 기호(**강조**) 및 인용구 기호(> )를 꼭 사용하여 시각적인 강약과 가독성을 확실하게 확보하십시오. 마지막에 해시태그를 추가해 주세요.)
 """
         else:
             prompt = content

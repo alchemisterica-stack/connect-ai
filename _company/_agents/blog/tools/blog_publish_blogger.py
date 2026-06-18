@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import requests
+from blog_post_generator import markdown_to_html_for_blogger
 
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -105,7 +106,7 @@ def main():
             print("ERROR: Please specify a title and content, or a file path as an argument.")
             sys.exit(1)
 
-    html_content = content.replace("\n", "<br>")
+    html_content = markdown_to_html_for_blogger(content)
     
     payload = {
         "kind": "blogger#post",
