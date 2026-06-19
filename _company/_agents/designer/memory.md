@@ -37,3 +37,5 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-19] 캘린더 데이터 수집 및 정리 → 산출물 sessions/2026-06-19T06-09/designer.md
 - [2026-06-19] 개인 목표 설정(_agents/designer_goal.md) → 산출물 sessions/2026-06-19T07-39/designer.md
 - [2026-06-19] 데이터 수집·기능 및 디자인을 반복적인 단순화 → 산출물 sessions/2026-06-19T08-54/designer.md
+- [2026-06-19] Designing the most valuable single task for our company's mission → 산출물 sessions/2026-06-19T09-32/designer.md
+- [2026-06-19] 이 semana의 가장 가치 있는 단일 작업을 결정하고, 적절한 에이전트에게 구체적인 목표를 설정해 주세요. → 산출물 sessions/2026-06-19T10-09/designer.md
