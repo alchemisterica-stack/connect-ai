@@ -179,18 +179,22 @@ def main():
         except Exception:
             pass
 
-    result = generate_recipe_post(selected_dish, gemini_api_key)
-    if not result:
-        print("[ERROR] Failed to generate recipe blog post content.")
-        sys.exit(1)
-
     draft_filename = f"recipe_{selected_dish}.md"
     draft_path = os.path.join(SESSIONS_DIR, draft_filename)
     
-    print(f"[INFO] Writing generated content to draft: {draft_path}")
-    os.makedirs(SESSIONS_DIR, exist_ok=True)
-    with open(draft_path, "w", encoding="utf-8") as f:
-        f.write(result)
+    if os.path.exists(draft_path):
+        with open(draft_path, "r", encoding="utf-8") as df:
+            result = df.read()
+        print(f"[INFO] Reusing existing draft at: {draft_path}")
+    else:
+        result = generate_recipe_post(selected_dish, gemini_api_key)
+        if not result:
+            print("[ERROR] Failed to generate recipe blog post content.")
+            sys.exit(1)
+        print(f"[INFO] Writing generated content to draft: {draft_path}")
+        os.makedirs(SESSIONS_DIR, exist_ok=True)
+        with open(draft_path, "w", encoding="utf-8") as f:
+            f.write(result)
 
     timestamp = int(time.time())
     lesson_name = f"recipe_{selected_dish}_{timestamp}.md"
