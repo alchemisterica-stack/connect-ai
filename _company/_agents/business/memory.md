@@ -16,3 +16,4 @@ _현빈 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-18] 주문자 분석과 목표 설정, 최근 사유결정 및 메모리ाइ즈 확인 → 산출물 sessions/2026-06-18T13-06/business.md
 - [2026-06-19] company mission과 target audience에 대한 분석 및 리서치 → 산출물 sessions/2026-06-19T00-59/business.md
 - [2026-06-19] 수익화 전략 짜줘 → 산출물 sessions/2026-06-19T02-39/business.md
+- [2026-06-19] 경쟁사 리서치 → 산출물 sessions/2026-06-19T06-09/business.md
