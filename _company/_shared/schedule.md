@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 19. 오후 11:32:42_
+_업데이트: 2026. 6. 20. 오전 12:54:52_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 6. 19. 오후 11:32:42_
 - [2026-06-16] designer 에이전트가 최종 완료한 '자존감 높이는 긍정 한마디' 인스타그램 카드뉴스 비주얼 에셋과 writer 에이전트가 작성한 캡션, 해시태그를 활용하여 게시물 업로드를 즉시 실행하세요. 게시 후 초기 24시간 동안의 인게이지먼트(좋아요, 댓글, 저장, 공유) 데이터를 모니터링하고 그 결과를 secretary 에이전트에게 보고할 준비를 하세요. [근거: 지난 의사결정 로그, 회사 공동 목표] → 산출물 sessions/2026-06-16T16-50/instagram.md
 - [2026-06-19] 인스타 데이터 수집 → 산출물 sessions/2026-06-19T06-09/instagram.md
 ### 🎨 Designer
-- [2026-06-19] 이 semana의 가장 가치 있는 단일 작업을 결정하고, 적절한 에이전트에게 구체적인 목표를 설정해 주세요. → 산출물 sessions/2026-06-19T10-09/designer.md
 - [2026-06-19] esign_new_product_line → 산출물 sessions/2026-06-19T10-54/designer.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 컬러/타이포를 작업 → 산출물 sessions/2026-06-19T11-39/designer.md
+- [2026-06-19] _agents/designer-goal.md → 산출물 sessions/2026-06-19T14-54/designer.md
 ### 💻 코다리
 - [2026-06-18] _agents/2/Development Schedule.md → 산출물 sessions/2026-06-18T10-10/developer.md
 - [2026-06-19] YouTube API 키 및 채널 ID 설정 관련 '자격증명 부족' 오류를 재진단하고 해결하세요. API 연동에 필요한 정확한 절차와 자격 증명을 확인하고, 시스템에 올바르게 적용하여 YouTube 에이전트의 기능이 정상 작동하도록 만드세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T07-24/developer.md
@@ -31,13 +31,13 @@ _업데이트: 2026. 6. 19. 오후 11:32:42_
 - [2026-06-19] 영화音乐 합성 및 후처리 → 산출물 sessions/2026-06-19T06-09/editor.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 BGM 작업 → 산출물 sessions/2026-06-19T11-39/editor.md
 ### ✍️ Writer
-- [2026-06-19] write_new_brand_campaign → 산출물 sessions/2026-06-19T10-54/writer.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 기획을 진행 → 산출물 sessions/2026-06-19T11-39/writer.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간을 전반적으로 작업 → 산출물 sessions/2026-06-19T11-39/writer.md
+- [2026-06-19] _agents/copywriter-goal.md → 산출물 sessions/2026-06-19T14-54/writer.md
 ### 🔍 Researcher
-- [2026-06-19] 전략적 анализ 및 비즈니스 전략 수립 → 산출물 sessions/2026-06-19T04-39/researcher.md
 - [2026-06-19] 2026년 목표에 대한 데이터 수집과 분석 → 산출물 sessions/2026-06-19T08-54/researcher.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 데이터 수집 → 산출물 sessions/2026-06-19T11-39/researcher.md
+- [2026-06-19] _agents/researcher-goal.md → 산출물 sessions/2026-06-19T14-54/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

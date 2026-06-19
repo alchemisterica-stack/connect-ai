@@ -31,3 +31,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-19] 전략적 анализ 및 비즈니스 전략 수립 → 산출물 sessions/2026-06-19T04-39/researcher.md
 - [2026-06-19] 2026년 목표에 대한 데이터 수집과 분석 → 산출물 sessions/2026-06-19T08-54/researcher.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 데이터 수집 → 산출물 sessions/2026-06-19T11-39/researcher.md
+- [2026-06-19] _agents/researcher-goal.md → 산출물 sessions/2026-06-19T14-54/researcher.md
