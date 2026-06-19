@@ -151,12 +151,24 @@ def main():
     with open(DRAFT_PATH, "w", encoding="utf-8") as f:
         f.write(result)
 
-    # Extract a clean dish name for a unique lesson key
+    # Extract a clean dish name for a unique lesson key using LLM
     dish_name = None
-    for word in ["메밀국수", "오이냉국", "야식", "간식", "김치찌개", "된장찌개", "반찬", "레시피", "감자떡", "이모모찌"]:
-        if word in topic:
-            dish_name = word
-            break
+    try:
+        extract_prompt = f"다음 문장에서 구체적인 핵심 요리명(음식 이름) 단 하나만 명사 형태로 추출해 주세요. 어떠한 설명이나 기호 없이 단어만 출력하세요. (예: '맛있는 메밀국수 레시피' -> '메밀국수')\n\n문장: {topic}"
+        extracted = ask_llm("http://127.0.0.1:11434", "gemma2:2b", extract_prompt, gemini_api_key).strip()
+        # Clean up the output to keep only Korean and English alphanumeric characters
+        extracted = re.sub(r'[^\uac00-\ud7a3\w]', '', extracted)
+        if extracted and len(extracted) < 15 and extracted not in ["레시피", "요리", "반찬", "간식", "야식"]:
+            dish_name = extracted
+            print(f"[INFO] LLM extracted clean dish name: {dish_name}")
+    except Exception as extract_err:
+        print(f"[WARN] Failed to extract dish name via LLM: {extract_err}")
+
+    if not dish_name:
+        for word in ["메밀국수", "오이냉국", "감자떡", "이모모찌", "김치찌개", "된장찌개"]:
+            if word in topic:
+                dish_name = word
+                break
     if not dish_name:
         match = re.search(r'[\'"]([^\'"]+)[\'"]', topic)
         if match:

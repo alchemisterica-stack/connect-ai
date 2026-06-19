@@ -678,9 +678,67 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
     img.convert("RGB").save(output_path, "PNG")
     print(f"[DYNAMIC QUIZ BANNER] Created quiz banner at: {output_path}")
 
+def embed_images_in_content(content, image_urls, exclude_fin=False):
+    if not image_urls:
+        return content
+    import re
+    paragraphs = content.split('\n\n\n')
+    new_paragraphs = []
+    used_images = set()
+    if exclude_fin:
+        used_images.add("fin")
+    ing_inserted = False
+    
+    for idx, para in enumerate(paragraphs):
+        new_paragraphs.append(para)
+        # 1. Embed Ingredient Image: Find list of ingredients or "재료" header
+        if not ing_inserted and ("재료" in para or "분량" in para or "| 재료 |" in para or "INGREDIENTS" in para.upper()):
+            if "ing" in image_urls:
+                img_tag = f'<img src="{image_urls["ing"]}" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);" alt="재료 준비" />'
+                new_paragraphs.append(img_tag)
+                ing_inserted = True
+                used_images.add("ing")
+                
+        # 2. Embed Step Images: Look for step indicators in headers or lines
+        m_step = re.search(r'(?:\*\*|\b)(?:[sS]tep\s*|조리\s*단계\s*|단계\s*|)?(\d+)(?:\.|\b)', para)
+        if m_step:
+            step_num = m_step.group(1)
+            step_key = f"step{step_num}"
+            if step_key in image_urls and step_key not in used_images:
+                img_tag = f'<img src="{image_urls[step_key]}" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 20px auto; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);" alt="조리 단계 {step_num}" />'
+                new_paragraphs.append(img_tag)
+                used_images.add(step_key)
+                
+    # 3. Embed Finished Image: Place at the very end or right before hashtags
+    if "fin" in image_urls and "fin" not in used_images:
+        fin_tag = f'<img src="{image_urls["fin"]}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 28px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="완성 요리" />'
+        if len(new_paragraphs) > 0 and "#" in new_paragraphs[-1]:
+            new_paragraphs.insert(len(new_paragraphs) - 1, fin_tag)
+        else:
+            new_paragraphs.append(fin_tag)
+            
+    return '\n\n\n'.join(new_paragraphs)
+
 def auto_publish_post(result, category, current_subject, target_file_name):
 
     import re
+    import os
+    
+    # Clean up previous session's temporary images to prevent reuse bugs
+    for temp_img in [
+        "temp_wp_banner.png", "temp_blogger_banner.png", 
+        "temp_wp_quiz.png", "temp_blogger_quiz.png",
+        "temp_wp_ing.png", "temp_wp_fin.png", 
+        "temp_blogger_ing.png", "temp_blogger_fin.png"
+    ]:
+        temp_path = os.path.join(HERE, temp_img)
+        if os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+                print(f"[INFO] Cleaned up old temporary image: {temp_img}")
+            except Exception as clean_err:
+                print(f"[WARN] Failed to clean up {temp_img}: {clean_err}")
+
     # Clean up title: e.g. "1주차_2교시.pdf" or "recipe_메밀국수_timestamp.md" -> clean name
     cleaned_lesson = target_file_name.replace('.pdf','').replace('.txt','').replace('.hwp','').replace('.md','')
     if cleaned_lesson.startswith('recipe_'):
@@ -762,7 +820,7 @@ def auto_publish_post(result, category, current_subject, target_file_name):
         return text
 
 
-    wp_content = clean_remnants(wp_content, strip_markdown=True)
+    wp_content = clean_remnants(wp_content, strip_markdown=False)
     blogger_content = clean_remnants(blogger_content)
     
     # Automatically append hashtags for recipe posts if none exist in the draft
@@ -837,24 +895,47 @@ def auto_publish_post(result, category, current_subject, target_file_name):
             channel = "wp" if "wp" in os.path.basename(path) else "blogger"
             found_custom = False
             
-            # Try channel-specific first: e.g. 감자떡_wp_fin.png
-            for ext in [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]:
-                custom_file_name = f"{cleaned_lesson}_{channel}_{photo_type}{ext}"
-                custom_file_path = os.path.join(custom_dir, custom_file_name)
-                if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
-                    if preprocess_custom_image(custom_file_path, path):
-                        found_custom = True
+            clean_dish = cleaned_lesson.replace(" ", "").lower()
+            custom_dirs = [
+                os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos"),
+                os.path.join(user_home, "my-ai-office", "_company", "자료")
+            ]
+            
+            for custom_dir in custom_dirs:
+                if not os.path.exists(custom_dir):
+                    continue
+                try:
+                    files = os.listdir(custom_dir)
+                    # 1. Try channel-specific matching
+                    for f in files:
+                        f_lower = f.replace(" ", "").lower()
+                        target_pattern_channel = f"{clean_dish}_{channel}_{photo_type}"
+                        if f_lower.startswith(target_pattern_channel) and f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                            custom_file_path = os.path.join(custom_dir, f)
+                            if os.path.getsize(custom_file_path) > 1000:
+                                if preprocess_custom_image(custom_file_path, path):
+                                    found_custom = True
+                                    print(f"[SUCCESS] Flexible match channel-specific photo: {f}")
+                                    break
+                    if found_custom:
                         break
                         
-            if not found_custom:
-                # Fallback to general: e.g. 감자떡_fin.png
-                for ext in [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]:
-                    custom_file_name = f"{cleaned_lesson}_{photo_type}{ext}"
-                    custom_file_path = os.path.join(custom_dir, custom_file_name)
-                    if os.path.exists(custom_file_path) and os.path.getsize(custom_file_path) > 1000:
-                        if preprocess_custom_image(custom_file_path, path):
-                            found_custom = True
-                            break
+                    # 2. Try general matching
+                    for f in files:
+                        f_lower = f.replace(" ", "").lower()
+                        target_pattern_general = f"{clean_dish}_{photo_type}"
+                        if f_lower.startswith(target_pattern_general) and f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                            custom_file_path = os.path.join(custom_dir, f)
+                            if os.path.getsize(custom_file_path) > 1000:
+                                if preprocess_custom_image(custom_file_path, path):
+                                    found_custom = True
+                                    print(f"[SUCCESS] Flexible match general photo: {f}")
+                                    break
+                    if found_custom:
+                        break
+                except Exception as scan_err:
+                    print(f"[WARN] Error scanning custom dir {custom_dir}: {scan_err}")
+            
             if found_custom:
                 return True
 
@@ -913,132 +994,160 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 import xmlrpc.client
                 client = xmlrpc.client.ServerProxy(xmlrpc_url)
                 
-                # Check for custom media uploaded by user
-                custom_banner_path = None
-                
-                # Check 02_미디어 directory
-                media_dir = os.path.abspath(os.path.join(HERE, "..", "..", "..", "02_미디어"))
-                if os.path.exists(media_dir):
-                    media_files = [f for f in os.listdir(media_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
-                    if media_files:
-                        custom_banner_path = os.path.join(media_dir, media_files[0])
-                        print(f"[INFO] Found custom user image in 02_미디어: {custom_banner_path}")
-                        
-                # Check subject raw directory
-                if not custom_banner_path:
-                    raw_subject_dir = os.path.abspath(os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject))
-                    if os.path.exists(raw_subject_dir):
-                        raw_media = [f for f in os.listdir(raw_subject_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg')) and not f.endswith('banner.png')]
-                        if raw_media:
-                            custom_banner_path = os.path.join(raw_subject_dir, raw_media[0])
-                            print(f"[INFO] Found custom image in raw directory: {custom_banner_path}")
-                            
-                # Determine paths to upload
-                if custom_banner_path and os.path.exists(custom_banner_path):
-                    banner_path = custom_banner_path
-                    blogger_banner_path = custom_banner_path
-                else:
-                    # Generate dynamic banner using Pillow
-                    banner_path = os.path.join(HERE, "temp_wp_banner.png")
-                    blogger_banner_path = os.path.join(HERE, "temp_blogger_banner.png")
-                    try:
-                        create_dynamic_banner(wp_title, category, current_subject, banner_path, is_blogger=False)
-                        create_dynamic_banner(blogger_title, category, current_subject, blogger_banner_path, is_blogger=True)
-                    except Exception as gen_err:
-                        print(f"[WARN] Dynamic banner generation failed: {gen_err}")
-                        # Fallback to default banners if they exist
-                        banner_path = os.path.join(HERE, "youth_instructor_banner.png")
-                        blogger_banner_path = os.path.join(HERE, "youth_instructor_banner_blogger.png")
-                
-                # Upload WordPress Banner
-                if os.path.exists(banner_path):
-                    try:
-                        with open(banner_path, "rb") as f:
-                            banner_data = f.read()
-                        res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                            "name": f"blog_banner_{int(time.time())}_wp.png",
-                            "type": "image/png",
-                            "bits": xmlrpc.client.Binary(banner_data),
-                            "overwrite": True
-                        })
-                        wp_banner_url = res.get("url")
-                    except Exception as img_err:
-                        print(f"[WARN] WordPress banner upload failed: {img_err}")
-
-                # Upload Blogger Banner
-                if os.path.exists(blogger_banner_path):
-                    try:
-                        with open(blogger_banner_path, "rb") as f:
-                            blogger_data = f.read()
-                        res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                            "name": f"blog_banner_{int(time.time())}_blogger.png",
-                            "type": "image/png",
-                            "bits": xmlrpc.client.Binary(blogger_data),
-                            "overwrite": True
-                        })
-                        blogger_banner_url = res.get("url")
-                    except Exception as img_err:
-                        print(f"[WARN] Blogger banner upload failed: {img_err}")
-
-                wp_body = wp_content
-
-                # Generate and Upload WordPress recipe photos (ingredients & finished dish)
-                if category == "recipe":
+                # --- START: Cooking Recipe Images Pipeline ---
+                recipe_images = {}
+                if category == "recipe" and cleaned_lesson:
                     dish_name = cleaned_lesson
-                    wp_ing_path = os.path.join(HERE, "temp_wp_ing.png")
-                    wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for {dish_name}, cooking, raw materials, top-down flatlay angle, dark rustic wood table, moody and warm studio lighting"
-                    wp_fin_path = os.path.join(HERE, "temp_wp_fin.png")
-                    wp_fin_prompt = f"professional food photography of a hot delicious finished bowl of {dish_name}, gourmet plating, styled food shot, table setting, dark rustic wood background, overhead top view angle, moody and warm atmosphere"
+                    clean_dish = dish_name.replace(" ", "").lower()
+                    user_home = os.path.expanduser("~")
+                    custom_dirs = [
+                        os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos"),
+                        os.path.join(user_home, "my-ai-office", "_company", "자료")
+                    ]
                     
-                    wp_ing_url = ""
-                    wp_fin_url = ""
-                    
-                    if download_image_helper(wp_ing_prompt, wp_ing_path):
+                    local_files = {}
+                    for custom_dir in custom_dirs:
+                        if not os.path.exists(custom_dir):
+                            continue
                         try:
-                            with open(wp_ing_path, "rb") as f:
-                                wp_ing_data = f.read()
+                            for f in os.listdir(custom_dir):
+                                if not f.lower().endswith(('.png', '.jpg', '.jpeg')):
+                                    continue
+                                f_lower = f.replace(" ", "").lower()
+                                if f_lower.startswith(clean_dish):
+                                    suffix = f_lower.replace(clean_dish, "").strip("_")
+                                    photo_type = None
+                                    if "ing" in suffix:
+                                        photo_type = "ing"
+                                    elif "fin" in suffix or "finished" in suffix or "cozy" in suffix or "modern" in suffix:
+                                        photo_type = "fin"
+                                    elif "step" in suffix:
+                                        m_step = re.search(r'step(\d+)', suffix)
+                                        if m_step:
+                                            photo_type = f"step{m_step.group(1)}"
+                                    
+                                    if photo_type and photo_type not in local_files:
+                                        temp_name = f"temp_optimized_{photo_type}.png"
+                                        temp_path = os.path.join(HERE, temp_name)
+                                        if preprocess_custom_image(os.path.join(custom_dir, f), temp_path):
+                                            local_files[photo_type] = temp_path
+                                            print(f"[INFO] Found local custom photo: {photo_type} -> {f}")
+                        except Exception as scan_err:
+                            print(f"[WARN] Flexible image scanning failed in {custom_dir}: {scan_err}")
+                    
+                    # AI Backups with High-Quality Prompts if missing
+                    if "ing" not in local_files:
+                        wp_ing_path = os.path.join(HERE, "temp_wp_ing.png")
+                        wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for {dish_name}, cooking, raw materials, top-down flatlay angle, dark rustic wood table, moody and warm studio lighting, 8k resolution, appetizing color grade"
+                        if download_image_helper(wp_ing_prompt, wp_ing_path):
+                            local_files["ing"] = wp_ing_path
+                            
+                    if "fin" not in local_files:
+                        wp_fin_path = os.path.join(HERE, "temp_wp_fin.png")
+                        wp_fin_prompt = f"professional food photography of a hot delicious finished bowl of {dish_name}, gourmet plating, styled food shot, table setting, dark rustic wood background, overhead top view angle, moody and warm atmosphere, 8k resolution, highly detailed"
+                        if download_image_helper(wp_fin_prompt, wp_fin_path):
+                            local_files["fin"] = wp_fin_path
+                            
+                    # Upload all to WP media library
+                    for p_type, local_path in local_files.items():
+                        try:
+                            with open(local_path, "rb") as im_f:
+                                im_data = im_f.read()
                             res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                                "name": f"recipe_ing_{int(time.time())}_wp.png",
+                                "name": f"recipe_{p_type}_{int(time.time())}.png",
                                 "type": "image/png",
-                                "bits": xmlrpc.client.Binary(wp_ing_data),
+                                "bits": xmlrpc.client.Binary(im_data),
                                 "overwrite": True
                             })
-                            wp_ing_url = res.get("url")
+                            uploaded_url = res.get("url")
+                            if uploaded_url:
+                                recipe_images[p_type] = uploaded_url
+                                print(f"[SUCCESS] Uploaded {p_type} image: {uploaded_url}")
                         except Exception as upload_err:
-                            print(f"[WARN] WP ingredient photo upload failed: {upload_err}")
+                            print(f"[WARN] Failed to upload {p_type} image to WP: {upload_err}")
+                # --- END: Cooking Recipe Images Pipeline ---
+
+                # Check for custom media uploaded by user (only for study/mindset, skip recipe banner generation)
+                wp_banner_url = ""
+                blogger_banner_url = ""
+                
+                if category == "recipe":
+                    # Representative Banner is the cooked finished photo (or ingredients photo if fin is missing)
+                    wp_banner_url = recipe_images.get("fin") or recipe_images.get("ing") or ""
+                    blogger_banner_url = wp_banner_url
+                    print(f"[INFO] Using cooking photo as top banner: {wp_banner_url}")
+                else:
+                    custom_banner_path = None
+                    # Check 02_미디어 directory
+                    media_dir = os.path.abspath(os.path.join(HERE, "..", "..", "..", "02_미디어"))
+                    if os.path.exists(media_dir):
+                        media_files = [f for f in os.listdir(media_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+                        if media_files:
+                            custom_banner_path = os.path.join(media_dir, media_files[0])
+                            print(f"[INFO] Found custom user image in 02_미디어: {custom_banner_path}")
                             
-                    if download_image_helper(wp_fin_prompt, wp_fin_path):
+                    # Check subject raw directory
+                    if not custom_banner_path:
+                        raw_subject_dir = os.path.abspath(os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject))
+                        if os.path.exists(raw_subject_dir):
+                            raw_media = [f for f in os.listdir(raw_subject_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg')) and not f.endswith('banner.png')]
+                            if raw_media:
+                                custom_banner_path = os.path.join(raw_subject_dir, raw_media[0])
+                                print(f"[INFO] Found custom image in raw directory: {custom_banner_path}")
+                                
+                    # Determine paths to upload
+                    banner_path = None
+                    blogger_banner_path = None
+                    if custom_banner_path and os.path.exists(custom_banner_path):
+                        banner_path = custom_banner_path
+                        blogger_banner_path = custom_banner_path
+                    else:
+                        # Generate dynamic banner using Pillow
+                        banner_path = os.path.join(HERE, "temp_wp_banner.png")
+                        blogger_banner_path = os.path.join(HERE, "temp_blogger_banner.png")
                         try:
-                            with open(wp_fin_path, "rb") as f:
-                                wp_fin_data = f.read()
+                            create_dynamic_banner(wp_title, category, current_subject, banner_path, is_blogger=False)
+                            create_dynamic_banner(blogger_title, category, current_subject, blogger_banner_path, is_blogger=True)
+                        except Exception as gen_err:
+                            print(f"[WARN] Dynamic banner generation failed: {gen_err}")
+                            banner_path = os.path.join(HERE, "youth_instructor_banner.png")
+                            blogger_banner_path = os.path.join(HERE, "youth_instructor_banner_blogger.png")
+                    
+                    # Upload WordPress Banner
+                    if banner_path and os.path.exists(banner_path):
+                        try:
+                            with open(banner_path, "rb") as f:
+                                banner_data = f.read()
                             res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                                "name": f"recipe_fin_{int(time.time())}_wp.png",
+                                "name": f"blog_banner_{int(time.time())}_wp.png",
                                 "type": "image/png",
-                                "bits": xmlrpc.client.Binary(wp_fin_data),
+                                "bits": xmlrpc.client.Binary(banner_data),
                                 "overwrite": True
                             })
-                            wp_fin_url = res.get("url")
-                        except Exception as upload_err:
-                            print(f"[WARN] WP finished photo upload failed: {upload_err}")
-                            
-                    # Embed in wp_body
-                    if wp_ing_url or wp_fin_url:
-                        paragraphs = wp_body.split('\n\n\n')
-                        if wp_ing_url and len(paragraphs) > 1:
-                            ing_tag = f'<img src="{wp_ing_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 15px auto;" alt="Ingredients" />'
-                            paragraphs.insert(1, ing_tag)
-                        if wp_fin_url:
-                            inserted = False
-                            for idx in range(len(paragraphs) - 1, -1, -1):
-                                if paragraphs[idx].strip().startswith('#'):
-                                    fin_tag = f'<img src="{wp_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
-                                    paragraphs.insert(idx, fin_tag)
-                                    inserted = True
-                                    break
-                            if not inserted and len(paragraphs) > 0:
-                                fin_tag = f'<img src="{wp_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
-                                paragraphs.append(fin_tag)
-                        wp_body = '\n\n\n'.join(paragraphs)
+                            wp_banner_url = res.get("url")
+                        except Exception as img_err:
+                            print(f"[WARN] WordPress banner upload failed: {img_err}")
+
+                    # Upload Blogger Banner
+                    if blogger_banner_path and os.path.exists(blogger_banner_path):
+                        try:
+                            with open(blogger_banner_path, "rb") as f:
+                                blogger_data = f.read()
+                            res = client.wp.uploadFile(0, wp_user, wp_pass, {
+                                "name": f"blog_banner_{int(time.time())}_blogger.png",
+                                "type": "image/png",
+                                "bits": xmlrpc.client.Binary(blogger_data),
+                                "overwrite": True
+                            })
+                            blogger_banner_url = res.get("url")
+                        except Exception as img_err:
+                            print(f"[WARN] Blogger banner upload failed: {img_err}")
+
+                wp_body = markdown_to_html_for_blogger(wp_content)
+
+                # Embed WordPress recipe images dynamically
+                if category == "recipe" and recipe_images:
+                    wp_body = embed_images_in_content(wp_body, recipe_images, exclude_fin=False)
                 
                 # Generate and Upload WordPress Quiz Banner (ONLY for study summaries category)
                 wp_quiz_url = ""
@@ -1072,7 +1181,10 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                                 wp_body = wp_body + img_tag
 
                 if wp_banner_url:
-                    wp_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + wp_body
+                    if category == "recipe":
+                        wp_body = f'<img src="{wp_banner_url}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="대표 완성 요리" />\n\n' + wp_body
+                    else:
+                        wp_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + wp_body
 
                 # Check and dynamically create WordPress category if not exists
                 wp_categories = []
@@ -1123,63 +1235,9 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     
                     blogger_body = blogger_content
 
-                    # Generate and Upload Blogger recipe photos (ingredients & finished dish)
-                    if category == "recipe":
-                        dish_name = cleaned_lesson
-                        blogger_ing_path = os.path.join(HERE, "temp_blogger_ing.png")
-                        blogger_ing_prompt = f"food styling photography of fresh ingredients for {dish_name}, raw materials, close-up, white marble countertop background, soft natural bright daylight, modern kitchen vibe"
-                        blogger_fin_path = os.path.join(HERE, "temp_blogger_fin.png")
-                        blogger_fin_prompt = f"high resolution culinary photography of a delicious cooked bowl of {dish_name}, styled dining table setting, ready to eat, side-angle close-up view, bright white marble texture backdrop, bright modern look"
-                        
-                        blogger_ing_url = ""
-                        blogger_fin_url = ""
-                        
-                        if download_image_helper(blogger_ing_prompt, blogger_ing_path):
-                            try:
-                                with open(blogger_ing_path, "rb") as f:
-                                    blogger_ing_data = f.read()
-                                res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                                    "name": f"recipe_ing_{int(time.time())}_blogger.png",
-                                    "type": "image/png",
-                                    "bits": xmlrpc.client.Binary(blogger_ing_data),
-                                    "overwrite": True
-                                })
-                                blogger_ing_url = res.get("url")
-                            except Exception as upload_err:
-                                print(f"[WARN] Blogger ingredient photo upload failed: {upload_err}")
-                                
-                        if download_image_helper(blogger_fin_prompt, blogger_fin_path):
-                            try:
-                                with open(blogger_fin_path, "rb") as f:
-                                    blogger_fin_data = f.read()
-                                res = client.wp.uploadFile(0, wp_user, wp_pass, {
-                                    "name": f"recipe_fin_{int(time.time())}_blogger.png",
-                                    "type": "image/png",
-                                    "bits": xmlrpc.client.Binary(blogger_fin_data),
-                                    "overwrite": True
-                                })
-                                blogger_fin_url = res.get("url")
-                            except Exception as upload_err:
-                                print(f"[WARN] Blogger finished photo upload failed: {upload_err}")
-                                
-                        # Embed in blogger_body
-                        if blogger_ing_url or blogger_fin_url:
-                            paragraphs = blogger_body.split('\n\n\n')
-                            if blogger_ing_url and len(paragraphs) > 1:
-                                ing_tag = f'<img src="{blogger_ing_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 15px auto;" alt="Ingredients" />'
-                                paragraphs.insert(1, ing_tag)
-                            if blogger_fin_url:
-                                inserted = False
-                                for idx in range(len(paragraphs) - 1, -1, -1):
-                                    if paragraphs[idx].strip().startswith('#'):
-                                        fin_tag = f'<img src="{blogger_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
-                                        paragraphs.insert(idx, fin_tag)
-                                        inserted = True
-                                        break
-                                if not inserted and len(paragraphs) > 0:
-                                    fin_tag = f'<img src="{blogger_fin_url}" style="width: 80%; max-width: 80%; height: auto; display: block; margin: 20px auto;" alt="Finished Dish" />'
-                                    paragraphs.append(fin_tag)
-                            blogger_body = '\n\n\n'.join(paragraphs)
+                    # Embed Blogger recipe images dynamically
+                    if category == "recipe" and recipe_images:
+                        blogger_body = embed_images_in_content(blogger_body, recipe_images, exclude_fin=False)
                     
                     # Generate and Upload Blogger Quiz Banner (ONLY for study summaries category)
                     blogger_quiz_url = ""
@@ -1213,9 +1271,15 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                                     blogger_body = blogger_body + img_tag
 
                     if blogger_banner_url:
-                        blogger_body = f'<img src="{blogger_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
+                        if category == "recipe":
+                            blogger_body = f'<img src="{blogger_banner_url}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="대표 완성 요리" />\n\n' + blogger_body
+                        else:
+                            blogger_body = f'<img src="{blogger_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
                     elif wp_banner_url:
-                        blogger_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
+                        if category == "recipe":
+                            blogger_body = f'<img src="{wp_banner_url}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="대표 완성 요리" />\n\n' + blogger_body
+                        else:
+                            blogger_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
                         
                     html_content = markdown_to_html_for_blogger(blogger_body)
                     payload = {
