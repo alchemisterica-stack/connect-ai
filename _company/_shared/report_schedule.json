@@ -82,6 +82,23 @@
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_monday_scan.py",
       "enabled": true,
       "lastFiredAt": "2026-06-15"
+    },
+    {
+      "id": "sched-email-pipeline-daily-0600",
+      "label": "매일 오전 6시 메일 확인 및 사진 수집/분류",
+      "hour": 6,
+      "minute": 0,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py",
+      "enabled": true
     }
   ]
 }

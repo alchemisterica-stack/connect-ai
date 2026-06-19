@@ -8,3 +8,4 @@ _루나 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-12] 영화-음악 합성 (BGM) → 산출물 sessions/2026-06-11T23-38/editor.md
 - [2026-06-15]  영상-음악 합성 → 산출물 sessions/2026-06-15T14-28/editor.md
 - [2026-06-18] _agents/editor/chosen_task.md → 산출물 sessions/2026-06-18T06-32/editor.md
+- [2026-06-19] video 및 sound 조성 및 합성 → 산출물 sessions/2026-06-19T04-39/editor.md
