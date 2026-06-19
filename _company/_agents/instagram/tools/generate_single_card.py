@@ -84,8 +84,10 @@ DEFAULT_SUBTITLE = "오늘 하루도 버텨준 네가 대견해"
 # ─── AI Background Generation ───────────────────────────────────────
 def generate_background(prompt, size=(1080, 1080), fallback_color=(240, 240, 240)):
     """Pollinations AI로 배경 이미지를 생성합니다. 실패 시 단색 폴백."""
+    import random
+    seed = random.randint(0, 99999999)
     encoded = urllib.parse.quote(prompt)
-    url = f"https://image.pollinations.ai/prompt/{encoded}?width={size[0]}&height={size[1]}&nologo=true"
+    url = f"https://image.pollinations.ai/prompt/{encoded}?width={size[0]}&height={size[1]}&nologo=true&seed={seed}"
 
     for attempt in range(3):
         try:

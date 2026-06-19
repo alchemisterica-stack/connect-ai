@@ -98,7 +98,62 @@
         6
       ],
       "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-06-19"
+    },
+    {
+      "id": "sched-insta-publish-morning",
+      "label": "매일 오전 8시 반 인스타 명상 카드 릴스 발행",
+      "hour": 8,
+      "minute": 30,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "enabled": true,
+      "lastFiredAt": "2026-06-19"
+    },
+    {
+      "id": "sched-insta-publish-evening",
+      "label": "매일 오후 8시 반 인스타 명상 카드 릴스 발행",
+      "hour": 20,
+      "minute": 30,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "enabled": true,
+      "lastFiredAt": "2026-06-19"
+    },
+    {
+      "id": "sched-insta-publish-night",
+      "label": "매일 밤 11시 인스타 5장 스토리 릴스 발행",
+      "hour": 23,
+      "minute": 0,
+      "days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow",
+      "enabled": true,
+      "lastFiredAt": "2026-06-19"
     }
   ]
 }

@@ -181,10 +181,11 @@ def fetch_pollinations_background(prompt, retries=3, wait=3):
     Retries up to *retries* times with *wait*-second pauses.
     Returns a PIL Image or None on total failure.
     """
+    seed = random.randint(0, 99999999)
     encoded = urllib.parse.quote(prompt)
     url = (
         f"https://image.pollinations.ai/prompt/{encoded}"
-        f"?width=1080&height=1080&nologo=true"
+        f"?width=1080&height=1080&nologo=true&seed={seed}"
     )
 
     for attempt in range(1, retries + 1):
