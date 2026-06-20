@@ -153,7 +153,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow",
       "enabled": true,
-      "lastFiredAt": "2026-06-19"
+      "lastFiredAt": "2026-06-20"
     }
   ]
 }
