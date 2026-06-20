@@ -35,3 +35,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-19] 2026-06-20 오전 10시까지 데이터 수집 및 분석을 수행합니다 → 산출물 sessions/2026-06-19T21-24/researcher.md
 - [2026-06-19] 2026-06-19 09:00에 비해 가장 가치 있는 단일 작업 선택 → 산출물 sessions/2026-06-19T22-24/researcher.md
 - [2026-06-20] 중요한 주기를 지킨다. 현재 목표와 관련된 새로운 분석이나 창작을 수행하고, 다른 에이전트에게 참여할 수 있는 새로운 목표를 미리 정의합니다. → 산출물 sessions/2026-06-20T00-10/researcher.md
+- [2026-06-20] 2026-06-20: Review recent decisions and memoranda related to the selected task. → 산출물 sessions/2026-06-20T02-09/researcher.md
