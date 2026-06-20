@@ -50,3 +50,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-20] 각 에이전트의 개인 목표(_agents/{id}/goal.md)을 생성하고, 최근 의사결정 및 메모리를 검토해서 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행하세요. → 산출물 sessions/2026-06-20T01-09/designer.md
 - [2026-06-20] 2026-06-20: Create a unique visual representation of the selected task. Ensure consistency across multiple formats (e.g., images, videos). → 산출물 sessions/2026-06-20T02-09/designer.md
 - [2026-06-20] Design을 위한 newest trend과 style guide를 만들고, latest data analysis 및 campaign planning에서 활용할 수 있는 new visual identities를 결정하고, 적절한 1명에게 배분하여 execution. → 산출물 sessions/2026-06-20T03-09/designer.md
+- [2026-06-20] writer 에이전트가 제안한 문구 옵션 중 가장 적합한 것을 선정하여, '자존감 높이는 긍정 한마디' 유튜브 썸네일에 대한 상세 디자인 브리프를 작성하세요. 브리프에는 회사 브랜드 컬러(Primary Blue #4A67A3, Accent Yellow #FFD700), 라이트 그라디언트, 대조적 색상, 복잡한 요소 배제, 통일된 레이아웃, 회사 로고 상단 배치 등의 디자인 원칙을 명확히 반영하여 구체적인 시각화 방안을 제시해야 합니다. → 산출물 sessions/2026-06-20T04-24/designer.md
