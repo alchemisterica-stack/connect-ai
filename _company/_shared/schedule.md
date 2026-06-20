@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 20. 오후 2:23:04_
+_업데이트: 2026. 6. 20. 오후 4:52:05_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -27,17 +27,17 @@ _업데이트: 2026. 6. 20. 오후 2:23:04_
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 2일간의 메모리 정리 → 산출물 sessions/2026-06-19T11-39/secretary.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 2일간의 메모리 정리 (2)  → 산출물 sessions/2026-06-19T11-39/secretary.md
 ### 🎵 루나
-- [2026-06-19] 영화音乐 합성 및 후처리 → 산출물 sessions/2026-06-19T06-09/editor.md
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 BGM 작업 → 산출물 sessions/2026-06-19T11-39/editor.md
 - [2026-06-20] 2026-06-20: Collaborate with researcher to refine the selected task, considering multiple perspectives (if necessary). Ensure seamless integration with other output files. → 산출물 sessions/2026-06-20T02-09/editor.md
+- [2026-06-20] 2026-06-20 의사결정 및 메모리의 검토, 가장 가치 있는 단일 작업 1개 결정, 적절한 에이전트 1~2명에게 분배 → 산출물 sessions/2026-06-20T05-39/editor.md
 ### ✍️ Writer
 - [2026-06-20] 메모리에 비슷한 항목이 24시간 내에 있으면 다른 각도로 진전시키는 데 도움을 줄 수 있는 적절한 항목을 생성하고, 그 항목을 최적화하는 데 사용됩니다. → 산출물 sessions/2026-06-20T01-09/writer.md
 - [2026-06-20] _latest blog post 및 social media content를 썼으며, 적절한 2명에게 배분되어 execution. → 산출물 sessions/2026-06-20T03-09/writer.md
 - [2026-06-20] 회사 목표인 '섬네일 장악'에 기여할 수 있도록, '자존감 높이는 긍정 한마디' 유튜브 썸네일에 들어갈 핵심 문구 3가지 옵션을 간결하고 임팩트 있게 작성하세요. 각 옵션은 시청자의 클릭을 유도하고 콘텐츠의 메시지를 명확히 전달해야 합니다. → 산출물 sessions/2026-06-20T04-24/writer.md
 ### 🔍 Researcher
-- [2026-06-19] 2026-06-19 09:00에 비해 가장 가치 있는 단일 작업 선택 → 산출물 sessions/2026-06-19T22-24/researcher.md
 - [2026-06-20] 중요한 주기를 지킨다. 현재 목표와 관련된 새로운 분석이나 창작을 수행하고, 다른 에이전트에게 참여할 수 있는 새로운 목표를 미리 정의합니다. → 산출물 sessions/2026-06-20T00-10/researcher.md
 - [2026-06-20] 2026-06-20: Review recent decisions and memoranda related to the selected task. → 산출물 sessions/2026-06-20T02-09/researcher.md
+- [2026-06-20] 2026-06-20의企業 목표 및 각 인력의 개인 목표(_agents/{id}/goal.md) 작성 → 산출물 sessions/2026-06-20T05-39/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
