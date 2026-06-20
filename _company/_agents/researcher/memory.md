@@ -40,3 +40,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-20] 모든 데이터 수집의 결과를 수집하고, 해당 데이터를 기반으로 company mission과 company vision을 결정하는 task → 산출물 sessions/2026-06-20T14-39/researcher.md
 - [2026-06-20] 2026-06-19 10시부터 2026-06-22 23시까지의 4주간의 목표 설정 → 산출물 sessions/2026-06-20T17-54/researcher.md
 - [2026-06-20] 자율 사이클에 따라 가장 가치있는 작업을 선택하고, 적절한 에이전트들에게 배정하고,_execution으로부터메모리를 검토하여 최종 결과를 확인하는 방법을 작성하기 → 산출물 sessions/2026-06-20T20-24/researcher.md
+- [2026-06-20] 비즈니스 전략 및 market analysis를 확인하고, 가장 가치 있는 단일 작업을 결정하고, 1~2명 에이전트에게 분배해서 executed करन → 산출물 sessions/2026-06-20T21-24/researcher.md
