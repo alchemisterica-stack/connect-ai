@@ -38,3 +38,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-20] 2026-06-20: Review recent decisions and memoranda related to the selected task. → 산출물 sessions/2026-06-20T02-09/researcher.md
 - [2026-06-20] 2026-06-20의企業 목표 및 각 인력의 개인 목표(_agents/{id}/goal.md) 작성 → 산출물 sessions/2026-06-20T05-39/researcher.md
 - [2026-06-20] 모든 데이터 수집의 결과를 수집하고, 해당 데이터를 기반으로 company mission과 company vision을 결정하는 task → 산출물 sessions/2026-06-20T14-39/researcher.md
+- [2026-06-20] 2026-06-19 10시부터 2026-06-22 23시까지의 4주간의 목표 설정 → 산출물 sessions/2026-06-20T17-54/researcher.md

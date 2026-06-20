@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 21. 오전 2:40:48_
+_업데이트: 2026. 6. 21. 오전 4:45:29_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -31,13 +31,13 @@ _업데이트: 2026. 6. 21. 오전 2:40:48_
 - [2026-06-20] 2026-06-20: Collaborate with researcher to refine the selected task, considering multiple perspectives (if necessary). Ensure seamless integration with other output files. → 산출물 sessions/2026-06-20T02-09/editor.md
 - [2026-06-20] 2026-06-20 의사결정 및 메모리의 검토, 가장 가치 있는 단일 작업 1개 결정, 적절한 에이전트 1~2명에게 분배 → 산출물 sessions/2026-06-20T05-39/editor.md
 ### ✍️ Writer
-- [2026-06-20] 주요 인코GNITION tasks를 작성하고, 사용자 명령의 내용에 맞춰 content를 작성하는 task → 산출물 sessions/2026-06-20T14-39/writer.md
 - [2026-06-20] 2026-06-20 주간Cycle 1: 매체가ोजन에서 2~3개의 new article를 작성하고, 24시간 내에 3개 이상의 new article의 content를수집합니다. → 산출물 sessions/2026-06-20T16-09/writer.md
 - [2026-06-20] 사용자에게 더 compelling한 메시지를 전달하기 위한 작업 → 산출물 sessions/2026-06-20T17-09/writer.md
+- [2026-06-20] 현재 이사 2인 팀과 1인 기업의 목표 설정 및 일기 작성 → 산출물 sessions/2026-06-20T17-54/writer.md
 ### 🔍 Researcher
-- [2026-06-20] 2026-06-20: Review recent decisions and memoranda related to the selected task. → 산출물 sessions/2026-06-20T02-09/researcher.md
 - [2026-06-20] 2026-06-20의企業 목표 및 각 인력의 개인 목표(_agents/{id}/goal.md) 작성 → 산출물 sessions/2026-06-20T05-39/researcher.md
 - [2026-06-20] 모든 데이터 수집의 결과를 수집하고, 해당 데이터를 기반으로 company mission과 company vision을 결정하는 task → 산출물 sessions/2026-06-20T14-39/researcher.md
+- [2026-06-20] 2026-06-19 10시부터 2026-06-22 23시까지의 4주간의 목표 설정 → 산출물 sessions/2026-06-20T17-54/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
