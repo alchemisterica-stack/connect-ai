@@ -99,7 +99,7 @@
       ],
       "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py",
       "enabled": true,
-      "lastFiredAt": "2026-06-19"
+      "lastFiredAt": "2026-06-20"
     },
     {
       "id": "sched-insta-publish-morning",

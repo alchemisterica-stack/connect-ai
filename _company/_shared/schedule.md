@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 21. 오전 5:14:16_
+_업데이트: 2026. 6. 21. 오전 6:14:13_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 6. 21. 오전 5:14:16_
 - [2026-06-19] 인스타 데이터 수집 → 산출물 sessions/2026-06-19T06-09/instagram.md
 - [2026-06-20] 메모리에 비슷한 항목이 24시간 내에 나타날 경우 다른 각도로 진전시키는 것이다. → 산출물 sessions/2026-06-20T19-54/instagram.md
 ### 🎨 Designer
-- [2026-06-20] 사용자 명령을 따라 이뤄진 디자인 브리프를 작성하는 task → 산출물 sessions/2026-06-20T14-39/designer.md
 - [2026-06-20] 새로운 디자인 시리즈를 개발하고, 24시간 내에 3개 이상의 새로운設計 결과를 수집합니다. → 산출물 sessions/2026-06-20T16-09/designer.md
 - [2026-06-20] 신선한 디자인을 제공하기 위한 작업 → 산출물 sessions/2026-06-20T17-09/designer.md
+- [2026-06-20] 각 에이전트의 개인 목표(_agents/{id}/goal.md)을 작성하고, 가장 가치 있는 단일 작업을 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행하는 방법을 작성하기 → 산출물 sessions/2026-06-20T20-24/designer.md
 ### 💻 코다리
 - [2026-06-19] YouTube API 키 및 채널 ID 설정 관련 '자격증명 부족' 오류를 재진단하고 해결하세요. API 연동에 필요한 정확한 절차와 자격 증명을 확인하고, 시스템에 올바르게 적용하여 YouTube 에이전트의 기능이 정상 작동하도록 만드세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T07-24/developer.md
 - [2026-06-19] `_agents/youtube` 디렉토리 및 관련 파일이 부재하는 원인을 면밀히 파악하고, YouTube 에이전트의 기능을 위한 기본 파일 구조를 복구하거나 재설치하세요. 이 작업은 YouTube API 키 설정 및 채널 분석을 위한 선행 조건입니다. [근거: 코다리 산출물에서 디렉토리 부재 보고, 레오 산출물에서 API 설정 불가 보고] → 산출물 sessions/2026-06-19T07-32/developer.md
@@ -31,13 +31,13 @@ _업데이트: 2026. 6. 21. 오전 5:14:16_
 - [2026-06-20] 2026-06-20: Collaborate with researcher to refine the selected task, considering multiple perspectives (if necessary). Ensure seamless integration with other output files. → 산출물 sessions/2026-06-20T02-09/editor.md
 - [2026-06-20] 2026-06-20 의사결정 및 메모리의 검토, 가장 가치 있는 단일 작업 1개 결정, 적절한 에이전트 1~2명에게 분배 → 산출물 sessions/2026-06-20T05-39/editor.md
 ### ✍️ Writer
-- [2026-06-20] 2026-06-20 주간Cycle 1: 매체가ोजन에서 2~3개의 new article를 작성하고, 24시간 내에 3개 이상의 new article의 content를수집합니다. → 산출물 sessions/2026-06-20T16-09/writer.md
 - [2026-06-20] 사용자에게 더 compelling한 메시지를 전달하기 위한 작업 → 산출물 sessions/2026-06-20T17-09/writer.md
 - [2026-06-20] 현재 이사 2인 팀과 1인 기업의 목표 설정 및 일기 작성 → 산출물 sessions/2026-06-20T17-54/writer.md
+- [2026-06-20] 최근의 의사결정과 메모리를 검토하고, 가장 가치 있는 단일 작업을 결정하고, 적절한 에이전트들에게 배정하여 Execution으로부터 메모리를 검토하는 방법을 작성하기 → 산출물 sessions/2026-06-20T20-24/writer.md
 ### 🔍 Researcher
-- [2026-06-20] 2026-06-20의企業 목표 및 각 인력의 개인 목표(_agents/{id}/goal.md) 작성 → 산출물 sessions/2026-06-20T05-39/researcher.md
 - [2026-06-20] 모든 데이터 수집의 결과를 수집하고, 해당 데이터를 기반으로 company mission과 company vision을 결정하는 task → 산출물 sessions/2026-06-20T14-39/researcher.md
 - [2026-06-20] 2026-06-19 10시부터 2026-06-22 23시까지의 4주간의 목표 설정 → 산출물 sessions/2026-06-20T17-54/researcher.md
+- [2026-06-20] 자율 사이클에 따라 가장 가치있는 작업을 선택하고, 적절한 에이전트들에게 배정하고,_execution으로부터메모리를 검토하여 최종 결과를 확인하는 방법을 작성하기 → 산출물 sessions/2026-06-20T20-24/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
