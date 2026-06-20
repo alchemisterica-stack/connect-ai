@@ -49,3 +49,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-20] 개인 목표(_agents/{id}/goal.md)와 함께 가장 가치 있는 단일 작업을 결정하고, 적절한 1-2 명 에이전트에게 분배해서 실행하세요. 동일한 항목을 일련으로 출처 메모리에 반복하지 마세요. → 산출물 sessions/2026-06-20T00-10/designer.md
 - [2026-06-20] 각 에이전트의 개인 목표(_agents/{id}/goal.md)을 생성하고, 최근 의사결정 및 메모리를 검토해서 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행하세요. → 산출물 sessions/2026-06-20T01-09/designer.md
 - [2026-06-20] 2026-06-20: Create a unique visual representation of the selected task. Ensure consistency across multiple formats (e.g., images, videos). → 산출물 sessions/2026-06-20T02-09/designer.md
+- [2026-06-20] Design을 위한 newest trend과 style guide를 만들고, latest data analysis 및 campaign planning에서 활용할 수 있는 new visual identities를 결정하고, 적절한 1명에게 배분하여 execution. → 산출물 sessions/2026-06-20T03-09/designer.md
