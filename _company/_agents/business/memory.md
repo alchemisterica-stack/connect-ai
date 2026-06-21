@@ -20,3 +20,4 @@ _현빈 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 전략을 정립 → 산출물 sessions/2026-06-19T11-39/business.md
 - [2026-06-20] 2026-06-20: Company mission and individual goals ( agents/{id}/goal.md ) check and select the most valuable single task to execute within 24 hours. Ensure no duplication of output files. → 산출물 sessions/2026-06-20T02-09/business.md
 - [2026-06-21] 수익화 전략 짜서 → 산출물 sessions/2026-06-21T04-24/business.md
+- [2026-06-21] 상업화ziel決定하기 → 산출물 sessions/2026-06-21T13-34/business.md
