@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 21. 오후 4:02:32_
+_업데이트: 2026. 6. 21. 오후 4:40:14_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -15,9 +15,9 @@ _업데이트: 2026. 6. 21. 오후 4:02:32_
 - [2026-06-21] 브랜드 비주얼, 컬러/타이포 → 산출물 sessions/2026-06-21T01-39/designer.md
 - [2026-06-21] 브랜드 비주얼 및 썸네일 creation → 산출물 sessions/2026-06-21T04-24/designer.md
 ### 💻 코다리
-- [2026-06-19] YouTube API 키 및 채널 ID 설정 관련 '자격증명 부족' 오류를 재진단하고 해결하세요. API 연동에 필요한 정확한 절차와 자격 증명을 확인하고, 시스템에 올바르게 적용하여 YouTube 에이전트의 기능이 정상 작동하도록 만드세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T07-24/developer.md
 - [2026-06-19] `_agents/youtube` 디렉토리 및 관련 파일이 부재하는 원인을 면밀히 파악하고, YouTube 에이전트의 기능을 위한 기본 파일 구조를 복구하거나 재설치하세요. 이 작업은 YouTube API 키 설정 및 채널 분석을 위한 선행 조건입니다. [근거: 코다리 산출물에서 디렉토리 부재 보고, 레오 산출물에서 API 설정 불가 보고] → 산출물 sessions/2026-06-19T07-32/developer.md
 - [2026-06-19] YouTube 에이전트의 `_agents/youtube` 디렉토리 및 필수 파일을 복구하거나 재설치하여, YouTube API 키 설정 및 채널 분석 기능이 정상적으로 작동할 수 있도록 시스템 기반을 마련하세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T16-09/developer.md
+- [2026-06-21] 연구원 에이전트가 'trend_sniper' 도구를 실행할 때 발생하는 'spawn C:\Windows\system32\cmd.exe ENOENT' 오류의 원인을 진단하고, 해당 도구가 정상적으로 실행될 수 있도록 문제를 해결하세요. [근거: CEO 종합, Researcher 산출물] → 산출물 sessions/2026-06-21T07-39/developer.md
 ### 💼 현빈
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 24시간의 전략을 정립 → 산출물 sessions/2026-06-19T11-39/business.md
 - [2026-06-20] 2026-06-20: Company mission and individual goals ( agents/{id}/goal.md ) check and select the most valuable single task to execute within 24 hours. Ensure no duplication of output files. → 산출물 sessions/2026-06-20T02-09/business.md
