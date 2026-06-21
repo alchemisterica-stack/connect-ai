@@ -99,7 +99,7 @@
       ],
       "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py",
       "enabled": true,
-      "lastFiredAt": "2026-06-20"
+      "lastFiredAt": "2026-06-21"
     },
     {
       "id": "sched-insta-publish-morning",
@@ -139,7 +139,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-06-20"
+      "lastFiredAt": "2026-06-21"
     },
     {
       "id": "sched-insta-publish-night",
