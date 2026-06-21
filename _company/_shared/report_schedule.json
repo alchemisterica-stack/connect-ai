@@ -69,7 +69,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
       "enabled": true,
-      "lastFiredAt": "2026-06-20"
+      "lastFiredAt": "2026-06-21"
     },
     {
       "id": "sched-blog-publish-monday-scan",
@@ -115,9 +115,11 @@
         5,
         6
       ],
-      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "action": "tool",
+      "agentId": "instagram",
+      "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-06-20"
+      "lastFiredAt": "2026-06-21"
     },
     {
       "id": "sched-insta-publish-evening",
@@ -133,7 +135,9 @@
         5,
         6
       ],
-      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "action": "tool",
+      "agentId": "instagram",
+      "tool": "publish_instagram_single",
       "enabled": true,
       "lastFiredAt": "2026-06-20"
     },
@@ -151,7 +155,9 @@
         5,
         6
       ],
-      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow",
+      "action": "tool",
+      "agentId": "instagram",
+      "tool": "publish_instagram_slideshow",
       "enabled": true,
       "lastFiredAt": "2026-06-20"
     }
