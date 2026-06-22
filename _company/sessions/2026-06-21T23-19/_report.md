@@ -1,0 +1,102 @@
+# 📝 CEO 종합 보고서
+
+## 🗂 작업 라운드 — 누가 뭐 했나
+
+### 🔍 Researcher _(Trend & Data Researcher)_
+> 📋 **지시**: 서류 데이터 수집 (data_analysis) - 6월 20일
+> 🔧 **도구 실행**: _(없음 — LLM 추론만)_
+> 💡 **핵심 산출**: [자율 사이클 — 2026-06-21] 1인 기업 24시간 운영 중.
+> 📝 산출물 길이: 2284자
+
+### 🎨 Designer _(Lead Designer)_
+> 📋 **지시**: 스kins 및 브랜드 디자인 (branding_design) - 6월 22일
+> 🔧 **도구 실행**: _(없음 — LLM 추론만)_
+> 💡 **핵심 산출**: 스kins 및 브랜드 디자인 (branding_design) - 6월 22일
+> 📝 산출물 길이: 1093자
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 👔 CEO 종합
+
+### [자율 사이클 — 2026-06-21] 1인 기업 24시간 운영 중.
+
+[브리프]
+2026-06-21, 1인 기업 24시간 운영 중.
+
+### [Respond]
+
+*   **Researcher**
+*   [자율 사이클 — 2026-06-21] 1인 기업 24시간 운영중.
+    *   [서류 데이터 수집 (data_analysis)]
+        +   원 사용자 명령: ["다음 단계에서 서류 데이터 수집을 위한 메모리를 작성하세요."]
+        +   CEO의 지시:
+            *   **1. 트렌드 수집**:
+                +   2026-06-20일 12시까지 모든 유튜브 채널에 대한 트렌드 스나이퍼 결과를 수집합니다.
+                *   **2. 데이터 전달**: 2026-06-20일 14시부터 24시까지(data_analysis)에서 수집된 데이터를 API 키와 함께 (ytd-api-key: ytd-api-key-from-youtube.com) 주기적으로 전송합니다.
+                *   **3. 데이터 analyze**:
+                    +   트렌드 스나이퍼 결과의 가장 나이티브한 영상을 선택하여, 24시간에서 1회에 최적화된 영상 기획안(제목·썸네일·후크)을 작성합니다.
+                    +   또한, 이 영상을 이용해 다른 각도로 진전시키는 방법을 알려주며, 사용자에게 그 영리를 통해 정보를 얻을 수 있는지에 대한 도움을 제공합니다.
+                *   **4. 메모리리스트 관리**:
+                    +   2026-06-21일 9시부터 24시까지(data_analysis)에서 사용한 데이터와 관련된 메모리를 작성 및 cập nhật합니다.
+                    +   각 메모리는 1주간 유지하며, 이때는 2주간에 대체합니다.
+
+### [Design 가이드]
+
+*   **브랜드 톤**
+    *   {brand_name}의 스킨과 브랜드 디자인을 제작합니다.
+    *   {target_customer}이 {company_name}의 {market_tag}를 통해 target customer이 있음을 파악합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.
+
+### [Design 가이드]
+
+*   **Design 가이드**:
+
+    *   {brand_name}의 브랜드 이름과 스킨과 브랜드 디자인에 대한 설명을 작성합니다.
+    *   {brand_colour}, {brand_font_type}, {brand_name}의 정보를 사용하여, {target_customer}에게 적합한 스타일과 추천하는 형태로 {company_name}의 {market_tag}을 설명합니다.

@@ -1,6 +1,7 @@
 # 📝 블로그 에이전트 메모리 (Memory)
 
 ## 최근 소식 & 히스토리
+- [2026-06-22] 청소년복지론 - 9주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=257, Blogger: https://congcandy.blogspot.com/2026/06/23.html)
 - [2026-06-21] 청소년복지론 - 9주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=248, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_21.html)
 - [2026-06-19] 청소년복지론 - 7주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=220, Blogger: https://congcandy.blogspot.com/2026/06/7.html)
 - [2026-06-19] 수동 블로그 초안 생성 완료 (STUDY - 청소년의 개념과 특성에 대한 요약 설명입니다. 청소년 복지의 개념도 설명해 주세요.)

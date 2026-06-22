@@ -22,7 +22,7 @@
       ],
       "action": "briefing",
       "enabled": true,
-      "lastFiredAt": "2026-06-15"
+      "lastFiredAt": "2026-06-22"
     },
     {
       "id": "sched-briefing-weekday-evening",
