@@ -52,3 +52,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-21] 데이터 수집하기 → 산출물 sessions/2026-06-21T13-34/researcher.md
 - [2026-06-21] 서류 데이터 수집 (data_analysis) - 6월 20일 → 산출물 sessions/2026-06-21T23-19/researcher.md
 - [2026-06-22] 2026년 07월 10일 이전의 2주 동안 이 task를 Completion 해라 → 산출물 sessions/2026-06-22T00-12/researcher.md
+- [2026-06-22] 서가치 있는 단일 작업 identification 및 분배 → 산출물 sessions/2026-06-22T05-19/researcher.md
