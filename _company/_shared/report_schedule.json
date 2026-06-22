@@ -81,7 +81,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_monday_scan.py",
       "enabled": true,
-      "lastFiredAt": "2026-06-15"
+      "lastFiredAt": "2026-06-22"
     },
     {
       "id": "sched-email-pipeline-daily-0600",
