@@ -170,15 +170,68 @@ def record_to_calendar(caption, permalink):
             except Exception as q_err:
                 print(f"[WARN] Failed to write to blog_queue.json: {q_err}")
 
+def upload_to_file_io(local_path):
+    if not os.path.exists(local_path):
+        return None
+    url = "https://file.io"
+    try:
+        print(f"[INFO] Uploading local file to File.io: {os.path.basename(local_path)}")
+        with open(local_path, "rb") as f:
+            files = {"file": f}
+            r = requests.post(url, files=files, timeout=45)
+        if r.status_code == 200:
+            res_data = r.json()
+            if res_data.get("success"):
+                file_url = res_data.get("link")
+                print(f"[SUCCESS] File.io upload succeeded! Public URL: {file_url}")
+                return file_url
+        print(f"[ERROR] File.io upload failed: {r.text}")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Failed to upload to File.io: {e}")
+        return None
+
+def upload_to_transfer_sh(local_path):
+    if not os.path.exists(local_path):
+        return None
+    filename = os.path.basename(local_path)
+    url = f"https://transfer.sh/{filename}"
+    try:
+        print(f"[INFO] Uploading local file to Transfer.sh: {filename}")
+        with open(local_path, "rb") as f:
+            r = requests.put(url, data=f, timeout=45)
+        if r.status_code == 200:
+            file_url = r.text.strip()
+            if file_url.startswith("https://"):
+                print(f"[SUCCESS] Transfer.sh upload succeeded! Public URL: {file_url}")
+                return file_url
+        print(f"[ERROR] Transfer.sh upload failed (status={r.status_code}): {r.text}")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Failed to upload to Transfer.sh: {e}")
+        return None
+
 def get_public_url(source):
     if source.startswith("http://") or source.startswith("https://"):
         return source
-    # Upload to WordPress first
+        
+    # Try WordPress first (works for images, blocks mp4)
     url = upload_image_to_wordpress(source)
     if url:
         return url
-    # Fallback to Catbox
-    return upload_image_to_catbox(source)
+        
+    # 1st Fallback: Catbox.moe
+    url = upload_image_to_catbox(source)
+    if url:
+        return url
+        
+    # 2nd Fallback: File.io
+    url = upload_to_file_io(source)
+    if url:
+        return url
+        
+    # 3rd Fallback: Transfer.sh
+    return upload_to_transfer_sh(source)
 
 def create_item_container(image_source, token, biz_id):
     """Creates a container for a single item of a carousel"""
@@ -327,7 +380,7 @@ def publish_reels(video_source, caption):
         print(f"[INFO] 2/3. Polling video processing status for container: {creation_id}")
         # Wait until the video is finished processing on Meta's server
         status_url = f"https://graph.facebook.com/v20.0/{creation_id}?fields=status_code&access_token={token}"
-        max_attempts = 30
+        max_attempts = 60
         for attempt in range(max_attempts):
             sr = requests.get(status_url, timeout=10)
             status_code = sr.json().get("status_code", "").upper()

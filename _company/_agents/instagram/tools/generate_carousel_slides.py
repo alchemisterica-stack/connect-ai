@@ -17,6 +17,7 @@ import sys
 import io
 import time
 import json
+import random
 import urllib.parse
 import requests
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
