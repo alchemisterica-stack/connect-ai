@@ -1341,6 +1341,17 @@ def main():
         with open(queue_path, "r", encoding="utf-8") as f:
             queue_data = json.load(f)
             
+        # 1일 1회 초과 발행 방지 안전 제어 장치 (study 카테고리 한정)
+        today_str = time.strftime("%Y-%m-%d")
+        today_study_posts = [
+            p for p in queue_data.get("completed_lessons", [])
+            if p.get("date") == today_str and p.get("status") == "published" and p.get("subject") not in ["요리/반찬", "인스타그램"]
+        ]
+        if len(today_study_posts) >= 1:
+            print(f"\n[INFO] Daily limit reached. Today ({today_str}) already published: {[p['lesson'] for p in today_study_posts]}")
+            print("Execution skipped to protect SEO rating from search engines.")
+            sys.exit(0)
+            
         current_subject = queue_data.get("current_subject", "")
         current_idx = queue_data.get("current_lesson_index", 0)
         subj_queue = queue_data.get("queue", [])
@@ -1482,9 +1493,10 @@ def main():
         online_context = fetch_online_context(current_subject)
         
         prompt = ""
-        if category == "study":
-            prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
-아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
+        is_study_category = (category == "study")
+        if is_study_category:
+            wp_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
+아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스(WordPress)에 업로드할 학습 요약 글을 작성하세요.
 
 [중요 지시사항]
 - 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
@@ -1508,15 +1520,37 @@ def main():
 {online_context if online_context else "자체 지식을 활용해 상세히 작성하세요"}
 
 [출력 요구사항 및 포맷]
-반드시 다음 구분자(Delimiter)를 정확히 사용하여 각각 다른 스타일로 작성하세요.
-
-========== WORDPRESS VERSION ==========
 # [워드프레스용 제목]
 (본문은 아주 따뜻하고 친근하며 다정한 어조로 작성해 주세요. 요약 리스트(•)와 단락 구분, 깔끔한 소제목을 적극적으로 활용하여 가독성 있게 정리해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 점검할 수 있도록 4지선다형 객관식 퀴즈 1문항과 정답 및 해설을 추가해 주세요. 마지막에 독자들을 응원하는 다정한 멘트와 해시태그를 작성해 주세요.)
+"""
 
-========== BLOGGER VERSION ==========
+            blogger_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
+아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 구글 블로거(Blogger)에 업로드할 학습 요약 글을 작성하세요.
+
+[중요 지시사항]
+- 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
+- 영어(sớm, also, juga 등), 베트남어, 태국어 등 외래어 토큰이나 타국어 단어가 단 한 단어도 섞여서는 안 됩니다. 
+- 한자(漢字) 역시 가급적 한글로 순화하고 한글로만 작성하십시오.
+- AI 임의의 다국어 번역 혼동이나 깨진 토큰 사용을 철저히 금지합니다.
+
+[가독성 극대화 및 레이아웃 지시사항 (네이버 블로그 스타일 가독성)]
+1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
+2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
+3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
+6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+
+[요청 주제/키워드]
+{content}
+
+[온라인 검색 참고 자료]
+{online_context if online_context else "자체 지식을 활용해 상세히 작성하세요"}
+
+[출력 요구사항 및 포맷]
 # [블로거용 제목]
-(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 글을 작성할 때 반드시 적절한 위치에 마크다운 소제목 기호(##, ###)와 핵심 강조용 굵게 기호(**강조**) 및 인용구 기호(> )를 필수적으로 적극 활용하여 시각적인 강약과 대비가 확실하도록 구성해 주십시오. 핵심 개념 설명은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 요약 리스트(•)를 풍부하게 배치하여 핵심만 빠르게 읽을 수 있도록 해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항과 각각의 정답 및 해설을 추가해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 핵심 개념 설명은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 요약 리스트(•)를 풍부하게 배치하여 핵심만 빠르게 읽을 수 있도록 해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항을 작성해 주세요. 단, O/X 퀴즈의 정답과 해설은 개별 문제 바로 옆에 작성하여 미리 노출하지 말고, 반드시 문제 전체가 끝난 후 본문 최하단(해시태그 바로 위)에 '[정답 및 해설]' 영역을 별도로 만들어 분리 기입하십시오. 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "mindset":
             prompt = f"""당신은 마음 치유 및 심리 전문 블로거입니다.
@@ -1595,10 +1629,25 @@ def main():
                     gemini_api_key = ac_cfg.get("GEMINI_API_KEY", "").strip()
             except Exception:
                 pass
-        result = ask_llm(ollama_url, model, prompt, gemini_api_key)
-        if not result:
-            print("[ERROR] Failed to generate content from LLM.")
-            sys.exit(1)
+        if is_study_category:
+            print("[INFO] Generating WordPress version content...")
+            wp_res = ask_llm(ollama_url, model, wp_prompt, gemini_api_key)
+            if not wp_res:
+                print("[ERROR] Failed to generate WordPress content from LLM.")
+                sys.exit(1)
+                
+            print("[INFO] Generating Blogger version content...")
+            blogger_res = ask_llm(ollama_url, model, blogger_prompt, gemini_api_key)
+            if not blogger_res:
+                print("[ERROR] Failed to generate Blogger content from LLM.")
+                sys.exit(1)
+                
+            result = f"========== WORDPRESS VERSION ==========\n\n{wp_res}\n\n========== BLOGGER VERSION ==========\n\n{blogger_res}"
+        else:
+            result = ask_llm(ollama_url, model, prompt, gemini_api_key)
+            if not result:
+                print("[ERROR] Failed to generate content from LLM.")
+                sys.exit(1)
             
         # Save draft
         category_dir = os.path.join(DRAFTS_ROOT, category)
@@ -1710,9 +1759,10 @@ def main():
         online_context = fetch_online_context(category)
         
         prompt = ""
-        if category == "study":
-            prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
-아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스와 구글 블로거에 각각 업로드할 두 가지 버전의 글을 작성하세요.
+        is_study_category = (category == "study")
+        if is_study_category:
+            wp_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
+아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스(WordPress)에 업로드할 학습 요약 글을 작성하세요.
 
 [중요 지시사항]
 - 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
@@ -1736,15 +1786,37 @@ def main():
 {online_context if online_context else "자체 지식을 활용해 상세히 작성하세요"}
 
 [출력 요구사항 및 포맷]
-반드시 다음 구분자(Delimiter)를 정확히 사용하여 각각 다른 스타일로 작성하세요.
-
-========== WORDPRESS VERSION ==========
 # [워드프레스용 제목]
 (본문은 아주 따뜻하고 친근하며 다정한 어조로 작성해 주세요. 요약 리스트(•)와 단락 구분, 깔끔한 소제목을 적극적으로 활용하여 가독성 있게 정리해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 점검할 수 있도록 4지선다형 객관식 퀴즈 1문항과 정답 및 해설을 추가해 주세요. 마지막에 독자들을 응원하는 다정한 멘트와 해시태그를 작성해 주세요.)
+"""
 
-========== BLOGGER VERSION ==========
+            blogger_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
+아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 구글 블로거(Blogger)에 업로드할 학습 요약 글을 작성하세요.
+
+[중요 지시사항]
+- 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
+- 영어(sớm, also, juga 등), 베트남어, 태국어 등 외래어 토큰이나 타국어 단어가 단 한 단어도 섞여서는 안 됩니다. 
+- 한자(漢字) 역시 가급적 한글로 순화하고 한글로만 작성하십시오.
+- AI 임의의 다국어 번역 혼동이나 깨진 토큰 사용을 철저히 금지합니다.
+
+[가독성 극대화 및 레이아웃 지시사항 (네이버 블로그 스타일 가독성)]
+1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
+2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
+3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
+6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+
+[요청 주제/키워드]
+{content}
+
+[온라인 검색 참고 자료]
+{online_context if online_context else "자체 지식을 활용해 상세히 작성하세요"}
+
+[출력 요구사항 및 포맷]
 # [블로거용 제목]
-(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 글을 작성할 때 반드시 적절한 위치에 마크다운 소제목 기호(##, ###)와 핵심 강조용 굵게 기호(**강조**) 및 인용구 기호(> )를 필수적으로 적극 활용하여 시각적인 강약과 대비가 확실하도록 구성해 주십시오. 핵심 개념 설명은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 요약 리스트(•)를 풍부하게 배치하여 핵심만 빠르게 읽을 수 있도록 해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항과 각각의 정답 및 해설을 추가해 주세요. 마지막에 해시태그를 추가해 주세요.)
+(본문은 담담하고 핵심 중심의 간결하며 정돈된 전문적인 어조로 작성해 주세요. 핵심 개념 설명은 표(Table) 또는 구조화된 도표 형식을 적극 활용하여 한눈에 정리되게 작성해 주시고, 요약 리스트(•)를 풍부하게 배치하여 핵심만 빠르게 읽을 수 있도록 해 주세요. 본문과 퀴즈 사이에 빈칸 줄바꿈(엔터)을 2회 이상 넣고, "[이곳에 학습 퀴즈 관련 이미지가 들어갈 자리입니다]" 라는 안내 문구를 가독성 있게 표기하여 확실하게 물리적인 간격을 넓혀 주세요. 그 후 공부한 내용을 직관적으로 점검할 수 있도록 O/X 퀴즈 2문항을 작성해 주세요. 단, O/X 퀴즈의 정답과 해설은 개별 문제 바로 옆에 작성하여 미리 노출하지 말고, 반드시 문제 전체가 끝난 후 본문 최하단(해시태그 바로 위)에 '[정답 및 해설]' 영역을 별도로 만들어 분리 기입하십시오. 마지막에 해시태그를 추가해 주세요.)
 """
         elif category == "mindset":
             prompt = f"""당신은 마음 치유 및 심리 전문 블로거입니다.
@@ -1823,10 +1895,25 @@ def main():
                     gemini_api_key = ac_cfg.get("GEMINI_API_KEY", "").strip()
             except Exception:
                 pass
-        result = ask_llm(ollama_url, model, prompt, gemini_api_key)
-        if not result:
-            print("[ERROR] Failed to generate content from LLM.")
-            sys.exit(1)
+        if is_study_category:
+            print("[INFO] Generating WordPress version content (fallback)...")
+            wp_res = ask_llm(ollama_url, model, wp_prompt, gemini_api_key)
+            if not wp_res:
+                print("[ERROR] Failed to generate WordPress content from LLM.")
+                sys.exit(1)
+                
+            print("[INFO] Generating Blogger version content (fallback)...")
+            blogger_res = ask_llm(ollama_url, model, blogger_prompt, gemini_api_key)
+            if not blogger_res:
+                print("[ERROR] Failed to generate Blogger content from LLM.")
+                sys.exit(1)
+                
+            result = f"========== WORDPRESS VERSION ==========\n\n{wp_res}\n\n========== BLOGGER VERSION ==========\n\n{blogger_res}"
+        else:
+            result = ask_llm(ollama_url, model, prompt, gemini_api_key)
+            if not result:
+                print("[ERROR] Failed to generate content from LLM.")
+                sys.exit(1)
             
         # Save draft
         category_dir = os.path.join(DRAFTS_ROOT, category)
