@@ -67,17 +67,40 @@ def get_recipe_topic():
                         
                 # Pick the first one that is NOT already published
                 for candidate in candidates:
-                    # Clean the candidate to find dish name
+                    # Clean the candidate to find dish name using LLM
                     dish_name = ""
-                    for word in ["메밀국수", "오이냉국", "감자떡", "이모모찌", "애호박죽", "애호박 주", "애호박 죽", "깻잎장아찌", "김치찌개", "된장찌개"]:
-                        if word in candidate:
-                            dish_name = word.replace(" ", "")
-                            break
+                    
+                    # Load account config for API key
+                    gemini_api_key = ""
+                    if os.path.exists(ACCOUNT_PATH):
+                        try:
+                            with open(ACCOUNT_PATH, "r", encoding="utf-8") as f_acc:
+                                config = json.load(f_acc)
+                                gemini_api_key = config.get("GEMINI_API_KEY", "").strip()
+                        except Exception:
+                            pass
+                            
+                    try:
+                        extract_prompt = f"다음 문장에서 구체적인 핵심 요리명(음식 이름) 단 하나만 명사 형태로 추출해 주세요. 어떠한 설명이나 기호 없이 단어만 출력하세요. (예: '새콤달콤 맛있는 열무비빔밥 만들기' -> '열무비빔밥')\n\n문장: {candidate}"
+                        extracted = ask_llm("http://127.0.0.1:11434", "gemma2:2b", extract_prompt, gemini_api_key).strip()
+                        extracted = re.sub(r'[^\uac00-\ud7a3\w]', '', extracted)
+                        if extracted and len(extracted) < 15 and extracted not in ["레시피", "요리", "반찬", "간식", "야식"]:
+                            dish_name = extracted
+                            print(f"[INFO] LLM extracted candidate dish name: {dish_name}")
+                    except Exception as extract_err:
+                        print(f"[WARN] Failed to extract candidate dish name via LLM: {extract_err}")
+                        
+                    # Fallback if LLM fails
+                    if not dish_name:
+                        for word in ["메밀국수", "오이냉국", "감자떡", "이모모찌", "김치찌개", "된장찌개", "깻잎장아찌", "열무비빔밥"]:
+                            if word in candidate:
+                                dish_name = word
+                                break
                     if not dish_name:
                         dish_name = re.sub(r'[^\uac00-\ud7a3\w]', '', candidate)[:12]
                     
                     if dish_name.lower() not in completed_dishes:
-                        print(f"[INFO] Selected unpublished topic from trend report: {candidate}")
+                        print(f"[INFO] Selected unpublished topic from trend report: {candidate} (Extracted: {dish_name})")
                         return candidate
                     else:
                         print(f"[INFO] Skipping already published topic: {candidate} ({dish_name})")

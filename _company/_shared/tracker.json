@@ -1,0 +1,21 @@
+{
+  "tasks": [
+    {
+      "id": "20260624050907-u07x",
+      "title": "매월1천만원",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-06-24T05:09:07.051Z",
+      "status": "done",
+      "sessionDir": "2026-06-24T04-05",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-06-24T04-05/_report.md\n- 레오: 2026-06-24 주간 뉴스 기회 구축하기 (주간뉴시) : youtube 비디오(12~20) / 카피라이팅(2~3) - 연체 7일\n- Instagram: 2026-06-24 주간 Instagram 채널 뉴스 기회 구축하기 (주간인스타시) : 릴스(3~4), 피드(2~3), 해시태그(12~15)\n- Designer: 2026-06-24 주간 디자인 패턴 구축하기 (주간디자인) : design brief(3일), 썸네일/브랜드 비주얼(2일)\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 📺 레오 _(Head of YouTube)_\n> 📋 **지시**: 2026-06-24 주간 뉴스 기회 구축하기 (주간뉴시) : youtube 비디오(12~20) / 카피라이팅(2~3) - 연체 7일\n> 🔧 **도구 실행**: `my_videos_check.py (prefetch)`\n> 📊 **수집 데",
+      "completedAt": "2026-06-24T05:35:20.904Z"
+    }
+  ]
+}
