@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 25. 오전 6:39:36_
+_업데이트: 2026. 6. 25. 오전 8:33:43_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -19,25 +19,25 @@ _업데이트: 2026. 6. 25. 오전 6:39:36_
 - [2026-06-19] YouTube 에이전트의 `_agents/youtube` 디렉토리 및 필수 파일을 복구하거나 재설치하여, YouTube API 키 설정 및 채널 분석 기능이 정상적으로 작동할 수 있도록 시스템 기반을 마련하세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T16-09/developer.md
 - [2026-06-21] 연구원 에이전트가 'trend_sniper' 도구를 실행할 때 발생하는 'spawn C:\Windows\system32\cmd.exe ENOENT' 오류의 원인을 진단하고, 해당 도구가 정상적으로 실행될 수 있도록 문제를 해결하세요. [근거: CEO 종합, Researcher 산출물] → 산출물 sessions/2026-06-21T07-39/developer.md
 ### 💼 현빈
-- [2026-06-24] 이사자 회사의 가장 가치 있는 단일 작업1개 선택 done, 이사자 회사는 2026-06-27 일린 마무리 → 산출물 sessions/2026-06-24T02-50/business.md
 - [2026-06-24] 우선순위 결정 (Goals.md, 의사결정 로그) → 자격증명 부족으로 차단됨
 - [2026-06-24] _agents/business Goal.md → 산출물 sessions/2026-06-24T12-50/business.md
+- [2026-06-24] 최근 메모리 사용 수에 맞는 이익을 추적하고, 가장 가치 있는 단일 작업을 선택하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-06-24T21-50/business.md
 ### 📱 영숙
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 2일간의 메모리 정리 (2)  → 산출물 sessions/2026-06-19T11-39/secretary.md
 - [2026-06-21] 일정 및 작업 요약 → 산출물 sessions/2026-06-21T04-24/secretary.md
 - [2026-06-23] 최근 업무 결과를 확인하고, 메모리에 비슷한 항목이 24시간 내에 있으면 다른 각도로 진전시키는 작업 → 산출물 sessions/2026-06-23T23-19/secretary.md
 ### 🎵 루나
-- [2026-06-24] 06-26일부터 07-01까지 BGM自动 생성 및 music design → 산출물 sessions/2026-06-24T05-50/editor.md
 - [2026-06-24] _agents/Editor BGM_generation.ipynb → 산출물 sessions/2026-06-24T12-50/editor.md
 - [2026-06-24] 2026-06-24 00:15에 새로운 BGM 자동 생성(MusicGen/ACE-Step) 및 사운드 디자인을 개발하고, 해당 작업을 진행 중인 에이전트 (_agents/{id}/goal.md)과 최근 의사결정 메모리의 조정을 위한建议을 đưa어보세요. → 산출물 sessions/2026-06-24T14-05/editor.md
+- [2026-06-24] current_project에 맞는 BGM 및 사운드 디자인을 tạo하기위한 작업 → 산출물 sessions/2026-06-24T21-50/editor.md
 ### ✍️ Writer
-- [2026-06-24] 2026-06-24 00:20에 새로운 카피라이팅, 영상 스크립트 및 캡션을 개발하고, 해당 작업을 진행 중인 에이전트 (_agents/{id}/goal.md)과 최근 의사결정 메모리의 조정을 위한建议을 đưa어보세요. → 산출물 sessions/2026-06-24T14-05/writer.md
 - [2026-06-24] 이-weekend의 글 작성 및 기획 → 산출물 sessions/2026-06-24T20-35/writer.md
 - [2026-06-24] 이-weekend의 카피라이팅 및 영상 스크립트 작성 → 산출물 sessions/2026-06-24T20-35/writer.md
+- [2026-06-24] current project의 캡션 및 블로그를 작성하기위한 작업 → 산출물 sessions/2026-06-24T21-50/writer.md
 ### 🔍 Researcher
-- [2026-06-24] 2026년 6월 24일의 company goals과 개인 목표를 분석해 보세요 → 산출물 sessions/2026-06-24T19-05/researcher.md
 - [2026-06-24] 인스타 분석 및 창작 → 산출물 sessions/2026-06-24T19-50/researcher.md
 - [2026-06-24] 트렌드 및 경쟁사 연구 → 산출물 sessions/2026-06-24T20-35/researcher.md
+- [2026-06-24] 최근 분석 결과에 맞는 이익을 추적하고, 현재 가장 가치 있는 작업을 결정하고, 가장 가치있는 단일 작업을 선택하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-06-24T21-50/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
