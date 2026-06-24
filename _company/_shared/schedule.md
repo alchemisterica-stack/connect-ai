@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 24. 오후 12:06:35_
+_업데이트: 2026. 6. 24. 오후 12:50:54_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,17 +11,17 @@ _업데이트: 2026. 6. 24. 오후 12:06:35_
 - [2026-06-21] instagram 데이터 수집 → 산출물 sessions/2026-06-21T05-54/instagram.md
 - [2026-06-21] designer 에이전트가 제작한 썸네일 및 핵심 비주얼과 writer 에이전트가 작성한 스크립트를 활용하여 '자존감 높이는 긍정 한마디' 인스타그램 릴스 콘텐츠를 제작합니다. 효과적인 캡션과 해시태그를 포함하여 게시 준비를 완료합니다. → 산출물 sessions/2026-06-21T08-07/instagram.md
 ### 🎨 Designer
-- [2026-06-23] 다음 단계로 작업 1을 완성하는 데 necessary 에이전트 분배 → 산출물 sessions/2026-06-23T22-49/designer.md
 - [2026-06-24] 새로운 Design 브리프 생성 → 산출물 sessions/2026-06-23T23-19/designer.md
 - [2026-06-24] 카피라이팅, 영상 스크립트, 캡션, 블로그, 후크 → 산출물 sessions/2026-06-24T01-02/designer.md
+- [2026-06-24] 오늘의 메모리에서 가장 가치 있는 단일 작업을 결정하고, 적절한 에이전트(1명)에게 분배해서 실행하는 task → 산출물 sessions/2026-06-24T03-20/designer.md
 ### 💻 코다리
 - [2026-06-19] `_agents/youtube` 디렉토리 및 관련 파일이 부재하는 원인을 면밀히 파악하고, YouTube 에이전트의 기능을 위한 기본 파일 구조를 복구하거나 재설치하세요. 이 작업은 YouTube API 키 설정 및 채널 분석을 위한 선행 조건입니다. [근거: 코다리 산출물에서 디렉토리 부재 보고, 레오 산출물에서 API 설정 불가 보고] → 산출물 sessions/2026-06-19T07-32/developer.md
 - [2026-06-19] YouTube 에이전트의 `_agents/youtube` 디렉토리 및 필수 파일을 복구하거나 재설치하여, YouTube API 키 설정 및 채널 분석 기능이 정상적으로 작동할 수 있도록 시스템 기반을 마련하세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T16-09/developer.md
 - [2026-06-21] 연구원 에이전트가 'trend_sniper' 도구를 실행할 때 발생하는 'spawn C:\Windows\system32\cmd.exe ENOENT' 오류의 원인을 진단하고, 해당 도구가 정상적으로 실행될 수 있도록 문제를 해결하세요. [근거: CEO 종합, Researcher 산출물] → 산출물 sessions/2026-06-21T07-39/developer.md
 ### 💼 현빈
-- [2026-06-22] 제약된 work scope 내에서 동시에 여러 task를 반복하지 않기 위해, 1명으로 분배 → 산출물 sessions/2026-06-22T18-34/business.md
 - [2026-06-23] 주도적인 목표 설정 및prioritizer → 산출물 sessions/2026-06-23T06-04/business.md
 - [2026-06-24] 이사자 회사의 가장 가치 있는 단일 작업1개 선택 done, 이사자 회사는 2026-06-27 일린 마무리 → 산출물 sessions/2026-06-24T02-50/business.md
+- [2026-06-24] 우선순위 결정 (Goals.md, 의사결정 로그) → 자격증명 부족으로 차단됨
 ### 📱 영숙
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 2일간의 메모리 정리 (2)  → 산출물 sessions/2026-06-19T11-39/secretary.md
 - [2026-06-21] 일정 및 작업 요약 → 산출물 sessions/2026-06-21T04-24/secretary.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 6. 24. 오후 12:06:35_
 - [2026-06-23] designer 에이전트가 기획하는 '자존감 높이는 긍정 한마디' 유튜브 썸네일에 들어갈 핵심 문구 및 후크 문구를 3가지 이상 제안합니다. 시청자의 클릭을 유도하고 콘텐츠의 메시지를 명확히 전달할 수 있는 간결하고 매력적인 문구를 작성하며, Accent Yellow 또는 White 색상으로 배경과 명확히 대비될 수 있도록 고려합니다. [근거: 지난 의사결정 로그, 실시간 트렌드 분석 보고서] → 산출물 sessions/2026-06-23T21-34/writer.md
 - [2026-06-24] 카피라이팅, 영상 스크리bt, 캡션, 블로그, 후크 → 산출물 sessions/2026-06-24T01-02/writer.md
 ### 🔍 Researcher
-- [2026-06-23] 2026년 6월 20일 - 6월 22일, 신발의 Market Research를 수행하고,Market Share Analysis performed. → 산출물 sessions/2026-06-23T03-34/researcher.md
 - [2026-06-23] 오늘 일outine creation에 대한 수집된 dati와 관련된 research paper의 publication status를 확인하고, 이 task를 completion_date까지 7일 이내에 완료하여 사용자가 선호하는 way의 video를 만들기 시작하도록 합니다. → 산출물 sessions/2026-06-23T04-34/researcher.md
 - [2026-06-23] 경쟁사 리서치 → 산출물 sessions/2026-06-23T06-04/researcher.md
+- [2026-06-24] 2026-06-24 - 현재의 데이터 수집 키워드 매칭 → 산출물 sessions/2026-06-24T03-20/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
