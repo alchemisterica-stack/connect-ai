@@ -87,3 +87,4 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-25] 회사 콘텐츠 테마인 '자존감 높이는 긍정 한마디'에 맞춰 YouTube 쇼츠용 영상 제목 또는 핵심 메시지 5가지와 각 메시지에 대한 짧은 후크 문구를 작성하세요. 지난 의사결정 로그의 브랜드 톤과 금기사항을 참고하고, 최신 트렌드 보고서의 '심리/마음위로' 카테고리 해시태그를 활용하여 메시지를 강화하세요. [근거: 회사 공동 목표, 지난 의사결정 로그, 최신 트렌드 분석 보고서] → 산출물 sessions/2026-06-25T09-28/writer.md
 - [2026-06-25] Writing a press release announcing the launch of the new product line. We will craft engaging headlines, paragraphs, and social media posts that highlight the benefits of our new product line. → 산출물 sessions/2026-06-25T17-50/writer.md
 - [2026-06-25] 제품의 주제에 맞춰 Copywrite 기획 → 산출물 sessions/2026-06-25T19-35/writer.md
+- [2026-06-25] 기본 데이터 수집에 필요한 analyze 및 지식을 제공하기 위해 copywriter 부문 1명과 business 부문 1명에 대한 정보를 cập nhật → 산출물 sessions/2026-06-25T22-05/writer.md
