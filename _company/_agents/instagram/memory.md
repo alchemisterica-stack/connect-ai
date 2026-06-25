@@ -18,3 +18,4 @@ _Instagram 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-21] designer 에이전트가 제작한 썸네일 및 핵심 비주얼과 writer 에이전트가 작성한 스크립트를 활용하여 '자존감 높이는 긍정 한마디' 인스타그램 릴스 콘텐츠를 제작합니다. 효과적인 캡션과 해시태그를 포함하여 게시 준비를 완료합니다. → 산출물 sessions/2026-06-21T08-07/instagram.md
 - [2026-06-24] 2026-06-24 주간 Instagram 채널 뉴스 기회 구축하기 (주간인스타시) : 릴스(3~4), 피드(2~3), 해시태그(12~15) → 산출물 sessions/2026-06-24T04-05/instagram.md
 - [2026-06-25]  currently analyzing and prioritizing tasks for instagram account → 산출물 sessions/2026-06-25T06-43/instagram.md
+- [2026-06-25] 경쟁사 리서치 - 오케스트레이션 4시간 → 산출물 sessions/2026-06-25T20-05/instagram.md
