@@ -19,6 +19,12 @@ ACCOUNT_PATH = os.path.join(HERE, "blog_account.json")
 sys.path.append(HERE)
 from blog_post_generator import auto_publish_post, ask_llm
 
+sys.path.append(r"C:\Users\User\my-ai-office\scripts")
+try:
+    import automation_utils
+except ImportError:
+    automation_utils = None
+
 def get_recipe_topic():
     default_topic = "여름철 더위를 시원하게 날려주는 오이냉국"
     
@@ -152,6 +158,45 @@ def generate_recipe_post(topic, gemini_api_key):
     return result
 
 def main():
+    try:
+        _main_impl()
+    except Exception as err:
+        import traceback
+        err_msg = f"{err}\n{traceback.format_exc()}"
+        print(f"[ERROR] Critical failure in publish_recipe_auto: {err_msg}")
+        
+        if automation_utils:
+            try:
+                automation_utils.log_automation_failure(
+                    task_id="recipe_blog_publish",
+                    task_name="요리 블로그 자동 발행",
+                    stage="레시피 생성 또는 WordPress/Blogger API 발행 단계",
+                    error_msg=str(err)
+                )
+            except Exception as log_err:
+                print(f"[WARN] Failed to write failure task: {log_err}")
+        sys.exit(1)
+
+def _main_impl():
+    # Daily Publish Cap (Max 1 recipe post per day)
+    today_str = time.strftime("%Y-%m-%d")
+    if os.path.exists(QUEUE_PATH):
+        try:
+            with open(QUEUE_PATH, "r", encoding="utf-8") as f:
+                queue_data = json.load(f)
+            today_recipe_posts = [
+                p for p in queue_data.get("completed_lessons", [])
+                if p.get("date") == today_str and p.get("status") == "published" and p.get("subject") == "요리/반찬"
+            ]
+            if len(today_recipe_posts) >= 1:
+                print(f"[INFO] Daily limit reached. Today ({today_str}) already published recipe: {[p['lesson'] for p in today_recipe_posts]}")
+                print("Skipping execution to avoid double-publishing.")
+                sys.exit(0)
+        except SystemExit:
+            sys.exit(0)
+        except Exception as q_err:
+            print(f"[WARN] Failed to load completed lessons for rate limiting: {q_err}")
+
     topic = get_recipe_topic()
     
     # Load account config for API key

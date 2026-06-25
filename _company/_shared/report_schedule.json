@@ -37,7 +37,7 @@
       ],
       "action": "briefing",
       "enabled": true,
-      "lastFiredAt": "2026-06-24"
+      "lastFiredAt": "2026-06-25"
     },
     {
       "id": "sched-blog-publish-0200",
@@ -59,17 +59,18 @@
     },
     {
       "id": "sched-blog-publish-weekend-recipe",
-      "label": "금/토/일 새벽 3시 요리 자동 발행",
+      "label": "금/토/일/월 새벽 3시 반 요리 자동 발행",
       "hour": 3,
-      "minute": 0,
+      "minute": 30,
       "days": [
         5,
         6,
-        0
+        0,
+        1
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
       "enabled": true,
-      "lastFiredAt": "2026-06-21"
+      "lastFiredAt": "2026-06-22"
     },
     {
       "id": "sched-blog-publish-monday-scan",
@@ -85,8 +86,8 @@
     },
     {
       "id": "sched-email-pipeline-daily-0600",
-      "label": "매일 오전 6시 메일 확인 및 사진 수집/분류 (자동)",
-      "hour": 6,
+      "label": "매일 오전 5시 메일 확인 및 사진 수집/분류 (자동)",
+      "hour": 5,
       "minute": 0,
       "days": [
         0,
@@ -139,7 +140,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-06-24"
+      "lastFiredAt": "2026-06-25"
     },
     {
       "id": "sched-insta-publish-night",

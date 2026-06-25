@@ -133,7 +133,7 @@ def verify_connection():
         print(f"[ERROR] API Call Error: {e}")
         return False
 
-def record_to_calendar(caption, permalink):
+def record_to_calendar(caption, permalink, slot=None):
     # Update blog_queue.json if it exists
     if os.path.exists(BLOG_ACCOUNT_PATH):
         queue_path = os.path.join(os.path.dirname(BLOG_ACCOUNT_PATH), "blog_queue.json")
@@ -154,6 +154,7 @@ def record_to_calendar(caption, permalink):
                 completed_entry = {
                     "subject": "인스타그램",
                     "lesson": f"{clean_title}.md",
+                    "slot": slot,
                     "date": today_str,
                     "draft_path": os.path.abspath(os.path.join(HERE, "..", "drafts", "instagram_post_draft.md")),
                     "status": "published",
@@ -330,7 +331,7 @@ def publish_carousel(image_sources, caption):
         print(f"[ERROR] Failed to publish Carousel: {e}")
         return None
 
-def publish_reels(video_source, caption):
+def publish_reels(video_source, caption, slot=None):
     """Publishes a video (Reels) to Instagram"""
     cfg = load_instagram_config()
     token = cfg.get("META_ACCESS_TOKEN", "").strip()
@@ -417,7 +418,7 @@ def publish_reels(video_source, caption):
         print(f"[SUCCESS] Instagram Reels successfully published!")
         if permalink:
             print(f" - 포스트 링크: {permalink}")
-            record_to_calendar(caption, permalink)
+            record_to_calendar(caption, permalink, slot=slot)
             return permalink
         return media_id
     except Exception as e:

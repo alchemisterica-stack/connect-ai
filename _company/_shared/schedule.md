@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 25. 오후 6:44:42_
+_업데이트: 2026. 6. 25. 오후 9:43:30_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 6. 25. 오후 6:44:42_
 - [2026-06-24] 2026-06-24 주간 Instagram 채널 뉴스 기회 구축하기 (주간인스타시) : 릴스(3~4), 피드(2~3), 해시태그(12~15) → 산출물 sessions/2026-06-24T04-05/instagram.md
 - [2026-06-25]  currently analyzing and prioritizing tasks for instagram account → 산출물 sessions/2026-06-25T06-43/instagram.md
 ### 🎨 Designer
-- [2026-06-25] 어떤 작업을 선택하고, 적절한 에이전트에게 분배하고, 시작하기 → 산출물 sessions/2026-06-25T03-05/designer.md
 - [2026-06-25] reviewing current design style and creating a new visual identity for the Instagram account → 산출물 sessions/2026-06-25T06-43/designer.md
-- [2026-06-25] writer 에이전트가 제공할 '자존감 높이는 긍정 한마디' 테마의 YouTube 쇼츠용 영상 제목 및 핵심 메시지 5가지와 후크 문구를 받아, 각 메시지에 대한 썸네일 시안 5개를 디자인하세요. 지난 의사결정 로그에 명시된 브랜드 가이드라인(Primary Blue #4A67A3, Accent Yellow #FFD700 사용, 라이트 그라디언트, 대조적 색상, 통일된 레이아웃, 복잡한 요소 배제, 콩콩캔디 로고 상단 배치, 핵심 메시지는 Accent Yellow 또는 White 사용)을 엄격히 준수하여 시안을 제출하세요. [근거:
+- [2026-06-25] writer 에이전트가 제공할 '자존감 높이는 긍정 한마디' 테마의 YouTube 쇼츠용 영상 제목 및 핵심 메시지 5가지와 후크 문구를 받아, 각 메시지에 대한 썸네일 시안 5개를 디자인하세요. 지난 의사결정 로그에 명시된 브랜드 가이드라인(Primary Blue #4A67A3, Accent Yellow #FFD700 사용, 라이트 그라디언트, 대조적 색상, 통일된 레이아웃, 복잡한 요소 배제, 콩콩캔디 로고 상단 배치, 핵심 메시지는 Accent Yellow 또는 White 사용)을 엄격히 준수하여 시안을 제출하세요. [근거: 
+- [2026-06-25] 브랜드 비주얼 및 썸네일 작성 → 산출물 sessions/2026-06-25T12-05/designer.md
 ### 💻 코다리
 - [2026-06-19] `_agents/youtube` 디렉토리 및 관련 파일이 부재하는 원인을 면밀히 파악하고, YouTube 에이전트의 기능을 위한 기본 파일 구조를 복구하거나 재설치하세요. 이 작업은 YouTube API 키 설정 및 채널 분석을 위한 선행 조건입니다. [근거: 코다리 산출물에서 디렉토리 부재 보고, 레오 산출물에서 API 설정 불가 보고] → 산출물 sessions/2026-06-19T07-32/developer.md
 - [2026-06-19] YouTube 에이전트의 `_agents/youtube` 디렉토리 및 필수 파일을 복구하거나 재설치하여, YouTube API 키 설정 및 채널 분석 기능이 정상적으로 작동할 수 있도록 시스템 기반을 마련하세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T16-09/developer.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 6. 25. 오후 6:44:42_
 - [2026-06-24] current project의 캡션 및 블로그를 작성하기위한 작업 → 산출물 sessions/2026-06-24T21-50/writer.md
 - [2026-06-25] 회사 콘텐츠 테마인 '자존감 높이는 긍정 한마디'에 맞춰 YouTube 쇼츠용 영상 제목 또는 핵심 메시지 5가지와 각 메시지에 대한 짧은 후크 문구를 작성하세요. 지난 의사결정 로그의 브랜드 톤과 금기사항을 참고하고, 최신 트렌드 보고서의 '심리/마음위로' 카테고리 해시태그를 활용하여 메시지를 강화하세요. [근거: 회사 공동 목표, 지난 의사결정 로그, 최신 트렌드 분석 보고서] → 산출물 sessions/2026-06-25T09-28/writer.md
 ### 🔍 Researcher
-- [2026-06-25] 사전 분석 및 목표 설정 → 산출물 sessions/2026-06-25T03-05/researcher.md
-- [2026-06-25] 최신 숏폼 비디오 플랫폼(YouTube Shorts, Instagram Reels 등)에서 급부상하는 트렌드 3가지와 해당 트렌드를 효과적으로 구현하는 데 활용할 수 있는 AI 기반 콘텐츠 생성/편집 도구를 조사하고 요약하세요. → 산출물 sessions/2026-06-25T04-35/researcher.md
 - [2026-06-25] 데이터 수집 및 분석 → 산출물 sessions/2026-06-25T05-35/researcher.md
+- [2026-06-25] 카피 라이팅 및 창작 · 목표 설정 ( individually based on business goal ) → 산출물 sessions/2026-06-25T09-58/researcher.md
+- [2026-06-25] 신문 및 뉴스 리서치 → 산출물 sessions/2026-06-25T12-05/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

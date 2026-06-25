@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 """
 generate_single_card.py — 1장짜리 명상 카드 이미지 생성기
-
-콩콩캔디 브랜드 가이드라인에 맞춰 프리미엄 감성 카드를 생성합니다.
-- 1080x1080 (피드용 정사각)
-- 1080x1920 (릴스용 세로)  두 가지를 동시에 출력합니다.
-
-Usage:
-    python generate_single_card.py
-    python generate_single_card.py --title "완벽하지 않아도, 괜찮아." --subtitle "오늘 하루도 버텨준 네가 대견해"
-    python generate_single_card.py --theme dark
+- Pretendard + System Serif (Batang) font mix
+- Discrete branding footprint (18px)
+- Layout variations (rect_center, ellipse_center, circle_left, rect_right)
 """
 import os
 import sys
 import io
 import time
 import json
+import random
 import argparse
 import urllib.parse
 import requests
@@ -113,7 +108,7 @@ def wrap_text(text, font, max_width, draw):
         if not paragraph.strip():
             lines.append("")
             continue
-        words = list(paragraph)  # 한글은 글자 단위로 잘라야 함
+        words = list(paragraph)
         current = ""
         for ch in words:
             test = current + ch
@@ -129,16 +124,14 @@ def wrap_text(text, font, max_width, draw):
 
 
 def draw_text_with_shadow(draw, pos, text, font, fill, shadow_color=(0, 0, 0, 60), offset=2):
-    """텍스트에 그림자를 넣어 가독성을 높입니다."""
+    """텍스트에 그림자를 넣어 가독성을 높입합니다."""
     x, y = pos
-    # Shadow
     draw.text((x + offset, y + offset), text, font=font, fill=shadow_color)
-    # Main text
-    draw.text((x, y), text, font=font, fill=fill)
+    draw.text(pos, text, font=font, fill=fill)
 
 
-def draw_centered_text_block(draw, lines, font, start_y, canvas_width, fill, line_spacing_factor=1.5, shadow=True):
-    """여러 줄의 텍스트를 중앙 정렬로 그립니다."""
+def draw_centered_text_block(draw, lines, font, start_y, usable_box, fill, line_spacing_factor=1.5, shadow=True, text_align="center"):
+    """여러 줄의 텍스트를 레이아웃 정렬 방식에 맞춰 그립니다."""
     y = start_y
     for line in lines:
         if not line:
@@ -147,7 +140,14 @@ def draw_centered_text_block(draw, lines, font, start_y, canvas_width, fill, lin
         bbox = draw.textbbox((0, 0), line, font=font)
         w = bbox[2] - bbox[0]
         h = bbox[3] - bbox[1]
-        x = (canvas_width - w) // 2
+        
+        if text_align == "left":
+            x = usable_box[0]
+        elif text_align == "right":
+            x = usable_box[2] - w
+        else:
+            x = usable_box[0] + (usable_box[2] - usable_box[0] - w) // 2
+            
         if shadow:
             draw_text_with_shadow(draw, (x, y), line, font, fill)
         else:
@@ -156,32 +156,47 @@ def draw_centered_text_block(draw, lines, font, start_y, canvas_width, fill, lin
     return y
 
 
-# ─── Card Generation ─────────────────────────────────────────────────
+# ─── Font Loading ────────────────────────────────────────────────────
 def load_fonts():
-    """Pretendard 폰트를 로드합니다. 실패 시 맑은 고딕 폴백."""
+    """Pretendard 및 바탕 명조 폰트를 로드합니다."""
+    # 1. System Serif
+    try:
+        serif_font = ImageFont.truetype("C:\\Windows\\Fonts\\batang.ttc", 58)
+    except Exception:
+        try:
+            serif_font = ImageFont.truetype(FONT_BOLD, 58)
+        except Exception:
+            serif_font = ImageFont.load_default()
+
+    # 2. Pretendard
     try:
         title_font = ImageFont.truetype(FONT_BOLD, 58)
         sub_font = ImageFont.truetype(FONT_SEMI, 34)
-        brand_font = ImageFont.truetype(FONT_REG, 26)
-        print("[FONT] Pretendard loaded successfully.")
-        return title_font, sub_font, brand_font
+        brand_font = ImageFont.truetype(FONT_REG, 18) # 크기 축소 26 -> 18
+        print("[FONT] Pretendard & System Serif loaded.")
+        return title_font, sub_font, brand_font, serif_font
     except Exception as e:
         print(f"[FONT] Pretendard load failed ({e}), falling back to malgun.ttf")
         fallback = r"C:\Windows\Fonts\malgun.ttf"
         return (
             ImageFont.truetype(fallback, 58),
             ImageFont.truetype(fallback, 34),
-            ImageFont.truetype(fallback, 26),
+            ImageFont.truetype(fallback, 18),
+            ImageFont.truetype(fallback, 58),
         )
 
 
-def create_single_card(title, subtitle, theme_name="warm"):
+# ─── Card Generation ─────────────────────────────────────────────────
+def create_single_card(title, subtitle, theme_name="warm", layout_type=None):
     """1장짜리 명상 카드를 생성합니다. 피드용(1080x1080) + 릴스용(1080x1920) 동시 출력."""
-
     theme = THEMES.get(theme_name, THEMES["warm"])
-    title_font, sub_font, brand_font = load_fonts()
+    title_font, sub_font, brand_font, serif_font = load_fonts()
 
-    print(f"\n[CARD] Generating '{theme_name}' theme single card...")
+    if not layout_type:
+        layout_choices = ["rect_center", "ellipse_center", "circle_left", "rect_right"]
+        layout_type = random.choice(layout_choices)
+
+    print(f"\n[CARD] Generating '{theme_name}' theme single card with layout '{layout_type}'...")
     print(f"  Title: {title.replace(chr(10), ' / ')}")
     print(f"  Subtitle: {subtitle}")
 
@@ -192,54 +207,78 @@ def create_single_card(title, subtitle, theme_name="warm"):
     overlay = Image.new("RGBA", (1080, 1080), (0, 0, 0, 0))
     draw_overlay = ImageDraw.Draw(overlay)
 
-    margin = 80
-    card_box = [margin, margin, 1080 - margin, 1080 - margin]
-    draw_overlay.rounded_rectangle(
-        card_box,
-        radius=30,
-        fill=theme["card_bg"],
-        outline=theme["border_color"],
-        width=2,
-    )
+    # Layout geometries
+    if layout_type == "ellipse_center":
+        card_box = [100, 150, 980, 930]
+        draw_overlay.ellipse(card_box, fill=theme["card_bg"], outline=theme["border_color"], width=2)
+        usable_box = [150, 200, 930, 880]
+        text_align = "center"
+    elif layout_type == "circle_left":
+        card_box = [80, 420, 720, 1060]
+        draw_overlay.ellipse(card_box, fill=theme["card_bg"], outline=theme["border_color"], width=2)
+        usable_box = [130, 460, 670, 1020]
+        text_align = "left"
+    elif layout_type == "rect_right":
+        card_box = [450, 400, 1020, 1020]
+        draw_overlay.rounded_rectangle(card_box, radius=20, fill=theme["card_bg"], outline=theme["border_color"], width=2)
+        usable_box = [490, 440, 980, 980]
+        text_align = "right"
+    else:
+        # rect_center
+        card_box = [80, 80, 1000, 1000]
+        draw_overlay.rounded_rectangle(card_box, radius=30, fill=theme["card_bg"], outline=theme["border_color"], width=2)
+        usable_box = [120, 120, 960, 960]
+        text_align = "center"
 
     # ── 3) Compose background + card ──
     img = Image.alpha_composite(bg.convert("RGBA"), overlay)
     draw = ImageDraw.Draw(img)
 
-    # ── 4) Render title text ──
-    max_text_width = 1080 - margin * 2 - 80  # card내부 여백 추가
-    title_lines = wrap_text(title, title_font, max_text_width, draw)
+    # ── 4) Render title text (Using Serif font for title) ──
+    max_text_width = (usable_box[2] - usable_box[0]) - 40
+    title_lines = wrap_text(title, serif_font, max_text_width, draw)
 
-    # 텍스트 전체 높이 계산 → 수직 중앙 배치
     title_line_h = int(58 * 1.5)
     sub_line_h = int(34 * 1.5)
+    brand_line_h = int(18 * 1.5)
+    
     total_title_h = len(title_lines) * title_line_h
     total_sub_h = sub_line_h if subtitle else 0
     gap = 40 if subtitle else 0
     total_h = total_title_h + gap + total_sub_h
-    start_y = (1080 - total_h) // 2 - 30  # 약간 위로 올림 (브랜딩 공간 확보)
+    
+    usable_h = (usable_box[3] - usable_box[1]) - brand_line_h - 20
+    start_y = usable_box[1] + max(0, (usable_h - total_h) // 2)
 
     y = draw_centered_text_block(
-        draw, title_lines, title_font, start_y, 1080,
-        fill=theme["text_color"], line_spacing_factor=1.5
+        draw, title_lines, serif_font, start_y, usable_box,
+        fill=theme["text_color"], line_spacing_factor=1.5, text_align=text_align
     )
 
-    # ── 5) Render subtitle ──
+    # ── 5) Render subtitle (Using Pretendard SemiBold) ──
     if subtitle:
-        y += 30
+        y += 20
         sub_lines = wrap_text(subtitle, sub_font, max_text_width, draw)
         draw_centered_text_block(
-            draw, sub_lines, sub_font, y, 1080,
-            fill=theme["accent_color"], line_spacing_factor=1.4
+            draw, sub_lines, sub_font, y, usable_box,
+            fill=theme["accent_color"], line_spacing_factor=1.4, text_align=text_align
         )
 
-    # ── 6) Branding ──
+    # ── 6) Branding (Tiny & Semi-Transparent) ──
     brand_text = "@rolling.s.cong01"
     bbox = draw.textbbox((0, 0), brand_text, font=brand_font)
     bw = bbox[2] - bbox[0]
-    # 살짝 투명하게
-    brand_color = tuple(list(theme["text_color"][:3]) + [180]) if len(theme["text_color"]) < 4 else theme["text_color"]
-    draw.text(((1080 - bw) // 2, 940), brand_text, font=brand_font, fill=brand_color[:3])
+    
+    brand_y = usable_box[3] - brand_line_h - 10
+    if text_align == "left":
+        brand_x = usable_box[0]
+    elif text_align == "right":
+        brand_x = usable_box[2] - bw
+    else:
+        brand_x = usable_box[0] + (usable_box[2] - usable_box[0] - bw) // 2
+        
+    brand_color = tuple(list(theme["text_color"][:3]) + [120]) if len(theme["text_color"]) < 4 else theme["text_color"]
+    draw.text((brand_x, brand_y), brand_text, font=brand_font, fill=brand_color[:3])
 
     # ── 7) Save feed version (1080x1080) ──
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -257,12 +296,8 @@ def create_single_card(title, subtitle, theme_name="warm"):
 
 
 def create_reels_version(card_img, bg_img, theme):
-    """1080x1080 카드를 1080x1920 세로 릴스용으로 확장합니다.
-    상하 여백은 배경 폴백 색으로 채우고 카드를 중앙에 배치."""
-
+    """1080x1080 카드를 1080x1920 세로 릴스용으로 확장합니다."""
     canvas = Image.new("RGB", (1080, 1920), theme["bg_fallback"])
-
-    # 배경의 상단/하단 평균 색상 추출 (numpy 없이)
     bg_rgb = bg_img.convert("RGB")
 
     def avg_color(img, box):
@@ -279,27 +314,12 @@ def create_reels_version(card_img, bg_img, theme):
     top_color = avg_color(bg_rgb, (0, 0, 1080, 10))
     bot_color = avg_color(bg_rgb, (0, 1070, 1080, 1080))
 
-    # 상단 영역을 단색으로 채움
     top_fill = Image.new("RGB", (1080, 420), top_color)
     canvas.paste(top_fill, (0, 0))
 
-    # 하단 영역을 단색으로 채움
     bot_fill = Image.new("RGB", (1080, 420), bot_color)
     canvas.paste(bot_fill, (0, 1500))
 
-    # 중앙에 카드 배치
-    card_rgb = card_img.convert("RGB")
-    canvas.paste(card_rgb, (0, 420))
-
-    return canvas
-
-
-def create_reels_version_fast(card_img, bg_img, theme):
-    """빠른 버전: putpixel 대신 Pillow draw로 상/하단 채움."""
-    canvas = Image.new("RGB", (1080, 1920), theme["bg_fallback"])
-    draw = ImageDraw.Draw(canvas)
-
-    # 상단/하단을 배경 폴백 색으로 간단히 채움
     card_rgb = card_img.convert("RGB")
     canvas.paste(card_rgb, (0, 420))
 
@@ -334,10 +354,14 @@ def main():
     title = title.replace("\\n", "\n")
     subtitle = subtitle.replace("\\n", "\n")
 
-    feed_path, reels_path = create_single_card(title, subtitle, args.theme)
+    # Enforce layout variation
+    layout_choices = ["rect_center", "ellipse_center", "circle_left", "rect_right"]
+    layout_type = random.choice(layout_choices)
+
+    feed_path, reels_path = create_single_card(title, subtitle, args.theme, layout_type=layout_type)
 
     print(f"\n{'='*50}")
-    print(f"[SUCCESS] Single card generated!")
+    print(f"[SUCCESS] Single card generated with layout '{layout_type}'!")
     print(f"  Feed:  {feed_path}")
     print(f"  Reels: {reels_path}")
     print(f"{'='*50}")

@@ -12,6 +12,12 @@ if sys.platform.startswith('win'):
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 
+sys.path.append(r"C:\Users\User\my-ai-office\scripts")
+try:
+    import automation_utils
+except ImportError:
+    automation_utils = None
+
 try:
     import requests
 except ImportError:
@@ -822,8 +828,28 @@ def auto_publish_post(result, category, current_subject, target_file_name):
         return text
 
 
+    # Load gemini api key for QC validation
+    gemini_api_key = ""
+    try:
+        config_path = os.path.join(HERE, "blog_account.json")
+        if os.path.exists(config_path):
+            with open(config_path, "r", encoding="utf-8") as f:
+                config = json.load(f)
+                gemini_api_key = config.get("GEMINI_API_KEY", "").strip()
+    except Exception:
+        pass
+
     wp_content = clean_remnants(wp_content, strip_markdown=False)
     blogger_content = clean_remnants(blogger_content)
+
+    # 자체 텍스트 품질 검수(QC) 가동
+    if automation_utils:
+        is_passed, reason = automation_utils.run_text_self_qc(wp_content, category, gemini_api_key)
+        if not is_passed:
+            raise ValueError(f"WordPress 본문 자체 검수(QC) 실패: {reason}")
+        is_passed, reason = automation_utils.run_text_self_qc(blogger_content, category, gemini_api_key)
+        if not is_passed:
+            raise ValueError(f"Blogger 본문 자체 검수(QC) 실패: {reason}")
     
     # Automatically append hashtags for recipe posts if none exist in the draft
     if category == "recipe" and cleaned_lesson:
@@ -1050,6 +1076,14 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         if download_image_helper(wp_fin_prompt, wp_fin_path):
                             local_files["fin"] = wp_fin_path
                             
+                    # 비주얼 중복 검수 가동
+                    if automation_utils:
+                        for p_type, local_path in local_files.items():
+                            if p_type in ["fin", "ing"] and os.path.exists(local_path):
+                                is_passed, reason = automation_utils.run_self_qc_image(local_path)
+                                if not is_passed:
+                                    raise ValueError(f"요리 이미지 비주얼 검수(QC) 실패: {reason}")
+
                     # Upload all to WP media library
                     for p_type, local_path in local_files.items():
                         try:
@@ -1115,6 +1149,14 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                             banner_path = os.path.join(HERE, "youth_instructor_banner.png")
                             blogger_banner_path = os.path.join(HERE, "youth_instructor_banner_blogger.png")
                     
+                    # 비주얼 중복 검수 가동 (study / mindset)
+                    if automation_utils:
+                        for p_path in [banner_path, blogger_banner_path]:
+                            if p_path and os.path.exists(p_path):
+                                is_passed, reason = automation_utils.run_self_qc_image(p_path)
+                                if not is_passed:
+                                    raise ValueError(f"배너 이미지 비주얼 검수(QC) 실패: {reason}")
+
                     # Upload WordPress Banner
                     if banner_path and os.path.exists(banner_path):
                         try:
@@ -1215,6 +1257,13 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 post_id = client.metaWeblog.newPost("default", wp_user, wp_pass, post_data, True)
                 wp_url = f"{wp_domain}/?p={post_id}"
                 print(f"[SUCCESS] WordPress auto-published! URL: {wp_url}")
+                
+                # 비주얼 QC 히스토리에 이미지 해시 등록
+                if automation_utils:
+                    if category == "recipe" and "fin" in local_files:
+                        automation_utils.add_image_to_history(local_files["fin"])
+                    elif banner_path and os.path.exists(banner_path):
+                        automation_utils.add_image_to_history(banner_path)
     except Exception as e:
         print(f"[WARN] WordPress auto-publishing failed: {e}")
 
@@ -1302,6 +1351,13 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         data = response.json()
                         blogger_url = data.get("url", "")
                         print(f"[SUCCESS] Blogger auto-published! URL: {blogger_url}")
+                        
+                        # 비주얼 QC 히스토리에 이미지 해시 등록
+                        if automation_utils:
+                            if category == "recipe" and "fin" in local_files:
+                                automation_utils.add_image_to_history(local_files["fin"])
+                            elif blogger_banner_path and os.path.exists(blogger_banner_path):
+                                automation_utils.add_image_to_history(blogger_banner_path)
     except Exception as e:
         print(f"[WARN] Blogger auto-publishing failed: {e}")
 
@@ -1311,6 +1367,28 @@ def auto_publish_post(result, category, current_subject, target_file_name):
     }
 
 def main():
+    try:
+        _main_impl()
+    except Exception as err:
+        import traceback
+        err_msg = f"{err}\n{traceback.format_exc()}"
+        print(f"[ERROR] Critical failure in blog_post_generator: {err_msg}")
+        
+        if automation_utils:
+            try:
+                is_auto = "auto" in [a.lower() for a in sys.argv]
+                task_name = "청소년지도사 블로그 자동 발행" if is_auto else "블로그 수동 발행"
+                automation_utils.log_automation_failure(
+                    task_id="youth_blog_publish",
+                    task_name=task_name,
+                    stage="초안 작성 및 API 전송 발행 단계",
+                    error_msg=str(err)
+                )
+            except Exception as log_err:
+                print(f"[WARN] Failed to write failure task: {log_err}")
+        sys.exit(1)
+
+def _main_impl():
     auto_mode = False
     category = ""
     input_arg = ""

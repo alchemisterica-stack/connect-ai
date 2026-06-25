@@ -72,3 +72,5 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-25] 사전 분석 및 목표 설정 → 산출물 sessions/2026-06-25T03-05/researcher.md
 - [2026-06-25] 최신 숏폼 비디오 플랫폼(YouTube Shorts, Instagram Reels 등)에서 급부상하는 트렌드 3가지와 해당 트렌드를 효과적으로 구현하는 데 활용할 수 있는 AI 기반 콘텐츠 생성/편집 도구를 조사하고 요약하세요. → 산출물 sessions/2026-06-25T04-35/researcher.md
 - [2026-06-25] 데이터 수집 및 분석 → 산출물 sessions/2026-06-25T05-35/researcher.md
+- [2026-06-25] 카피 라이팅 및 창작 · 목표 설정 ( individually based on business goal ) → 산출물 sessions/2026-06-25T09-58/researcher.md
+- [2026-06-25] 신문 및 뉴스 리서치 → 산출물 sessions/2026-06-25T12-05/researcher.md
