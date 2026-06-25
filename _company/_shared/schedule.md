@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 25. 오후 2:12:34_
+_업데이트: 2026. 6. 25. 오후 4:16:26_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -7,13 +7,13 @@ _업데이트: 2026. 6. 25. 오후 2:12:34_
 - [2026-06-24] 2026-06-24 주간 뉴스 기회 구축하기 (주간뉴시) : youtube 비디오(12~20) / 카피라이팅(2~3) - 연체 7일 → 산출물 sessions/2026-06-24T04-05/youtube.md
 - [2026-06-25] researcher가 조사한 트렌드와 AI 도구를 기반으로, 콩콩캔디의 채널 특성에 맞춰 시청자 참여를 극대화할 수 있는 숏폼 영상 콘텐츠 형식 2~3가지와 각 형식별 영상 기획 초안을 제안하세요. → 산출물 sessions/2026-06-25T04-35/youtube.md
 ### 📷 Instagram
-- [2026-06-21] instagram 데이터 수집 → 산출물 sessions/2026-06-21T05-54/instagram.md
 - [2026-06-21] designer 에이전트가 제작한 썸네일 및 핵심 비주얼과 writer 에이전트가 작성한 스크립트를 활용하여 '자존감 높이는 긍정 한마디' 인스타그램 릴스 콘텐츠를 제작합니다. 효과적인 캡션과 해시태그를 포함하여 게시 준비를 완료합니다. → 산출물 sessions/2026-06-21T08-07/instagram.md
 - [2026-06-24] 2026-06-24 주간 Instagram 채널 뉴스 기회 구축하기 (주간인스타시) : 릴스(3~4), 피드(2~3), 해시태그(12~15) → 산출물 sessions/2026-06-24T04-05/instagram.md
+- [2026-06-25]  currently analyzing and prioritizing tasks for instagram account → 산출물 sessions/2026-06-25T06-43/instagram.md
 ### 🎨 Designer
-- [2026-06-24] 그룹의 목표와 목표에 따라 각 에이전트에 대한 개인 목표를 수립하고, 그 목표를 달성하기 위한 적절한 1~2 명의 에이전트에게 분배 → 산출물 sessions/2026-06-24T23-35/designer.md
 - [2026-06-25] 브랜드 비주얼, 썸네일, 컬러 및 타이포 designing → 산출물 sessions/2026-06-25T00-23/designer.md
 - [2026-06-25] 어떤 작업을 선택하고, 적절한 에이전트에게 분배하고, 시작하기 → 산출물 sessions/2026-06-25T03-05/designer.md
+- [2026-06-25] reviewing current design style and creating a new visual identity for the Instagram account → 산출물 sessions/2026-06-25T06-43/designer.md
 ### 💻 코다리
 - [2026-06-19] `_agents/youtube` 디렉토리 및 관련 파일이 부재하는 원인을 면밀히 파악하고, YouTube 에이전트의 기능을 위한 기본 파일 구조를 복구하거나 재설치하세요. 이 작업은 YouTube API 키 설정 및 채널 분석을 위한 선행 조건입니다. [근거: 코다리 산출물에서 디렉토리 부재 보고, 레오 산출물에서 API 설정 불가 보고] → 산출물 sessions/2026-06-19T07-32/developer.md
 - [2026-06-19] YouTube 에이전트의 `_agents/youtube` 디렉토리 및 필수 파일을 복구하거나 재설치하여, YouTube API 키 설정 및 채널 분석 기능이 정상적으로 작동할 수 있도록 시스템 기반을 마련하세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 산출물 sessions/2026-06-19T16-09/developer.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 6. 25. 오후 2:12:34_
 - [2026-06-24] 이-weekend의 카피라이팅 및 영상 스크립트 작성 → 산출물 sessions/2026-06-24T20-35/writer.md
 - [2026-06-24] current project의 캡션 및 블로그를 작성하기위한 작업 → 산출물 sessions/2026-06-24T21-50/writer.md
 ### 🔍 Researcher
-- [2026-06-25] 타입별 분석 및 경쟁사 리서치 → 산출물 sessions/2026-06-25T00-23/researcher.md
 - [2026-06-25] 사전 분석 및 목표 설정 → 산출물 sessions/2026-06-25T03-05/researcher.md
 - [2026-06-25] 최신 숏폼 비디오 플랫폼(YouTube Shorts, Instagram Reels 등)에서 급부상하는 트렌드 3가지와 해당 트렌드를 효과적으로 구현하는 데 활용할 수 있는 AI 기반 콘텐츠 생성/편집 도구를 조사하고 요약하세요. → 산출물 sessions/2026-06-25T04-35/researcher.md
+- [2026-06-25] 데이터 수집 및 분석 → 산출물 sessions/2026-06-25T05-35/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

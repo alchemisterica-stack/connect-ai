@@ -3,6 +3,8 @@ import os
 import json
 import sys
 import time
+import socket
+socket.setdefaulttimeout(30) # 전역 네트워크 타임아웃을 30초로 제한하여 무한 대기 방지
 
 if sys.platform.startswith('win'):
     import io

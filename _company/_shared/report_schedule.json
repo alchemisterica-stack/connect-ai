@@ -55,7 +55,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
       "enabled": true,
-      "lastFiredAt": "2026-06-24"
+      "lastFiredAt": "2026-06-25"
     },
     {
       "id": "sched-blog-publish-weekend-recipe",
@@ -99,7 +99,7 @@
       ],
       "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
       "enabled": true,
-      "lastFiredAt": "2026-06-24"
+      "lastFiredAt": "2026-06-25"
     },
     {
       "id": "sched-insta-publish-morning",
@@ -119,7 +119,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-06-24"
+      "lastFiredAt": "2026-06-25"
     },
     {
       "id": "sched-insta-publish-evening",

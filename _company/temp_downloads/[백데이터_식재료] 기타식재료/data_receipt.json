@@ -1,0 +1,112 @@
+{
+  "subject": "음식 사진 자료",
+  "sender": "Erica Lee <alchemist.erica@gmail.com>",
+  "purpose": "백데이터용",
+  "detected_ingredients": [],
+  "original_body_empty": true,
+  "body_content": "이 메일은 본문 텍스트가 비어 있습니다. [식재료 분석 요약]: 감지된 식재료 없음 (총 17개의 이미지 수집됨)",
+  "downloaded_files": [
+    {
+      "original": "20260618_215216.jpg",
+      "processed": "첨부사진_1.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215137.jpg",
+      "processed": "첨부사진_2.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_214823.jpg",
+      "processed": "첨부사진_3.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_222550.jpg",
+      "processed": "첨부사진_4.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215211.jpg",
+      "processed": "첨부사진_5.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_214742.jpg",
+      "processed": "첨부사진_6.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215111.jpg",
+      "processed": "첨부사진_7.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215121.jpg",
+      "processed": "첨부사진_8.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_222527.jpg",
+      "processed": "첨부사진_9.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_214841.jpg",
+      "processed": "첨부사진_10.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215349.jpg",
+      "processed": "첨부사진_11.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_222413.jpg",
+      "processed": "첨부사진_12.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215334.jpg",
+      "processed": "첨부사진_13.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215223.jpg",
+      "processed": "첨부사진_14.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_214802.jpg",
+      "processed": "첨부사진_15.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215314.jpg",
+      "processed": "첨부사진_16.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260618_215330.jpg",
+      "processed": "첨부사진_17.jpg",
+      "tag": "none",
+      "desc": ""
+    }
+  ]
+}
