@@ -74,3 +74,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-25] 데이터 수집 및 분석 → 산출물 sessions/2026-06-25T05-35/researcher.md
 - [2026-06-25] 카피 라이팅 및 창작 · 목표 설정 ( individually based on business goal ) → 산출물 sessions/2026-06-25T09-58/researcher.md
 - [2026-06-25] 신문 및 뉴스 리서치 → 산출물 sessions/2026-06-25T12-05/researcher.md
+- [2026-06-25] 최근 1개월간 유튜브에서 '캔디' 또는 '디저트' 관련 인기 채널 및 콘텐츠 트렌드를 분석하고, 콩콩캔디 브랜드에 적합한 새로운 콘텐츠 아이디어 3가지 이상을 요약하여 보고합니다. → 산출물 sessions/2026-06-25T21-05/researcher.md

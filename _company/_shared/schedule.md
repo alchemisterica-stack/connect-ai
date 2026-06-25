@@ -1,11 +1,11 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 26. 오전 5:50:00_
+_업데이트: 2026. 6. 26. 오전 6:51:31_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
-- [2026-06-25] 최근 제안한 숏폼 영상 콘텐츠 형식 중 '자존감 높이는 긍정 한마디' 테마에 맞는 영상 3~5개의 구체적인 제목 또는 핵심 메시지를 디자이너에게 전달하여 썸네일 제작을 위한 가이드라인을 제공하세요. [근거: 통합 스케줄, 지난 의사결정 로그] → 자격증명 부족으로 차단됨
 - [2026-06-25] 2026-06-25 자율 사이클 1인 기업 24시간 운영 → 산출물 sessions/2026-06-25T13-20/youtube.md
 - [2026-06-25] 구체적이고 실행 가능한 한국어 지시 - 오케스트레이션 3시간 → 산출물 sessions/2026-06-25T20-05/youtube.md
+- [2026-06-25] researcher의 트렌드 분석 보고서를 바탕으로, 콩콩캔디 채널의 새로운 메인 영상 시리즈로 기획할 만한 구체적인 영상 컨셉 1개를 선정하고, 해당 컨셉의 핵심 기획안(타겟 시청자, 영상 길이, 대략적인 내용, 예상 썸네일 방향)을 작성합니다. → 산출물 sessions/2026-06-25T21-05/youtube.md
 ### 📷 Instagram
 - [2026-06-24] 2026-06-24 주간 Instagram 채널 뉴스 기회 구축하기 (주간인스타시) : 릴스(3~4), 피드(2~3), 해시태그(12~15) → 산출물 sessions/2026-06-24T04-05/instagram.md
 - [2026-06-25]  currently analyzing and prioritizing tasks for instagram account → 산출물 sessions/2026-06-25T06-43/instagram.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 6. 26. 오전 5:50:00_
 - [2026-06-25] Writing a press release announcing the launch of the new product line. We will craft engaging headlines, paragraphs, and social media posts that highlight the benefits of our new product line. → 산출물 sessions/2026-06-25T17-50/writer.md
 - [2026-06-25] 제품의 주제에 맞춰 Copywrite 기획 → 산출물 sessions/2026-06-25T19-35/writer.md
 ### 🔍 Researcher
-- [2026-06-25] 데이터 수집 및 분석 → 산출물 sessions/2026-06-25T05-35/researcher.md
 - [2026-06-25] 카피 라이팅 및 창작 · 목표 설정 ( individually based on business goal ) → 산출물 sessions/2026-06-25T09-58/researcher.md
 - [2026-06-25] 신문 및 뉴스 리서치 → 산출물 sessions/2026-06-25T12-05/researcher.md
+- [2026-06-25] 최근 1개월간 유튜브에서 '캔디' 또는 '디저트' 관련 인기 채널 및 콘텐츠 트렌드를 분석하고, 콩콩캔디 브랜드에 적합한 새로운 콘텐츠 아이디어 3가지 이상을 요약하여 보고합니다. → 산출물 sessions/2026-06-25T21-05/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
