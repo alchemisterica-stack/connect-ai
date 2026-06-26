@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 27. 오전 1:51:21_
+_업데이트: 2026. 6. 27. 오전 3:52:17_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 6. 27. 오전 1:51:21_
 - [2026-06-25] 경쟁사 리서치 - 오케스트레이션 4시간 → 산출물 sessions/2026-06-25T20-05/instagram.md
 - [2026-06-26] 최근 인스타그램 트렌드 분석 보고서와 '자존감 높이는 긍정 한마디' 테마를 기반으로, 3개의 인스타그램 릴스 또는 피드 콘텐츠 기획안을 작성하세요. 각 기획안에는 핵심 메시지, 예상 형식(릴스/카드뉴스), 주요 해시태그 5~7개, 그리고 간략한 캡션 아이디어를 포함해야 합니다. [근거: 최근 회사 대화 요약, 회사 공동 목표, 지난 의사결정 로그, latest_trend_report.md] → 산출물 sessions/2026-06-26T08-24/instagram.md
 ### 🎨 Designer
-- [2026-06-26] Instagram 에이전트가 기획한 3개의 콘텐츠에 대한 썸네일/커버 이미지 디자인 브리프를 작성하세요. 콩콩캔디의 브랜드 가이드라인(Primary Blue, Accent Yellow, 미니멀리즘, 로고 상단 배치)을 철저히 준수하여 각 콘텐츠의 메시지를 시각적으로 잘 전달할 수 있도록 합니다. [근거: 회사 공동 목표, 지난 의사결정 로그, CEO 개인 메모리] → 산출물 sessions/2026-06-26T08-24/designer.md
 - [2026-06-26] 최근 의사결정·메모리를 검토 → 산출물 sessions/2026-06-26T09-24/designer.md
 - [2026-06-26] 주제를 정해주는 작업 → 산출물 sessions/2026-06-26T11-39/designer.md
+- [2026-06-26] 다음 단일 작업을 추천해주고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/designer.md
 ### 💻 코다리
 - [2026-06-21] 연구원 에이전트가 'trend_sniper' 도구를 실행할 때 발생하는 'spawn C:\Windows\system32\cmd.exe ENOENT' 오류의 원인을 진단하고, 해당 도구가 정상적으로 실행될 수 있도록 문제를 해결하세요. [근거: CEO 종합, Researcher 산출물] → 산출물 sessions/2026-06-21T07-39/developer.md
 - [2026-06-25] Automatically writing code for the new product line based on our analysis. We will use AI models to generate musical compositions for the new product line, ensuring consistency in style and quality. → 산출물 sessions/2026-06-25T17-50/developer.md
@@ -31,13 +31,13 @@ _업데이트: 2026. 6. 27. 오전 1:51:21_
 - [2026-06-26] 오늘 미팅 과정을 정리 → 산출물 sessions/2026-06-26T02-54/editor.md
 - [2026-06-26] 이週-end에 가장 가치 있는 단일 작업 1개를 최적화하고, 적절한 에이전트를 선택하여 실행합니다. → 산출물 sessions/2026-06-26T12-54/editor.md
 ### ✍️ Writer
-- [2026-06-26] 단일 작업을 선택 → 산출물 sessions/2026-06-26T09-24/writer.md
 - [2026-06-26] 영상 기획 → 산출물 sessions/2026-06-26T10-39/writer.md
 - [2026-06-26] 목표를 작성하는 작업 → 산출물 sessions/2026-06-26T11-39/writer.md
+- [2026-06-26] 작성자에게 각 에이전트의 개인 목표(_agents/{id}/goal.md)를 알리고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/writer.md
 ### 🔍 Researcher
-- [2026-06-26] Instagram에서 '자존감' 및 '긍정' 키워드와 관련된 최신 트렌드, 인기 해시태그, 성공적인 콘텐츠 형식(릴스/피드)을 분석하여 구체적인 보고서를 작성합니다. → 산출물 sessions/2026-06-26T08-09/researcher.md
 - [2026-06-26] 유튜브 데이터 수집 → 산출물 sessions/2026-06-26T10-39/researcher.md
 - [2026-06-26] 이 Woche의 가장 가치 있는 단일 작업을 결정하고, 그에 대한 분석과 메모리를 생성합니다. → 산출물 sessions/2026-06-26T12-54/researcher.md
+- [2026-06-26] 목적있는 Research를 통해, 가장 가치 있는 단일 작업을 추천해주고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
