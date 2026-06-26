@@ -1,0 +1,52 @@
+{
+  "subject": "요리 사진 배경 등",
+  "sender": "ERICA <cooilee@naver.com>",
+  "purpose": "레시피용",
+  "detected_ingredients": [],
+  "original_body_empty": false,
+  "body_content": "대용량 첨부 10개 16MB\n\n20260619_143007.jpg 1928210 ~ 2026/07/19\n20260619_143000.jpg 2643024 ~ 2026/07/19\n20260619_140238.jpg 1531095 ~ 2026/07/19\n20260619_110032.jpg 1370888 ~ 2026/07/19\n20260619_105930.jpg 1387089 ~ 2026/07/19\n20260619_105918.jpg 1358516 ~ 2026/07/19\n20260619_105913.jpg 1723642 ~ 2026/07/19\n20260619_105908.jpg 1857057 ~ 2026/07/19\n20260619_105015.jpg 1347297 ~ 2026/07/19\n20260619_104852.jpg 1688256 ~ 2026/07/19\n기한이 있는 파일은 30일 보관 / 100회 다운로드 가능",
+  "downloaded_files": [
+    {
+      "original": "20260619_143029.jpg",
+      "processed": "첨부사진_1.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260619_143026.jpg",
+      "processed": "첨부사진_2.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260619_143021.jpg",
+      "processed": "첨부사진_3.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260619_143018.jpg",
+      "processed": "첨부사진_4.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260619_143004.jpg",
+      "processed": "첨부사진_5.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "20260619_143014.jpg",
+      "processed": "첨부사진_6.jpg",
+      "tag": "none",
+      "desc": ""
+    },
+    {
+      "original": "https://mail.naver.com/readReceipt/notify/?img=sXR0Wz0TWrKlaAEwhAR0FqFoKxFSK4J0ax3vFq3SF6uwKqvdF4u9KotXKEIo%2BrkSKAgl74lRhoRZWrwn16lN7NK5Mre5pqgwtz%2BRM60n74FTWt%3D%3D.gif",
+      "processed": "링크사진_7.jpg",
+      "tag": "none",
+      "desc": ""
+    }
+  ]
+}
