@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 27. 오전 4:03:05_
+_업데이트: 2026. 6. 27. 오전 5:16:28_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -19,25 +19,25 @@ _업데이트: 2026. 6. 27. 오전 4:03:05_
 - [2026-06-25] Automatically writing code for the new product line based on our analysis. We will use AI models to generate musical compositions for the new product line, ensuring consistency in style and quality. → 산출물 sessions/2026-06-25T17-50/developer.md
 - [2026-06-26] 수정과 개선Work → 산출물 sessions/2026-06-26T11-39/developer.md
 ### 💼 현빈
-- [2026-06-26] 2026-06-25일 1인 기업, 24시간 운영중. 회사 목표 및near사 결정을 검토해서 지금 가장 가치 있는 단일 작업 2개를 결정하고, 적절한 3명 에이전트에게 분배해서execution합니다. → 산출물 sessions/2026-06-25T23-35/business.md
 - [2026-06-26] 사용자 명령을 반복적으로 execute하는 목표를 달성하고, 최종 결과를 확인합니다 → 산출물 sessions/2026-06-26T04-09/business.md
 - [2026-06-26] 영업 strategy 전략 정의, 비즈니스 전략을 작성 → 산출물 sessions/2026-06-26T05-39/business.md
+- [2026-06-26] 최근 의사결정 및 메모리化 → 산출물 sessions/2026-06-26T19-09/business.md
 ### 📱 영숙
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 2일간의 메모리 정리 (2)  → 산출물 sessions/2026-06-19T11-39/secretary.md
 - [2026-06-21] 일정 및 작업 요약 → 산출물 sessions/2026-06-21T04-24/secretary.md
 - [2026-06-23] 최근 업무 결과를 확인하고, 메모리에 비슷한 항목이 24시간 내에 있으면 다른 각도로 진전시키는 작업 → 산출물 sessions/2026-06-23T23-19/secretary.md
 ### 🎵 루나
-- [2026-06-25] 작업에 대한 미리보าภาพ질 → 산출물 sessions/2026-06-25T03-05/editor.md
 - [2026-06-26] 오늘 미팅 과정을 정리 → 산출물 sessions/2026-06-26T02-54/editor.md
 - [2026-06-26] 이週-end에 가장 가치 있는 단일 작업 1개를 최적화하고, 적절한 에이전트를 선택하여 실행합니다. → 산출물 sessions/2026-06-26T12-54/editor.md
+- [2026-06-26] 메모리에 비슷한 항목이 24시간 내에 들어 있는지 확인 → 산출물 sessions/2026-06-26T19-09/editor.md
 ### ✍️ Writer
 - [2026-06-26] 영상 기획 → 산출물 sessions/2026-06-26T10-39/writer.md
 - [2026-06-26] 목표를 작성하는 작업 → 산출물 sessions/2026-06-26T11-39/writer.md
 - [2026-06-26] 작성자에게 각 에이전트의 개인 목표(_agents/{id}/goal.md)를 알리고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/writer.md
 ### 🔍 Researcher
-- [2026-06-26] 유튜브 데이터 수집 → 산출물 sessions/2026-06-26T10-39/researcher.md
 - [2026-06-26] 이 Woche의 가장 가치 있는 단일 작업을 결정하고, 그에 대한 분석과 메모리를 생성합니다. → 산출물 sessions/2026-06-26T12-54/researcher.md
 - [2026-06-26] 목적있는 Research를 통해, 가장 가치 있는 단일 작업을 추천해주고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/researcher.md
+- [2026-06-26] 모든 개인 목표(_agents/{id}/goal.md) 확인 및 검토 → 산출물 sessions/2026-06-26T19-09/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

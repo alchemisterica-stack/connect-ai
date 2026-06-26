@@ -85,3 +85,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-26] 유튜브 데이터 수집 → 산출물 sessions/2026-06-26T10-39/researcher.md
 - [2026-06-26] 이 Woche의 가장 가치 있는 단일 작업을 결정하고, 그에 대한 분석과 메모리를 생성합니다. → 산출물 sessions/2026-06-26T12-54/researcher.md
 - [2026-06-26] 목적있는 Research를 통해, 가장 가치 있는 단일 작업을 추천해주고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/researcher.md
+- [2026-06-26] 모든 개인 목표(_agents/{id}/goal.md) 확인 및 검토 → 산출물 sessions/2026-06-26T19-09/researcher.md
