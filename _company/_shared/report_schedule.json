@@ -41,8 +41,8 @@
     },
     {
       "id": "sched-blog-publish-0200",
-      "label": "매일 새벽 2시 청소년복지론 블로그 자동 발행",
-      "hour": 2,
+      "label": "매일 새벽 5시 청소년복지론 블로그 자동 발행",
+      "hour": 5,
       "minute": 0,
       "days": [
         0,
@@ -59,14 +59,14 @@
     },
     {
       "id": "sched-blog-publish-weekend-recipe",
-      "label": "금/토/일/월 새벽 3시 반 요리 자동 발행",
-      "hour": 3,
+      "label": "금/토/일/월 밤 12시 반 요리 자동 발행",
+      "hour": 0,
       "minute": 30,
       "days": [
+        4,
         5,
         6,
-        0,
-        1
+        0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
       "enabled": true,
@@ -86,8 +86,8 @@
     },
     {
       "id": "sched-email-pipeline-daily-0600",
-      "label": "매일 오전 5시 메일 확인 및 사진 수집/분류 (자동)",
-      "hour": 5,
+      "label": "매일 밤 10시 메일 확인 및 사진 수집/분류 (자동)",
+      "hour": 22,
       "minute": 0,
       "days": [
         0,

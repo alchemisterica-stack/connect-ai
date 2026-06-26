@@ -727,7 +727,7 @@ def embed_images_in_content(content, image_urls, exclude_fin=False):
             
     return '\n\n\n'.join(new_paragraphs)
 
-def auto_publish_post(result, category, current_subject, target_file_name):
+def auto_publish_post(result, category, current_subject, target_file_name, metadata=None):
 
     import re
     import os
@@ -886,7 +886,10 @@ def auto_publish_post(result, category, current_subject, target_file_name):
     # Helper function to download AI image
     def download_image_helper(prompt, path):
         import os
-        import shutil
+        import random
+        import time
+        import requests
+        import urllib.parse
         
         def preprocess_custom_image(src_path, dst_path, target_width=1080):
             try:
@@ -909,71 +912,16 @@ def auto_publish_post(result, category, current_subject, target_file_name):
             except Exception as e:
                 print(f"[WARN] Image preprocessing failed: {e}. Falling back to standard copy.")
                 try:
+                    import shutil
                     shutil.copy(src_path, dst_path)
                     return True
                 except Exception as copy_err:
                     print(f"[ERROR] Failed fallback copy: {copy_err}")
                     return False
 
-        # Check if there's a custom photo in assets/custom_recipe_photos/
-        if category == "recipe" and cleaned_lesson:
-            user_home = os.path.expanduser("~")
-            custom_dir = os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos")
-            photo_type = "ing" if "ing" in os.path.basename(path) else "fin"
-            channel = "wp" if "wp" in os.path.basename(path) else "blogger"
-            found_custom = False
-            
-            clean_dish = cleaned_lesson.replace(" ", "").lower()
-            custom_dirs = [
-                os.path.join(user_home, "my-ai-office", "assets", "custom_recipe_photos"),
-                os.path.join(user_home, "my-ai-office", "_company", "자료")
-            ]
-            
-            for custom_dir in custom_dirs:
-                if not os.path.exists(custom_dir):
-                    continue
-                try:
-                    files = os.listdir(custom_dir)
-                    # 1. Try channel-specific matching
-                    for f in files:
-                        f_lower = f.replace(" ", "").lower()
-                        target_pattern_channel = f"{clean_dish}_{channel}_{photo_type}"
-                        if f_lower.startswith(target_pattern_channel) and f.lower().endswith(('.png', '.jpg', '.jpeg')):
-                            custom_file_path = os.path.join(custom_dir, f)
-                            if os.path.getsize(custom_file_path) > 1000:
-                                if preprocess_custom_image(custom_file_path, path):
-                                    found_custom = True
-                                    print(f"[SUCCESS] Flexible match channel-specific photo: {f}")
-                                    break
-                    if found_custom:
-                        break
-                        
-                    # 2. Try general matching
-                    for f in files:
-                        f_lower = f.replace(" ", "").lower()
-                        target_pattern_general = f"{clean_dish}_{photo_type}"
-                        if f_lower.startswith(target_pattern_general) and f.lower().endswith(('.png', '.jpg', '.jpeg')):
-                            custom_file_path = os.path.join(custom_dir, f)
-                            if os.path.getsize(custom_file_path) > 1000:
-                                if preprocess_custom_image(custom_file_path, path):
-                                    found_custom = True
-                                    print(f"[SUCCESS] Flexible match general photo: {f}")
-                                    break
-                    if found_custom:
-                        break
-                except Exception as scan_err:
-                    print(f"[WARN] Error scanning custom dir {custom_dir}: {scan_err}")
-            
-            if found_custom:
-                return True
-
         if os.path.exists(path) and os.path.getsize(path) > 1000:
             print(f"[INFO] Using pre-existing local image at: {path}")
             return True
-        import urllib.parse
-        import random
-        import time
-        import requests
         encoded = urllib.parse.quote(prompt)
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -990,15 +938,46 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                     print(f"[SUCCESS] Downloaded AI image to: {path}")
                     return True
                 elif res.status_code == 402:
-                    print(f"[WARN] Queue busy (402). Retrying in 2s...")
-                    time.sleep(2)
+                    print(f"[WARN] Queue busy (402). Retrying in 3s...")
+                    time.sleep(3)
+                elif res.status_code == 429:
+                    print(f"[WARN] Rate limited (429). Waiting 5s before retrying...")
+                    time.sleep(5)
                 else:
                     print(f"[WARN] Failed with status {res.status_code}. Retrying...")
-                    time.sleep(1)
+                    time.sleep(2)
             except Exception as e:
                 print(f"[WARN] Error fetching: {e}. Retrying...")
-                time.sleep(1)
+                time.sleep(2)
         return False
+
+    def preprocess_custom_image(src_path, dst_path, target_width=1080):
+        try:
+            from PIL import Image, ImageOps
+            img = Image.open(src_path)
+            img = ImageOps.exif_transpose(img)
+            w, h = img.size
+            if w > target_width:
+                ratio = target_width / float(w)
+                new_h = int(float(h) * ratio)
+                img = img.resize((target_width, new_h), Image.Resampling.LANCZOS)
+                print(f"[IMAGE_PROCESS] Resized custom image: {w}x{h} -> {target_width}x{new_h}")
+            else:
+                print(f"[IMAGE_PROCESS] Keeping original dimensions: {w}x{h}")
+            
+            # Save as JPEG web-optimized
+            img.convert("RGB").save(dst_path, "JPEG", quality=85)
+            print(f"[SUCCESS] Preprocessed and saved custom image to: {dst_path}")
+            return True
+        except Exception as e:
+            print(f"[WARN] Image preprocessing failed: {e}. Falling back to standard copy.")
+            try:
+                import shutil
+                shutil.copy(src_path, dst_path)
+                return True
+            except Exception as copy_err:
+                print(f"[ERROR] Failed fallback copy: {copy_err}")
+                return False
 
     # Map category to specific blog folder/category
     if category == "recipe":
@@ -1024,6 +1003,8 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 
                 # --- START: Cooking Recipe Images Pipeline ---
                 recipe_images = {}
+                banner_path = None
+                blogger_banner_path = None
                 if category == "recipe" and cleaned_lesson:
                     dish_name = cleaned_lesson
                     clean_dish = dish_name.replace(" ", "").lower()
@@ -1047,6 +1028,10 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                                     photo_type = None
                                     if "ing" in suffix:
                                         photo_type = "ing"
+                                    elif "wp_fin" in suffix:
+                                        photo_type = "wp_fin"
+                                    elif "blogger_fin" in suffix:
+                                        photo_type = "blogger_fin"
                                     elif "fin" in suffix or "finished" in suffix or "cozy" in suffix or "modern" in suffix:
                                         photo_type = "fin"
                                     elif "step" in suffix:
@@ -1063,29 +1048,55 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         except Exception as scan_err:
                             print(f"[WARN] Flexible image scanning failed in {custom_dir}: {scan_err}")
                     
+                    # Resolve general finished photo to channel-specific if not explicitly present
+                    if "fin" in local_files:
+                        if "wp_fin" not in local_files:
+                            local_files["wp_fin"] = local_files["fin"]
+                            print("[INFO] Reusing custom general finished photo as wp_fin")
+                        if "blogger_fin" not in local_files:
+                            local_files["blogger_fin"] = local_files["fin"]
+                            print("[INFO] Reusing custom general finished photo as blogger_fin")
+                            
+                    # Extract variables from metadata
+                    dish_val = metadata.get('Dish', dish_name) if metadata else dish_name
+                    ing_val = metadata.get('Ingredients', '') if metadata else ''
+
                     # AI Backups with High-Quality Prompts if missing
                     if "ing" not in local_files:
                         wp_ing_path = os.path.join(HERE, "temp_wp_ing.png")
-                        wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for {dish_name}, cooking, raw materials, top-down flatlay angle, dark rustic wood table, moody and warm studio lighting, 8k resolution, appetizing color grade"
+                        if ing_val:
+                            wp_ing_prompt = f"gourmet food photography of fresh raw ingredients: {ing_val} for cooking Korean {dish_val}, raw materials, top-down flatlay angle, warm wooden table background, realistic photo, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed"
+                        else:
+                            wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for cooking Korean {dish_val}, raw materials, top-down flatlay angle, warm wooden table background, realistic photo, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed"
                         if download_image_helper(wp_ing_prompt, wp_ing_path):
                             local_files["ing"] = wp_ing_path
                             
-                    if "fin" not in local_files:
+                    if "wp_fin" not in local_files:
+                        time.sleep(2.5)  # Hitting API rate limit prevention
                         wp_fin_path = os.path.join(HERE, "temp_wp_fin.png")
-                        wp_fin_prompt = f"professional food photography of a hot delicious finished bowl of {dish_name}, gourmet plating, styled food shot, table setting, dark rustic wood background, overhead top view angle, moody and warm atmosphere, 8k resolution, highly detailed"
+                        wp_fin_prompt = f"professional food photography of a delicious finished bowl of Korean {dish_val}, cozy kitchen, light mint green mat background, warm traditional bowl, styled food shot, natural light, 8k resolution, realistic texture, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed, realistic photo"
                         if download_image_helper(wp_fin_prompt, wp_fin_path):
-                            local_files["fin"] = wp_fin_path
+                            local_files["wp_fin"] = wp_fin_path
+                            
+                    if "blogger_fin" not in local_files:
+                        time.sleep(2.5)  # Hitting API rate limit prevention
+                        blogger_fin_path = os.path.join(HERE, "temp_blogger_fin.png")
+                        blogger_fin_prompt = f"professional food photography of a delicious finished bowl of Korean {dish_val}, modern kitchen, white marble countertop background, natural daylight, modern plate, styled food shot, 8k resolution, realistic texture, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed, realistic photo"
+                        if download_image_helper(blogger_fin_prompt, blogger_fin_path):
+                            local_files["blogger_fin"] = blogger_fin_path
                             
                     # 비주얼 중복 검수 가동
                     if automation_utils:
                         for p_type, local_path in local_files.items():
-                            if p_type in ["fin", "ing"] and os.path.exists(local_path):
+                            if p_type in ["wp_fin", "blogger_fin", "fin", "ing"] and os.path.exists(local_path):
                                 is_passed, reason = automation_utils.run_self_qc_image(local_path)
                                 if not is_passed:
                                     raise ValueError(f"요리 이미지 비주얼 검수(QC) 실패: {reason}")
 
                     # Upload all to WP media library
                     for p_type, local_path in local_files.items():
+                        if p_type == "fin":
+                            continue  # resolved to channel-specific fins
                         try:
                             with open(local_path, "rb") as im_f:
                                 im_data = im_f.read()
@@ -1109,9 +1120,9 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 
                 if category == "recipe":
                     # Representative Banner is the cooked finished photo (or ingredients photo if fin is missing)
-                    wp_banner_url = recipe_images.get("fin") or recipe_images.get("ing") or ""
-                    blogger_banner_url = wp_banner_url
-                    print(f"[INFO] Using cooking photo as top banner: {wp_banner_url}")
+                    wp_banner_url = recipe_images.get("wp_fin") or recipe_images.get("fin") or recipe_images.get("ing") or ""
+                    blogger_banner_url = recipe_images.get("blogger_fin") or recipe_images.get("fin") or recipe_images.get("ing") or ""
+                    print(f"[INFO] Using cooking photo as top banner - WP: {wp_banner_url}, Blogger: {blogger_banner_url}")
                 else:
                     custom_banner_path = None
                     # Check 02_미디어 directory
@@ -1191,7 +1202,14 @@ def auto_publish_post(result, category, current_subject, target_file_name):
 
                 # Embed WordPress recipe images dynamically
                 if category == "recipe" and recipe_images:
-                    wp_body = embed_images_in_content(wp_body, recipe_images, exclude_fin=False)
+                    wp_recipe_images = {}
+                    if "ing" in recipe_images: wp_recipe_images["ing"] = recipe_images["ing"]
+                    if "wp_fin" in recipe_images: wp_recipe_images["fin"] = recipe_images["wp_fin"]
+                    elif "fin" in recipe_images: wp_recipe_images["fin"] = recipe_images["fin"]
+                    for k, v in recipe_images.items():
+                        if k.startswith("step"):
+                            wp_recipe_images[k] = v
+                    wp_body = embed_images_in_content(wp_body, wp_recipe_images, exclude_fin=False)
                 
                 # Generate and Upload WordPress Quiz Banner (ONLY for study summaries category)
                 wp_quiz_url = ""
@@ -1260,12 +1278,13 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                 
                 # 비주얼 QC 히스토리에 이미지 해시 등록
                 if automation_utils:
-                    if category == "recipe" and "fin" in local_files:
-                        automation_utils.add_image_to_history(local_files["fin"])
+                    if category == "recipe" and "wp_fin" in local_files:
+                        automation_utils.add_image_to_history(local_files["wp_fin"])
                     elif banner_path and os.path.exists(banner_path):
                         automation_utils.add_image_to_history(banner_path)
     except Exception as e:
-        print(f"[WARN] WordPress auto-publishing failed: {e}")
+        print(f"[ERROR] WordPress auto-publishing failed: {e}")
+        raise e
 
     blogger_url = ""
     try:
@@ -1288,7 +1307,14 @@ def auto_publish_post(result, category, current_subject, target_file_name):
 
                     # Embed Blogger recipe images dynamically
                     if category == "recipe" and recipe_images:
-                        blogger_body = embed_images_in_content(blogger_body, recipe_images, exclude_fin=False)
+                        blogger_recipe_images = {}
+                        if "ing" in recipe_images: blogger_recipe_images["ing"] = recipe_images["ing"]
+                        if "blogger_fin" in recipe_images: blogger_recipe_images["fin"] = recipe_images["blogger_fin"]
+                        elif "fin" in recipe_images: blogger_recipe_images["fin"] = recipe_images["fin"]
+                        for k, v in recipe_images.items():
+                            if k.startswith("step"):
+                                blogger_recipe_images[k] = v
+                        blogger_body = embed_images_in_content(blogger_body, blogger_recipe_images, exclude_fin=False)
                     
                     # Generate and Upload Blogger Quiz Banner (ONLY for study summaries category)
                     blogger_quiz_url = ""
@@ -1354,12 +1380,15 @@ def auto_publish_post(result, category, current_subject, target_file_name):
                         
                         # 비주얼 QC 히스토리에 이미지 해시 등록
                         if automation_utils:
-                            if category == "recipe" and "fin" in local_files:
-                                automation_utils.add_image_to_history(local_files["fin"])
+                            if category == "recipe" and "blogger_fin" in local_files:
+                                automation_utils.add_image_to_history(local_files["blogger_fin"])
                             elif blogger_banner_path and os.path.exists(blogger_banner_path):
                                 automation_utils.add_image_to_history(blogger_banner_path)
+                    else:
+                        raise ValueError(f"Blogger API returned status {response.status_code}: {response.text}")
     except Exception as e:
-        print(f"[WARN] Blogger auto-publishing failed: {e}")
+        print(f"[ERROR] Blogger auto-publishing failed: {e}")
+        raise e
 
     return {
         "wp_url": wp_url,
