@@ -95,3 +95,4 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-26] 영상 기획 → 산출물 sessions/2026-06-26T10-39/writer.md
 - [2026-06-26] 목표를 작성하는 작업 → 산출물 sessions/2026-06-26T11-39/writer.md
 - [2026-06-26] 작성자에게 각 에이전트의 개인 목표(_agents/{id}/goal.md)를 알리고, 적절한 에이전트에게 분배합니다. → 산출물 sessions/2026-06-26T16-54/writer.md
+- [2026-06-26] 제목과 문구 생성을 통해 Company Mission, Target Audience 및 Content Strategy을 이해하고 작성 → 산출물 sessions/2026-06-26T20-24/writer.md
