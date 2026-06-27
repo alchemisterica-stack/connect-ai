@@ -1,11 +1,11 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 28. 오전 12:25:01_
+_업데이트: 2026. 6. 28. 오전 2:19:58_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
-- [2026-06-27] 2026년 06월 26일까지 YouTube 채널을 업데이트하여 10만 명 이상의 구독자를 기록하고, 1000회 이상의 영상 분석을 진행합니다. → 산출물 sessions/2026-06-27T03-55/youtube.md
 - [2026-06-27] researcher의 트렌드 분석 보고서를 바탕으로, 우리 채널의 정체성을 유지하면서 높은 참여도와 구독자 증가를 유도할 수 있는 새로운 유튜브 영상 기획 아이디어 2~3개를 구체적인 콘셉트와 함께 제안하세요. → 자격증명 부족으로 차단됨
 - [2026-06-27] researcher가 제공한 트렌드 분석을 바탕으로, 콩콩캔디 채널에 적용할 수 있는 다음 영상 주제 아이디어 3가지와 각 주제에 대한 매력적인 썸네일 컨셉을 브리핑할 수 있도록 준비해주세요. → 자격증명 부족으로 차단됨
+- [2026-06-27] 지난 한 달간 업로드된 유튜브 영상들의 조회수, 시청 시간, 평균 시청 지속 시간, 노출 클릭률(CTR), 구독자 증감 데이터를 추출하고 주요 지표를 요약한 보고서를 작성하세요. → 산출물 sessions/2026-06-27T15-39/youtube.md
 ### 📷 Instagram
 - [2026-06-25]  currently analyzing and prioritizing tasks for instagram account → 산출물 sessions/2026-06-25T06-43/instagram.md
 - [2026-06-25] 경쟁사 리서치 - 오케스트레이션 4시간 → 산출물 sessions/2026-06-25T20-05/instagram.md
@@ -19,9 +19,9 @@ _업데이트: 2026. 6. 28. 오전 12:25:01_
 - [2026-06-25] Automatically writing code for the new product line based on our analysis. We will use AI models to generate musical compositions for the new product line, ensuring consistency in style and quality. → 산출물 sessions/2026-06-25T17-50/developer.md
 - [2026-06-26] 수정과 개선Work → 산출물 sessions/2026-06-26T11-39/developer.md
 ### 💼 현빈
-- [2026-06-26] 사용자 명령을 반복적으로 execute하는 목표를 달성하고, 최종 결과를 확인합니다 → 산출물 sessions/2026-06-26T04-09/business.md
 - [2026-06-26] 영업 strategy 전략 정의, 비즈니스 전략을 작성 → 산출물 sessions/2026-06-26T05-39/business.md
 - [2026-06-26] 최근 의사결정 및 메모리化 → 산출물 sessions/2026-06-26T19-09/business.md
+- [2026-06-27] youtube 에이전트가 제공한 데이터를 바탕으로, 각 영상의 성과를 비즈니스 KPI(예: 수익 잠재력, 브랜드 인지도 기여) 관점에서 평가하고, 개선이 필요한 영역과 잠재적 성장 기회(예: 콘텐츠 포맷, 홍보 전략)에 대한 전략적 제안을 도출하세요. → 산출물 sessions/2026-06-27T15-39/business.md
 ### 📱 영숙
 - [2026-06-19] 2026년 6월 19일 ~ 6월 30일의 2일간의 메모리 정리 (2)  → 산출물 sessions/2026-06-19T11-39/secretary.md
 - [2026-06-21] 일정 및 작업 요약 → 산출물 sessions/2026-06-21T04-24/secretary.md
