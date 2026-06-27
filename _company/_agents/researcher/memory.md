@@ -90,3 +90,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-27] 최근 1주일간 유튜브에서 우리 채널 타겟 시청자층이 관심을 가질 만한 인기 트렌드 3~5가지와 경쟁 채널의 성공 사례를 분석하여 요약 보고서를 작성하세요. → 산출물 sessions/2026-06-27T12-24/researcher.md
 - [2026-06-27] 콩콩캔디 브랜드(사탕/달콤한 간식)와 관련된 최신 유튜브 트렌드(인기 영상 형식, 주제, 챌린지 등)를 조사하고, 경쟁 채널의 성공적인 콘텐츠 사례를 분석하여 주요 인사이트를 요약해주세요. → 산출물 sessions/2026-06-27T13-39/researcher.md
 - [2026-06-27] current task to be executed. If there are multiple options, recommend the best one based on expertise and goals. → 산출물 sessions/2026-06-27T17-24/researcher.md
+- [2026-06-27] 2026-06-28 ~ 2026-07-01: 트렌드/경쟁사 리서치를 수행하고, Company의 목표에 적합한策略이 있으면 발견하기 → 산출물 sessions/2026-06-27T20-39/researcher.md
