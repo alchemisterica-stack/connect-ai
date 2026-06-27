@@ -391,7 +391,8 @@ def publish_reels(video_source, caption, slot=None):
             elif status_code == "ERROR":
                 print(f"[ERROR] Video processing failed on Meta side: {sr.text}")
                 return None
-            time.sleep(6)
+            sleep_time = min(5 * (1.25 ** attempt), 60)
+            time.sleep(sleep_time)
         else:
             print("[ERROR] Video processing timed out.")
             return None
