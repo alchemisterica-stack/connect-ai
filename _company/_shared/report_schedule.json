@@ -140,7 +140,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-06-26"
+      "lastFiredAt": "2026-06-27"
     },
     {
       "id": "sched-insta-publish-night",
