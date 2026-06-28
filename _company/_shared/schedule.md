@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 29. 오전 2:20:02_
+_업데이트: 2026. 6. 29. 오전 3:07:06_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 6. 29. 오전 2:20:02_
 - [2026-06-26] 최근 인스타그램 트렌드 분석 보고서와 '자존감 높이는 긍정 한마디' 테마를 기반으로, 3개의 인스타그램 릴스 또는 피드 콘텐츠 기획안을 작성하세요. 각 기획안에는 핵심 메시지, 예상 형식(릴스/카드뉴스), 주요 해시태그 5~7개, 그리고 간략한 캡션 아이디어를 포함해야 합니다. [근거: 최근 회사 대화 요약, 회사 공동 목표, 지난 의사결정 로그, latest_trend_report.md] → 산출물 sessions/2026-06-26T08-24/instagram.md
 - [2026-06-28] insta의 1인 기업, 24시간 운영을 위해 최적화된 단일 작업 선택 및 분배 → 산출물 sessions/2026-06-28T06-25/instagram.md
 ### 🎨 Designer
-- [2026-06-28] writer가 제안한 썸네일 문구 3가지 각각에 대해, 회사의 브랜드 컬러(Primary Blue #4A67A3, Accent Yellow #FFD700), 로고 배치(상단 중앙/좌측 상단 5~7%), 디자인 원칙(미니멀리즘, 대조적 색상, 통일된 레이아웃)을 적용한 디자인 브리프를 상세히 작성하세요. → 산출물 sessions/2026-06-28T11-10/designer.md
 - [2026-06-28] writer가 작성한 숏폼 영상 스크립트의 핵심 내용과 메시지를 기반으로 썸네일 디자인 브리프를 상세히 작성하세요. 브리프에는 회사 브랜드 컬러(Primary Blue #4A67A3, Accent Yellow #FFD700) 사용, 로고 배치(상단 중앙/좌측 상단 5~7%), 그리고 미니멀리즘, 대조적 색상, 통일된 레이아웃 디자인 원칙을 명확히 포함해야 합니다. → 산출물 sessions/2026-06-28T13-40/designer.md
 - [2026-06-28] 비즈니스 미션 brief 및 visual identity 설계 → 산출물 sessions/2026-06-28T16-25/designer.md
+- [2026-06-28] Design 브리프 및 Image creation → 산출물 sessions/2026-06-28T17-25/designer.md
 ### 💻 코다리
 - [2026-06-21] 연구원 에이전트가 'trend_sniper' 도구를 실행할 때 발생하는 'spawn C:\Windows\system32\cmd.exe ENOENT' 오류의 원인을 진단하고, 해당 도구가 정상적으로 실행될 수 있도록 문제를 해결하세요. [근거: CEO 종합, Researcher 산출물] → 산출물 sessions/2026-06-21T07-39/developer.md
 - [2026-06-25] Automatically writing code for the new product line based on our analysis. We will use AI models to generate musical compositions for the new product line, ensuring consistency in style and quality. → 산출물 sessions/2026-06-25T17-50/developer.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 6. 29. 오전 2:20:02_
 - [2026-06-28] '자존감 높이는 긍정 한마디' 콘텐츠 테마와 최신 트렌드 리포트를 참고하여, 시선을 사로잡는 썸네일 문구 3가지와 각 문구에 대한 간략한 설명(후크 포인트)을 작성하세요. → 산출물 sessions/2026-06-28T11-10/writer.md
 - [2026-06-28] 최신 트렌드 리포트의 '자존감 높이는 긍정 한마디' 주제를 바탕으로 숏폼 영상 스크립트를 작성하세요. 스크립트에는 강력한 후크와 핵심 메시지가 포함되어야 하며, 회사의 브랜드 톤에 맞춰 긍정적이고 영감을 주는 내용을 담아야 합니다. → 산출물 sessions/2026-06-28T13-40/writer.md
 ### 🔍 Researcher
-- [2026-06-27] 최근 1주일간 Z세대와 밀레니얼 세대 사이에서 가장 빠르게 부상하고 있는 음식, 간식, 또는 라이프스타일 트렌드 2~3개를 선정하고, 각 트렌드가 가진 바이럴 잠재력과 콩콩캔디 콘텐츠로의 확장 가능성을 분석하여 요약합니다. → 산출물 sessions/2026-06-27T21-39/researcher.md
 - [2026-06-28] 기능을 개선하고 새로운 아이디어를 제시하기 위해 2명과 상호작용 → 산출물 sessions/2026-06-28T05-39/researcher.md
 - [2026-06-28] 2026-06-28까지의 주간 목표와 근거로 company-wide analysis 및 strategy development → 산출물 sessions/2026-06-28T16-25/researcher.md
+- [2026-06-28] Trend Analysis 및 Data 수집 → 산출물 sessions/2026-06-28T17-25/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
