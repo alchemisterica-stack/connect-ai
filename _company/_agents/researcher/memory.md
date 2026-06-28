@@ -95,3 +95,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-28] 기능을 개선하고 새로운 아이디어를 제시하기 위해 2명과 상호작용 → 산출물 sessions/2026-06-28T05-39/researcher.md
 - [2026-06-28] 2026-06-28까지의 주간 목표와 근거로 company-wide analysis 및 strategy development → 산출물 sessions/2026-06-28T16-25/researcher.md
 - [2026-06-28] Trend Analysis 및 Data 수집 → 산출물 sessions/2026-06-28T17-25/researcher.md
+- [2026-06-28] find out which similar task is posted on messageboard within 24hours. Repeat tasks if same item is uploaded again. → 산출물 sessions/2026-06-28T19-40/researcher.md
