@@ -91,3 +91,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-27] 콩콩캔디 브랜드(사탕/달콤한 간식)와 관련된 최신 유튜브 트렌드(인기 영상 형식, 주제, 챌린지 등)를 조사하고, 경쟁 채널의 성공적인 콘텐츠 사례를 분석하여 주요 인사이트를 요약해주세요. → 산출물 sessions/2026-06-27T13-39/researcher.md
 - [2026-06-27] current task to be executed. If there are multiple options, recommend the best one based on expertise and goals. → 산출물 sessions/2026-06-27T17-24/researcher.md
 - [2026-06-27] 2026-06-28 ~ 2026-07-01: 트렌드/경쟁사 리서치를 수행하고, Company의 목표에 적합한策略이 있으면 발견하기 → 산출물 sessions/2026-06-27T20-39/researcher.md
+- [2026-06-27] 최근 1주일간 Z세대와 밀레니얼 세대 사이에서 가장 빠르게 부상하고 있는 음식, 간식, 또는 라이프스타일 트렌드 2~3개를 선정하고, 각 트렌드가 가진 바이럴 잠재력과 콩콩캔디 콘텐츠로의 확장 가능성을 분석하여 요약합니다. → 산출물 sessions/2026-06-27T21-39/researcher.md

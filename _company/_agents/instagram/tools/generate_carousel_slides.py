@@ -6,8 +6,11 @@ Generates 5 premium 1080×1080 slides following the emotion curve:
   Hook → Empathy → Shift → Core Message → CTA
 
 Uses:
-  - Pretendard fonts + System Serif (Batang) font mix
+  - Pretendard + Emotional Font Mix (MaruBuri, NanumMyeongjo, SongMyung, System Batang)
+  - Automatic background brightness detection for dynamic contrast card transparency
+  - Dynamic font size adjustment based on character length
   - Layout diversification (rect_center, ellipse_center, circle_left, rect_right)
+  - Style option (--style bold) for cover (Slide 1) high-readability
   - Pollinations AI for background image generation
   - Glassmorphism card overlay
   - Branding text size reduction
@@ -21,6 +24,7 @@ import json
 import random
 import urllib.parse
 import requests
+import argparse
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 # ---------------------------------------------------------------------------
@@ -110,40 +114,73 @@ SLIDES_INFO = [
 ]
 
 # ---------------------------------------------------------------------------
-# Font helpers
+# AI Background Brightness Detection
+# ---------------------------------------------------------------------------
+def calculate_background_brightness(bg_img):
+    """배경 이미지의 평균 밝기 (0~255)를 계산합니다."""
+    try:
+        gray = bg_img.convert("L")
+        data = list(gray.getdata())
+        if not data:
+            return 128
+        return sum(data) / len(data)
+    except Exception:
+        return 128
+
+# ---------------------------------------------------------------------------
+# Font helpers & Random Mixing
 # ---------------------------------------------------------------------------
 
 def load_fonts():
-    """Load Pretendard and Serif fonts; fall back to default if missing."""
-    title_font = None
-    sub_font = None
-    brand_font = None
-    serif_font = None
+    """Pretendard 및 동적으로 믹싱 가능한 프리미엄 서체 풀을 로드합니다."""
+    fonts_pool = []
     
-    # 1. Load System Serif (Batang) for emotional titles
+    # 바탕체
     try:
-        serif_font = ImageFont.truetype("C:\\Windows\\Fonts\\batang.ttc", 54)
-        print("[INFO] System Serif (Batang) loaded successfully.")
-    except Exception as exc:
-        print(f"[WARN] Could not load System Serif ({exc}). Using Pretendard-Bold.")
-        try:
-            serif_font = ImageFont.truetype(FONT_BOLD, 54)
-        except Exception:
-            serif_font = ImageFont.load_default()
+        fonts_pool.append(("C:\\Windows\\Fonts\\batang.ttc", "SystemBatang"))
+    except Exception:
+        pass
+        
+    # 다운로드 폰트들 추가
+    candidate_files = [
+        "MaruBuri-Regular.ttf",
+        "NanumMyeongjo-Regular.ttf",
+        "SongMyung-Regular.ttf"
+    ]
+    for fname in candidate_files:
+        p = os.path.join(FONT_DIR, fname)
+        if os.path.exists(p) and os.path.getsize(p) > 10000:
+            fonts_pool.append((p, fname.split(".")[0]))
+            
+    # 폴백
+    if not fonts_pool:
+        fonts_pool.append((FONT_BOLD, "PretendardFallback"))
+        
+    # 무작위 서체 선택
+    chosen_path, font_name = random.choice(fonts_pool)
+    print(f"[FONT-MIXER] Slides chosen emotional font: '{font_name}' ({chosen_path})")
 
-    # 2. Load Pretendard fonts
+    try:
+        serif_font = ImageFont.truetype(chosen_path, 54)
+    except Exception:
+        serif_font = ImageFont.load_default()
+
     try:
         title_font = ImageFont.truetype(FONT_BOLD, 54)
+        title_font_bold_lg = ImageFont.truetype(FONT_BOLD, 68) # 68px Cover
         sub_font = ImageFont.truetype(FONT_SEMI, 36)
-        brand_font = ImageFont.truetype(FONT_REGULAR, 18) # Size reduced 28 -> 18
-        print("[INFO] Pretendard fonts loaded successfully.")
-    except Exception as exc:
-        print(f"[WARN] Could not load Pretendard fonts ({exc}). Using defaults.")
-        title_font = ImageFont.load_default()
-        sub_font = ImageFont.load_default()
-        brand_font = ImageFont.load_default()
-        
-    return title_font, sub_font, brand_font, serif_font
+        brand_font = ImageFont.truetype(FONT_REGULAR, 18)
+        return title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_path
+    except Exception as e:
+        print(f"[WARN] Pretendard load failed ({e})")
+        return (
+            ImageFont.load_default(),
+            ImageFont.load_default(),
+            ImageFont.load_default(),
+            serif_font,
+            ImageFont.load_default(),
+            chosen_path
+        )
 
 # ---------------------------------------------------------------------------
 # Text auto-wrap
@@ -238,8 +275,12 @@ def draw_rounded_rect(draw, box, radius, fill, outline=None, outline_width=1):
 # Main slide creation
 # ---------------------------------------------------------------------------
 
-def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_font, layout_type):
+def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path, layout_type, style):
     """Create one 1080×1080 slide and return its file path."""
+    is_bold_cover = (style == "bold" and slide_idx == 0)
+    if is_bold_cover:
+        layout_type = "rect_center"
+        
     print(f"\n[SLIDE {slide_idx + 1}] Generating using '{layout_type}' layout…")
 
     # ---- Background ---------------------------------------------------
@@ -253,36 +294,47 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     bg_rgb = bg_img.convert("RGB").filter(ImageFilter.GaussianBlur(radius=6))
     bg_img = bg_rgb.convert("RGBA")
 
+    # ---- Calculate background brightness for auto-contrast ------------
+    brightness = calculate_background_brightness(bg_img)
+    print(f"  [CONTRAST] Slide background brightness: {brightness:.1f}")
+
     # ---- Glassmorphism card overlay -----------------------------------
     overlay = Image.new("RGBA", (1080, 1080), (0, 0, 0, 0))
     ov_draw = ImageDraw.Draw(overlay)
 
     card_bg = info["card_bg"]
+    
+    # 대비 지능형 로직 이식: 밝은 배경은 카드 알파를 높이고, 어두운 배경은 맑게 유지
+    if brightness > 140:
+        alpha_val = 245 if is_bold_cover else 225
+    else:
+        alpha_val = 180 if is_bold_cover else 150
+        
+    card_bg_color = (card_bg[0], card_bg[1], card_bg[2], alpha_val)
+    print(f"  [CONTRAST] Auto card opacity set to alpha={alpha_val}")
+    
     border_color = (255, 255, 255, 100)
 
     # Layout configuration
     if layout_type == "ellipse_center":
-        # Center Ellipse
         card_box = [100, 150, 980, 930]
-        ov_draw.ellipse(card_box, fill=card_bg, outline=border_color, width=2)
+        ov_draw.ellipse(card_box, fill=card_bg_color, outline=border_color, width=2)
         usable_box = [150, 200, 930, 880]
         text_align = "center"
     elif layout_type == "circle_left":
-        # Bottom-Left Circle
         card_box = [80, 420, 720, 1060]
-        ov_draw.ellipse(card_box, fill=card_bg, outline=border_color, width=2)
+        ov_draw.ellipse(card_box, fill=card_bg_color, outline=border_color, width=2)
         usable_box = [130, 460, 670, 1020]
         text_align = "left"
     elif layout_type == "rect_right":
-        # Bottom-Right Rect
         card_box = [450, 400, 1020, 1020]
-        draw_rounded_rect(ov_draw, card_box, radius=20, fill=card_bg, outline=border_color, outline_width=2)
+        draw_rounded_rect(ov_draw, card_box, radius=20, fill=card_bg_color, outline=border_color, outline_width=2)
         usable_box = [490, 440, 980, 980]
         text_align = "right"
     else:
         # rect_center (Default Center Rect)
         card_box = [80, 80, 1000, 1000]
-        draw_rounded_rect(ov_draw, card_box, radius=30, fill=card_bg, outline=border_color, outline_width=2)
+        draw_rounded_rect(ov_draw, card_box, radius=30, fill=card_bg_color, outline=border_color, outline_width=2)
         usable_box = [120, 120, 960, 960]
         text_align = "center"
 
@@ -290,11 +342,27 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     img = Image.alpha_composite(bg_img, overlay)
     draw = ImageDraw.Draw(img)
 
+    # ---- Dynamic Font Size Calculation --------------------------------
+    base_font_size = 68 if is_bold_cover else 54
+    char_count = len(info["title"].replace("\n", ""))
+    
+    if char_count > 30:
+        base_font_size = int(base_font_size * 0.72)
+    elif char_count > 18:
+        base_font_size = int(base_font_size * 0.85)
+        
+    print(f"  [DYNAMIC-SIZE] Base font size calculated: {base_font_size}px based on {char_count} chars")
+
+    try:
+        active_font = ImageFont.truetype(FONT_BOLD if is_bold_cover else chosen_font_path, base_font_size)
+    except Exception:
+        active_font = ImageFont.load_default()
+
     # ---- Prepare text -------------------------------------------------
     title_lines = auto_wrap(info["title"], chars_per_line=14 if text_align != "center" else 16)
     sub_lines = auto_wrap(info["subtitle"], chars_per_line=20) if info["subtitle"] else []
 
-    title_line_h = int(54 * 1.5)  # font_size * 1.5 spacing
+    title_line_h = int(base_font_size * 1.4)
     sub_line_h = int(36 * 1.5)
     gap_between = 40
     brand_line_h = int(18 * 1.5)
@@ -311,10 +379,10 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     text_color = info["text_color"]
     shadow_color = (0, 0, 0, 90) if sum(text_color[:3]) > 380 else (0, 0, 0, 120)
 
-    # ---- Draw title (Using System Serif font for emotional touch) -----
+    # ---- Draw title -----
     y = y_start
     for line in title_lines:
-        bbox = draw.textbbox((0, 0), line, font=serif_font)
+        bbox = draw.textbbox((0, 0), line, font=active_font)
         tw = bbox[2] - bbox[0]
         
         if text_align == "left":
@@ -324,7 +392,7 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
         else:
             x = usable_box[0] + (usable_box[2] - usable_box[0] - tw) // 2
             
-        draw_text_shadow(draw, (x, y), line, serif_font, fill=text_color, shadow_color=shadow_color)
+        draw_text_shadow(draw, (x, y), line, active_font, fill=text_color, shadow_color=shadow_color)
         y += title_line_h
 
     # ---- Draw subtitle -----------------------------------------------
@@ -382,10 +450,21 @@ def main():
     print(" Instagram Carousel Card News — Slide Generator")
     print("=" * 60)
 
+    # Parse Arguments
+    parser = argparse.ArgumentParser(description="Generate Instagram Carousel Card News Slides.")
+    parser.add_argument(
+        "--style",
+        choices=["normal", "bold"],
+        default="normal",
+        help="Select presentation style: normal (serif/diversified) or bold (high-readability cover)"
+    )
+    args = parser.parse_args()
+
     # 1. Randomly choose layout type to enforce variation
     layout_choices = ["rect_center", "ellipse_center", "circle_left", "rect_right"]
     layout_type = random.choice(layout_choices)
     print(f"[LAYOUT] Enforcing layout style: {layout_type}")
+    print(f"[STYLE] Running in style mode: {args.style}")
 
     # Load content draft if exists
     draft_path = os.path.join(OUTPUT_DIR, "current_draft.json")
@@ -403,11 +482,11 @@ def main():
         except Exception as e:
             print(f"[WARN] Failed to load content draft: {e}")
 
-    title_font, sub_font, brand_font, serif_font = load_fonts()
+    title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path = load_fonts()
 
     paths = []
     for idx, info in enumerate(SLIDES_INFO):
-        p = create_card_slide(idx, info, title_font, sub_font, brand_font, serif_font, layout_type)
+        p = create_card_slide(idx, info, title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path, layout_type, args.style)
         paths.append(p)
 
     print("\n" + "=" * 60)
