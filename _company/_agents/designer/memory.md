@@ -116,3 +116,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-28] writer가 작성한 숏폼 영상 스크립트의 핵심 내용과 메시지를 기반으로 썸네일 디자인 브리프를 상세히 작성하세요. 브리프에는 회사 브랜드 컬러(Primary Blue #4A67A3, Accent Yellow #FFD700) 사용, 로고 배치(상단 중앙/좌측 상단 5~7%), 그리고 미니멀리즘, 대조적 색상, 통일된 레이아웃 디자인 원칙을 명확히 포함해야 합니다. → 산출물 sessions/2026-06-28T13-40/designer.md
 - [2026-06-28] 비즈니스 미션 brief 및 visual identity 설계 → 산출물 sessions/2026-06-28T16-25/designer.md
 - [2026-06-28] Design 브리프 및 Image creation → 산출물 sessions/2026-06-28T17-25/designer.md
+- [2026-06-28] 2026-06-28에서 지금까지의设计 브리프를 확인하고 가장 가치 있는 단일 작업을 결정합니다. ( currently: <https://designer.kongcong.com/)  → 자격증명 부족으로 차단됨
