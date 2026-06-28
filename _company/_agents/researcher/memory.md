@@ -96,3 +96,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-28] 2026-06-28까지의 주간 목표와 근거로 company-wide analysis 및 strategy development → 산출물 sessions/2026-06-28T16-25/researcher.md
 - [2026-06-28] Trend Analysis 및 Data 수집 → 산출물 sessions/2026-06-28T17-25/researcher.md
 - [2026-06-28] find out which similar task is posted on messageboard within 24hours. Repeat tasks if same item is uploaded again. → 산출물 sessions/2026-06-28T19-40/researcher.md
+- [2026-06-28] 유튜브, 인스타 및 캘린더를 분석하여 이뤄진 24시간 내에 최majestic 단일 작업을 결정하는 데 도움을 줄 수 있는 연구 결과를gather하고, 그것을 각 에이전트에게 분배해서 실행하기 → 산출물 sessions/2026-06-28T21-10/researcher.md

@@ -117,3 +117,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-28] 비즈니스 미션 brief 및 visual identity 설계 → 산출물 sessions/2026-06-28T16-25/designer.md
 - [2026-06-28] Design 브리프 및 Image creation → 산출물 sessions/2026-06-28T17-25/designer.md
 - [2026-06-28] 2026-06-28에서 지금까지의设计 브리프를 확인하고 가장 가치 있는 단일 작업을 결정합니다. ( currently: <https://designer.kongcong.com/)  → 자격증명 부족으로 차단됨
+- [2026-06-28] 유튜브, 인스타 및 캘린더의 design 브리프를 작성하여 각 에이전트에게 공유하고, 그에 따른 메모리를 검토하여 최majestic 단일 작업을 결정하는 데 도움을 줄 수 있습니다 → 산출물 sessions/2026-06-28T21-10/designer.md
