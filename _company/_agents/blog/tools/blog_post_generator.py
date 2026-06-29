@@ -68,6 +68,33 @@ def load_config():
     except Exception:
         return DEFAULT_CONFIG
 
+def load_trending_study_keywords():
+    report_path = r"C:\Users\User\my-ai-office\_company\sessions\latest_trend_report.md"
+    keywords = ["청소년지도사", "사회복지사", "독학합격", "공부계획", "학습팁"]
+    if os.path.exists(report_path):
+        try:
+            with open(report_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            study_sec = re.search(r'### 1\. \[학습/자격증\](.*?)###', content, re.DOTALL)
+            if not study_sec:
+                study_sec = re.search(r'### 1\. \[학습/자격증\](.*?)##', content, re.DOTALL)
+            if study_sec:
+                found_kws = re.findall(r'-\s+\*\*([^*]+?)\*\*:\s*(.*)', study_sec.group(1))
+                if found_kws:
+                    kws = [fk[1].strip() for fk in found_kws]
+                    kws = [k for k in kws if k]
+                    processed = []
+                    for kw in kws:
+                        clean_kw = re.sub(r'[^\uac00-\ud7a3\w]', '', kw)
+                        if clean_kw:
+                            processed.append(clean_kw)
+                    if processed:
+                        keywords.extend(processed)
+        except Exception as e:
+            print(f"[WARN] Failed to load trending study keywords: {e}")
+    seen = set()
+    return [x for x in keywords if not (x in seen or seen.add(x))][:8]
+
 def markdown_to_html_for_blogger(md_text):
     import re
     
@@ -226,8 +253,7 @@ def markdown_to_html_for_blogger(md_text):
                                 tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
                             tr_html += '</tr>'
                         else:
-                            bg = "#fff" if idx % 2 == 1 else "#fffaf0"
-                            tr_html = f'<tr style="background-color: {bg}; {tr_style}">'
+                            tr_html = f'<tr style="{tr_style}">'
                             for cell in cells:
                                 tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
                             tr_html += '</tr>'
@@ -253,8 +279,7 @@ def markdown_to_html_for_blogger(md_text):
                         tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
                     tr_html += '</tr>'
                 else:
-                    bg = "#fff" if idx % 2 == 1 else "#fffaf0"
-                    tr_html = f'<tr style="background-color: {bg}; {tr_style}">'
+                    tr_html = f'<tr style="{tr_style}">'
                     for cell in cells:
                         tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
                     tr_html += '</tr>'
@@ -525,6 +550,26 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
     # Redraw draw object
     draw = ImageDraw.Draw(img)
     
+    # Draw random structural shapes in background to vary the perceptual hash (phash)
+    for _ in range(random.randint(5, 10)):
+        shape_type = random.choice(["circle", "rectangle", "line"])
+        sx = random.randint(0, width)
+        sy = random.randint(0, height)
+        size = random.randint(40, 160)
+        opacity = random.randint(10, 35)
+        
+        overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        overlay_draw = ImageDraw.Draw(overlay)
+        
+        if shape_type == "circle":
+            overlay_draw.ellipse([sx, sy, sx + size, sy + size], fill=(255, 255, 255, opacity))
+        elif shape_type == "rectangle":
+            overlay_draw.rectangle([sx, sy, sx + size, sy + size], fill=(255, 255, 255, opacity))
+        elif shape_type == "line":
+            overlay_draw.line([(sx, sy), (sx + size, sy + random.randint(-50, 50))], fill=(255, 255, 255, opacity), width=random.randint(1, 4))
+            
+        img = Image.alpha_composite(img.convert("RGBA"), overlay)
+    
     # 2. Draw modern Card overlay
     card_margin = 60
     card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
@@ -737,6 +782,36 @@ def embed_images_in_content(content, image_urls, exclude_fin=False):
             new_paragraphs.append(fin_tag)
             
     return '\n\n\n'.join(new_paragraphs)
+
+
+def get_authentic_korean_food_styling_guide(dish_name, is_ingredients, gemini_api_key):
+    if not gemini_api_key:
+        return ""
+    import requests
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key={gemini_api_key}"
+    headers = {"Content-Type": "application/json"}
+    
+    if is_ingredients:
+        prompt = f"""당신은 한식 요리 전문가이자 비주얼 스타일리스트입니다. 네이버 이미지 검색(Naver Image Search)에서 '{dish_name} 재료'를 검색했을 때 나오는 가장 대중적인 한식 식재료의 손질 및 깔끔한 배치 스타일을 분석해 주세요.
+이탈리안 파스타나 다른 서양 요리 재료 형태가 아닌, 한국 가정식 및 전문점 조리 전 날것의 재료 배치 형태를 영어 묘사 가이드(약 2~3개 단어구 및 상세 디테일)로 제공해 주세요.
+반드시 영어로만 출력하고, 배경이 아닌 오직 '식재료(ingredients)' 자체의 비주얼 표준에 집중하십시오. (예: "raw soybean in a small ceramic bowl, fresh wheat noodles bundled neatly, sliced cucumber on a modern cutting board")"""
+    else:
+        prompt = f"""당신은 한식 요리 전문가이자 비주얼 스타일리스트입니다. 네이버 이미지 검색(Naver Image Search)에서 '{dish_name} 요리하는법' 및 레시피 결과물 이미지를 검색했을 때 나오는 가장 대중적이고 깔끔한 한국 요리의 플레이팅 형태와 고명 특징을 분석해 주세요.
+양식 파스타나 일본식 라멘, 쌀국수 비주얼이 아닌, 정갈한 한국 가정식/전문점 완성본의 고명(고추, 파, 깨, 오이 등), 면발, 국물 색깔/농도를 영어 묘사 가이드(약 2~3개 단어구 및 상세 디테일)로 제공해 주세요.
+반드시 영어로만 출력하고, 배경이 아닌 오직 '완성된 음식(finished food)' 자체의 비주얼 표준에 집중하십시오. (예: "Korean cold noodle soup with rich creamy white broth, yellow noodles, topped with a mountain of julienned cucumber, half boiled egg, and toasted sesame seeds, with ice cubes")"""
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}]
+    }
+    try:
+        r = requests.post(url, json=payload, headers=headers, timeout=15)
+        if r.status_code == 200:
+            res = r.json()
+            return res["candidates"][0]["content"]["parts"][0]["text"].strip()
+    except Exception:
+        pass
+    return ""
+
 
 def auto_publish_post(result, category, current_subject, target_file_name, metadata=None):
 
@@ -1072,37 +1147,65 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                     dish_val = metadata.get('Dish', dish_name) if metadata else dish_name
                     ing_val = metadata.get('Ingredients', '') if metadata else ''
 
-                    # AI Backups with High-Quality Prompts if missing
+                    # 7, 8단계: 병렬 이미지 다운로드 + Gemini 멀티모달 QC 검수 + 실패 시 예외 차단
+                    def get_and_qc_image(photo_type, prompt_template, path, is_ing):
+                        if photo_type in local_files:
+                            return True
+                        for attempt in range(1, 4):
+                            prompt = prompt_template
+                            if attempt > 1:
+                                prompt += f", alternative composition variation {attempt}"
+                            if download_image_helper(prompt, path):
+                                if automation_utils:
+                                    is_passed, reason = automation_utils.run_gemini_multimodal_image_qc(
+                                        path, dish_val, is_ingredients=is_ing, gemini_api_key=gemini_api_key
+                                    )
+                                    if is_passed:
+                                        # 비주얼 중복 검수(기존 해시 기반)
+                                        dup_passed, dup_reason = automation_utils.run_self_qc_image(path)
+                                        if dup_passed:
+                                            local_files[photo_type] = path
+                                            print(f"[QC-PASSED] {photo_type} Multimodal & Duplicate QC passed on attempt {attempt}.")
+                                            return True
+                                        else:
+                                            print(f"[QC-FAILED] {photo_type} Duplicate QC failed on attempt {attempt}: {dup_reason}")
+                                    else:
+                                        print(f"[QC-FAILED] {photo_type} Multimodal QC failed on attempt {attempt}: {reason}")
+                                else:
+                                    local_files[photo_type] = path
+                            time.sleep(2.5)
+                        return False
+
+                    # 네이버 이미지 검색 기준 요리/식재료 스타일 분석 가이드 획득
+                    ing_styling_guide = get_authentic_korean_food_styling_guide(dish_val, is_ingredients=True, gemini_api_key=gemini_api_key)
+                    fin_styling_guide = get_authentic_korean_food_styling_guide(dish_val, is_ingredients=False, gemini_api_key=gemini_api_key)
+
+                    tasks = []
+                    # Build prompts
                     if "ing" not in local_files:
-                        wp_ing_path = os.path.join(HERE, "temp_wp_ing.png")
                         if ing_val:
-                            wp_ing_prompt = f"gourmet food photography of fresh raw ingredients: {ing_val} for cooking Korean {dish_val}, raw materials, top-down flatlay angle, warm wooden table background, realistic photo, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed"
+                            ing_prompt = f"gourmet food photography of fresh raw ingredients for cooking Korean {dish_val}: {ing_styling_guide or ing_val}, raw materials, neatly arranged on a clean wooden plate, bright modern kitchen background, warm natural light, authentic Korean ingredients styling, realistic photo, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed"
                         else:
-                            wp_ing_prompt = f"gourmet food photography of fresh raw ingredients for cooking Korean {dish_val}, raw materials, top-down flatlay angle, warm wooden table background, realistic photo, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed"
-                        if download_image_helper(wp_ing_prompt, wp_ing_path):
-                            local_files["ing"] = wp_ing_path
-                            
+                            ing_prompt = f"gourmet food photography of fresh raw ingredients for cooking Korean {dish_val}: {ing_styling_guide or 'raw materials'}, raw materials, neatly arranged on a clean wooden plate, bright modern kitchen background, warm natural light, authentic Korean ingredients styling, realistic photo, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed"
+                        tasks.append(("ing", ing_prompt, os.path.join(HERE, "temp_wp_ing.png"), True))
+                        
                     if "wp_fin" not in local_files:
-                        time.sleep(2.5)  # Hitting API rate limit prevention
-                        wp_fin_path = os.path.join(HERE, "temp_wp_fin.png")
-                        wp_fin_prompt = f"professional food photography of a delicious finished bowl of Korean {dish_val}, cozy kitchen, light mint green mat background, warm traditional bowl, styled food shot, natural light, 8k resolution, realistic texture, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed, realistic photo"
-                        if download_image_helper(wp_fin_prompt, wp_fin_path):
-                            local_files["wp_fin"] = wp_fin_path
-                            
+                        wp_fin_prompt = f"professional food photography of a delicious finished bowl of authentic Korean {dish_val}: {fin_styling_guide or 'finished dish'}, styled neatly in a clean modern ceramic bowl, cozy modern dining room background, light mint green placemat, warm natural side light, 8k resolution, realistic food texture, hyper-realistic food photography, no plastic sheen, highly detailed, realistic photo"
+                        tasks.append(("wp_fin", wp_fin_prompt, os.path.join(HERE, "temp_wp_fin.png"), False))
+                        
                     if "blogger_fin" not in local_files:
-                        time.sleep(2.5)  # Hitting API rate limit prevention
-                        blogger_fin_path = os.path.join(HERE, "temp_blogger_fin.png")
-                        blogger_fin_prompt = f"professional food photography of a delicious finished bowl of Korean {dish_val}, modern kitchen, white marble countertop background, natural daylight, modern plate, styled food shot, 8k resolution, realistic texture, hyper-realistic food photography, natural realistic food texture, no plastic sheen, highly detailed, realistic photo"
-                        if download_image_helper(blogger_fin_prompt, blogger_fin_path):
-                            local_files["blogger_fin"] = blogger_fin_path
-                            
-                    # 비주얼 중복 검수 가동
-                    if automation_utils:
-                        for p_type, local_path in local_files.items():
-                            if p_type in ["wp_fin", "blogger_fin", "fin", "ing"] and os.path.exists(local_path):
-                                is_passed, reason = automation_utils.run_self_qc_image(local_path)
-                                if not is_passed:
-                                    raise ValueError(f"요리 이미지 비주얼 검수(QC) 실패: {reason}")
+                        blogger_fin_prompt = f"professional food photography of a delicious finished bowl of authentic Korean {dish_val}: {fin_styling_guide or 'finished dish'}, styled neatly in a clean white porcelain bowl, elegant modern kitchen background, placed on a white linen mat over a light marble countertop, styled food shot, natural daylight, 8k resolution, realistic food texture, hyper-realistic food photography, no plastic sheen, highly detailed, realistic photo"
+                        tasks.append(("blogger_fin", blogger_fin_prompt, os.path.join(HERE, "temp_blogger_fin.png"), False))
+
+                    if tasks:
+                        import concurrent.futures
+                        with concurrent.futures.ThreadPoolExecutor(max_workers=len(tasks)) as executor:
+                            futures = {executor.submit(get_and_qc_image, t[0], t[1], t[2], t[3]): t[0] for t in tasks}
+                            concurrent.futures.wait(futures)
+
+                    # 필수 요리 완성 이미지 누락 검출 시 에러 강제 전파 (발행 차단)
+                    if "wp_fin" not in local_files:
+                        raise ValueError(f"요리 완성 이미지(wp_fin) 다운로드 및 멀티모달 검수 실패로 포스팅 발행을 차단합니다. (요리명: {dish_val})")
 
                     # Upload all to WP media library
                     for p_type, local_path in local_files.items():
@@ -1649,6 +1752,16 @@ def _main_impl():
         # ----------------------------------------
         online_context = fetch_online_context(current_subject)
         
+        # Get dynamic hashtags
+        trending_study_kws = load_trending_study_keywords()
+        subject_tag = current_subject.replace(" ", "")
+        if subject_tag not in trending_study_kws:
+            trending_study_kws.insert(0, subject_tag)
+        for def_tag in ["청소년지도사", "사회복지사", "독학합격", "공부계획", "학습팁"]:
+            if def_tag not in trending_study_kws:
+                trending_study_kws.append(def_tag)
+        hashtag_str = " ".join([f"#{kw}" for kw in trending_study_kws[:10]])
+        
         prompt = ""
         is_study_category = (category == "study")
         if is_study_category:
@@ -1668,7 +1781,8 @@ def _main_impl():
 4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식이나 리스트(- 또는 •)를 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
-7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
+{hashtag_str}
 
 [요청 주제/키워드]
 {content}
@@ -1697,7 +1811,8 @@ def _main_impl():
 4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
-7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
+{hashtag_str}
 
 [요청 주제/키워드]
 {content}
@@ -1915,6 +2030,16 @@ def _main_impl():
         # Search online context and run LLM
         online_context = fetch_online_context(category)
         
+        # Get dynamic hashtags
+        trending_study_kws = load_trending_study_keywords()
+        subject_tag = category.replace(" ", "")
+        if subject_tag not in trending_study_kws:
+            trending_study_kws.insert(0, subject_tag)
+        for def_tag in ["청소년지도사", "사회복지사", "독학합격", "공부계획", "학습팁"]:
+            if def_tag not in trending_study_kws:
+                trending_study_kws.append(def_tag)
+        hashtag_str = " ".join([f"#{kw}" for kw in trending_study_kws[:10]])
+        
         prompt = ""
         is_study_category = (category == "study")
         if is_study_category:
@@ -1934,7 +2059,8 @@ def _main_impl():
 4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식이나 리스트(- 또는 •)를 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
-7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
+{hashtag_str}
 
 [요청 주제/키워드]
 {content}
@@ -1963,7 +2089,8 @@ def _main_impl():
 4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
-7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 해당 포스팅 내용과 관련이 깊은 핵심 단어들을 해시태그 형식(예: #청소년지도사 #청소년복지론 등)으로 5~10개 반드시 첨부하십시오.
+7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
+{hashtag_str}
 
 [요청 주제/키워드]
 {content}
