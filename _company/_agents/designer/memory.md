@@ -120,3 +120,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-28] 유튜브, 인스타 및 캘린더의 design 브리프를 작성하여 각 에이전트에게 공유하고, 그에 따른 메모리를 검토하여 최majestic 단일 작업을 결정하는 데 도움을 줄 수 있습니다 → 산출물 sessions/2026-06-28T21-10/designer.md
 - [2026-06-29]  personally designed image for the main task 1 → 산출물 sessions/2026-06-29T00-10/designer.md
 - [2026-06-29] 단일 작업 구체화(유튜브 분석) → 산출물 sessions/2026-06-29T01-10/designer.md
+- [2026-06-29] writer 에이전트가 개발한 후크 아이디어를 참고하여, 회사 브랜드 컬러(Primary Blue, Accent Yellow), 로고 배치(상단 중앙/좌측 상단 5~7% 크기), 미니멀리즘 및 대조적 색상 디자인 원칙을 준수하는 '자존감 높이는 긍정 한마디' 콘텐츠용 썸네일 디자인 브리프 2-3개를 만드세요. → 산출물 sessions/2026-06-29T03-08/designer.md
