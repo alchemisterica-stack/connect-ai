@@ -39,3 +39,4 @@ _현빈 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-06-28] 기본 strategy와 target audience identification → 산출물 sessions/2026-06-28T16-25/business.md
 - [2026-06-28] 2026-06-28 자율 사이클 - company mission 및 개인 목표(_business/{id}/goal.md) determination, recent decision and memo review to select the most valuable single task to execute with 1~2 agents → 산출물 sessions/2026-06-28T19-40/business.md
 - [2026-06-28] 수익화 전략과 KPI를 정의하여 이뤄진 24시간 내에 최majestic 단일 작업을 결정하는 데 도움을 줄 수 있습니다. 또한, 이 작업을 여러 명으로 분배하고, 그에 따른 메모리를 검토하여 최majestic 단일 작업을 결정하는 데도 도움을 줄 수 있습니다 → 산출물 sessions/2026-06-28T21-10/business.md
+- [2026-06-29] 주장과 목표 정리 (2026-06-29 00:00 - 2026-06-30 23:59) → 산출물 sessions/2026-06-29T06-23/business.md
