@@ -264,7 +264,7 @@ def create_item_container(image_source, token, biz_id):
         print(f"[ERROR] Failed to create item container: {r.text}")
         return None
 
-def publish_carousel(image_sources, caption):
+def publish_carousel(image_sources, caption, slot=None):
     """Publishes a carousel (multiple images) to Instagram"""
     cfg = load_instagram_config()
     token = cfg.get("META_ACCESS_TOKEN", "").strip()
@@ -324,7 +324,7 @@ def publish_carousel(image_sources, caption):
         print(f"[SUCCESS] Instagram Carousel successfully published!")
         if permalink:
             print(f" - 포스트 링크: {permalink}")
-            record_to_calendar(caption, permalink)
+            record_to_calendar(caption, permalink, slot=slot)
             return permalink
         return media_id
     except Exception as e:

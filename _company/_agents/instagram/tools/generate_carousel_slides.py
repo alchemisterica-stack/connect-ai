@@ -484,6 +484,41 @@ def main():
 
     title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path = load_fonts()
 
+    # 5가지 감성 컬러 테마 프리셋 정의
+    COLOR_PRESETS = [
+        {
+            "name": "warm_beige",
+            "bg": (245, 242, 235), "text": (44, 44, 44), "card": (255, 255, 255)
+        },
+        {
+            "name": "deep_forest",
+            "bg": (220, 235, 225), "text": (44, 62, 44), "card": (255, 255, 255)
+        },
+        {
+            "name": "serene_blue",
+            "bg": (225, 230, 245), "text": (40, 45, 55), "card": (255, 255, 255)
+        },
+        {
+            "name": "sunset_coral",
+            "bg": (255, 235, 210), "text": (70, 45, 20), "card": (255, 255, 255)
+        },
+        {
+            "name": "mystic_dark",
+            "bg": (25, 32, 48), "text": (240, 240, 245), "card": (15, 20, 35)
+        }
+    ]
+    
+    chosen_preset = random.choice(COLOR_PRESETS)
+    print(f"[THEME-COLOR] Enforcing slide deck theme: '{chosen_preset['name']}'")
+    
+    for slide in SLIDES_INFO:
+        slide["bg_color"] = chosen_preset["bg"]
+        slide["text_color"] = chosen_preset["text"]
+        
+        orig_card = slide["card_bg"]
+        alpha_val = orig_card[3] if len(orig_card) > 3 else 200
+        slide["card_bg"] = (chosen_preset["card"][0], chosen_preset["card"][1], chosen_preset["card"][2], alpha_val)
+
     paths = []
     for idx, info in enumerate(SLIDES_INFO):
         p = create_card_slide(idx, info, title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path, layout_type, args.style)
