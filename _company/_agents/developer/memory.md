@@ -36,3 +36,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-25] Automatically writing code for the new product line based on our analysis. We will use AI models to generate musical compositions for the new product line, ensuring consistency in style and quality. → 산출물 sessions/2026-06-25T17-50/developer.md
 - [2026-06-26] 수정과 개선Work → 산출물 sessions/2026-06-26T11-39/developer.md
 - [2026-06-29] MusicGen 또는 ACE-Step 음악 모델을 시스템에 설치하고, '자존감 높이는 긍정 한마디' 콘텐츠용 BGM 생성을 위한 개발 환경을 구축하세요. 설치 후 Editor가 즉시 활용할 수 있도록 테스트 및 설정을 완료해야 합니다. → 산출물 sessions/2026-06-29T15-38/developer.md
+- [2026-06-29] 이전에 실행한 'generate_bgm.py' 스크립트의 결과물인 'generated_bgm' 디렉토리 내의 BGM 파일들이 정상적으로 생성되었는지 확인하고, Editor 에이전트가 활용할 수 있도록 파일 경로와 기본적인 사용법을 정리하여 보고하세요. [근거: 통합 스케줄 Developer 최근 활동, 지난 의사결정 로그 2026-06-29] → 산출물 sessions/2026-06-29T15-53/developer.md
