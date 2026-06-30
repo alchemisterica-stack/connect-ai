@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 30. 오후 2:35:09_
+_업데이트: 2026. 6. 30. 오후 3:05:36_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 6. 30. 오후 2:35:09_
 - [2026-06-28] 2026-06-28 Instagram 2시간 운영 → 산출물 sessions/2026-06-28T18-55/instagram.md
 - [2026-06-30] instagram 비디오 1편 production 및 release → 산출물 sessions/2026-06-30T04-56/instagram.md
 ### 🎨 Designer
-- [2026-06-29] 디자인 브리프 → 산출물 sessions/2026-06-29T20-23/designer.md
 - [2026-06-30] Writer가 제안한 썸네일 후크 문구와 회사 디자인 원칙(Primary Blue, Accent Yellow, 미니멀리즘, 대조적 색상, 통일된 레이아웃, 상단 로고 배치)을 바탕으로 '자존감 높이는 긍정 한마디' 콘텐츠용 썸네일 시안 3개를 구체적으로 스케치하고, 각 시안별로 사용된 색상 코드, 폰트, 레이아웃 특징을 상세히 설명하세요. [근거: 회사 공동 목표, 지난 의사결정 로그 다수] → 산출물 sessions/2026-06-30T01-11/designer.md
 - [2026-06-30] 다음-week의 주요 Design Project Plan 정립 → 산출물 sessions/2026-06-30T03-26/designer.md
+- [2026-06-30] _agents/designergoal.md → 산출물 sessions/2026-06-30T05-41/designer.md
 ### 💻 코다리
 - [2026-06-26] 수정과 개선Work → 산출물 sessions/2026-06-26T11-39/developer.md
 - [2026-06-29] MusicGen 또는 ACE-Step 음악 모델을 시스템에 설치하고, '자존감 높이는 긍정 한마디' 콘텐츠용 BGM 생성을 위한 개발 환경을 구축하세요. 설치 후 Editor가 즉시 활용할 수 있도록 테스트 및 설정을 완료해야 합니다. → 산출물 sessions/2026-06-29T15-38/developer.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 6. 30. 오후 2:35:09_
 - [2026-06-30] 콘텐츠 테마 '자존감 높이는 긍정 한마디'에 맞춰 시청자의 클릭을 유도할 수 있는 썸네일 후크 문구 5개를 작성하고, 각 문구가 어떤 감성과 메시지를 전달하는지 간략히 설명하세요. [근거: 지난 의사결정 로그 2026-06-25, 2026-06-28] → 산출물 sessions/2026-06-30T01-11/writer.md
 - [2026-06-30] 2026-06-30까지 단일 작업의 명확한 목표 설정 → 산출물 sessions/2026-06-30T03-26/writer.md
 ### 🔍 Researcher
-- [2026-06-29] 2026-06-30일부터 24시간 동안 경쟁사 research를 Execution에 focus로합니다. → 산출물 sessions/2026-06-29T19-23/researcher.md
 - [2026-06-29] 비즈니스 전략 및 데이터 수집 → 산출물 sessions/2026-06-29T20-23/researcher.md
 - [2026-06-30] 2026-07-01에 반복되는 항목을 메모리에 trùng기 맞추기 → 산출물 sessions/2026-06-30T03-26/researcher.md
+- [2026-06-30] _agents/researchergoal.md → 산출물 sessions/2026-06-30T05-41/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

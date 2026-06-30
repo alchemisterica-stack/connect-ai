@@ -106,3 +106,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-06-29] 2026-06-30일부터 24시간 동안 경쟁사 research를 Execution에 focus로합니다. → 산출물 sessions/2026-06-29T19-23/researcher.md
 - [2026-06-29] 비즈니스 전략 및 데이터 수집 → 산출물 sessions/2026-06-29T20-23/researcher.md
 - [2026-06-30] 2026-07-01에 반복되는 항목을 메모리에 trùng기 맞추기 → 산출물 sessions/2026-06-30T03-26/researcher.md
+- [2026-06-30] _agents/researchergoal.md → 산출물 sessions/2026-06-30T05-41/researcher.md
