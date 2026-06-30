@@ -55,7 +55,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
       "enabled": true,
-      "lastFiredAt": "2026-06-29"
+      "lastFiredAt": "2026-06-30"
     },
     {
       "id": "sched-blog-publish-weekend-recipe",
@@ -120,7 +120,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-06-28"
+      "lastFiredAt": "2026-06-29"
     },
     {
       "id": "sched-insta-publish-evening",

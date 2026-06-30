@@ -95,7 +95,7 @@ def load_trending_study_keywords():
     seen = set()
     return [x for x in keywords if not (x in seen or seen.add(x))][:8]
 
-def markdown_to_html_for_blogger(md_text):
+def markdown_to_html_for_blogger(md_text, is_blogger=True):
     import re
     
     html = md_text
@@ -246,17 +246,31 @@ def markdown_to_html_for_blogger(md_text):
                 for idx, tline in enumerate(table_lines):
                     cells = [c.strip() for c in tline.split('|') if c.strip() or tline.startswith('|') or tline.endswith('|')]
                     if len(cells) > 0:
-                        tr_style = "border-bottom: 1px solid #e2e8f0;"
-                        if idx == 0:
-                            tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
-                            for cell in cells:
-                                tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
-                            tr_html += '</tr>'
+                        if is_blogger:
+                            tr_style = "border-bottom: 1px solid #e2e8f0;"
+                            if idx == 0:
+                                tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
+                                for cell in cells:
+                                    tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
+                                tr_html += '</tr>'
+                            else:
+                                tr_html = f'<tr style="{tr_style}">'
+                                for cell in cells:
+                                    tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
+                                tr_html += '</tr>'
                         else:
-                            tr_html = f'<tr style="{tr_style}">'
-                            for cell in cells:
-                                tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
-                            tr_html += '</tr>'
+                            # WordPress: Clean blue-gray editorial table with Batang font and zebra stripes
+                            if idx == 0:
+                                tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-bottom: 2px solid #bfdbfe;">'
+                                for cell in cells:
+                                    tr_html += f'<th style="padding: 12px 14px; border: 1px solid #bfdbfe; font-family: Batang, Georgia, serif;">{cell}</th>'
+                                tr_html += '</tr>'
+                            else:
+                                bg_color = "#f8fafc" if idx % 2 == 1 else "#ffffff"
+                                tr_html = f'<tr style="background-color: {bg_color}; border-bottom: 1px solid #e2e8f0;">'
+                                for cell in cells:
+                                    tr_html += f'<td style="padding: 10px 12px; border: 1px solid #bfdbfe; color: #334155; font-family: Batang, Georgia, serif;">{cell}</td>'
+                                tr_html += '</tr>'
                         table_html += tr_html
                 table_html += '</table>'
                 new_lines.append(table_html)
@@ -272,17 +286,31 @@ def markdown_to_html_for_blogger(md_text):
         for idx, tline in enumerate(table_lines):
             cells = [c.strip() for c in tline.split('|') if c.strip() or tline.startswith('|') or tline.endswith('|')]
             if len(cells) > 0:
-                tr_style = "border-bottom: 1px solid #e2e8f0;"
-                if idx == 0:
-                    tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
-                    for cell in cells:
-                        tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
-                    tr_html += '</tr>'
+                if is_blogger:
+                    tr_style = "border-bottom: 1px solid #e2e8f0;"
+                    if idx == 0:
+                        tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
+                        for cell in cells:
+                            tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
+                        tr_html += '</tr>'
+                    else:
+                        tr_html = f'<tr style="{tr_style}">'
+                        for cell in cells:
+                            tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
+                        tr_html += '</tr>'
                 else:
-                    tr_html = f'<tr style="{tr_style}">'
-                    for cell in cells:
-                        tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
-                    tr_html += '</tr>'
+                    # WordPress: Clean blue-gray editorial table with Batang font and zebra stripes
+                    if idx == 0:
+                        tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-bottom: 2px solid #bfdbfe;">'
+                        for cell in cells:
+                            tr_html += f'<th style="padding: 12px 14px; border: 1px solid #bfdbfe; font-family: Batang, Georgia, serif;">{cell}</th>'
+                        tr_html += '</tr>'
+                    else:
+                        bg_color = "#f8fafc" if idx % 2 == 1 else "#ffffff"
+                        tr_html = f'<tr style="background-color: {bg_color}; border-bottom: 1px solid #e2e8f0;">'
+                        for cell in cells:
+                            tr_html += f'<td style="padding: 10px 12px; border: 1px solid #bfdbfe; color: #334155; font-family: Batang, Georgia, serif;">{cell}</td>'
+                        tr_html += '</tr>'
                 table_html += tr_html
         table_html += '</table>'
         new_lines.append(table_html)
@@ -517,104 +545,123 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
         return
 
     # Standard card banner for study summary
-    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    
-    # 1. Gradient background selection (randomized to prevent Visual QC collisions)
-    c1_offset = (random.randint(-20, 20), random.randint(-20, 20), random.randint(-20, 20))
-    c2_offset = (random.randint(-20, 20), random.randint(-20, 20), random.randint(-20, 20))
-    
-    if not is_blogger:
-        color1 = (max(0, min(255, 30 + c1_offset[0])),
-                  max(0, min(255, 58 + c1_offset[1])),
-                  max(0, min(255, 138 + c1_offset[2])), 255)
-        color2 = (max(0, min(255, 6 + c2_offset[0])),
-                  max(0, min(255, 182 + c2_offset[1])),
-                  max(0, min(255, 212 + c2_offset[2])), 255)
-    else:
-        color1 = (max(0, min(255, 124 + c1_offset[0])),
-                  max(0, min(255, 45 + c1_offset[1])),
-                  max(0, min(255, 18 + c1_offset[2])), 255)
-        color2 = (max(0, min(255, 245 + c2_offset[0])),
-                  max(0, min(255, 158 + c2_offset[1])),
-                  max(0, min(255, 11 + c2_offset[2])), 255)
+    import hashlib
+    img = None
+    try:
+        # Map post title to one of the 7 pre-downloaded high-quality local background illustrations
+        idx = int(hashlib.md5(title.encode('utf-8')).hexdigest(), 16) % 7
         
-    # Draw linear gradient from top-left to bottom-right
-    for y in range(height):
-        for x in range(width):
-            factor = (x / width + y / height) / 2
-            r = int(color1[0] + (color2[0] - color1[0]) * factor)
-            g = int(color1[1] + (color2[1] - color1[1]) * factor)
-            b = int(color1[2] + (color2[2] - color1[2]) * factor)
-            img.putpixel((x, y), (r, g, b, 255))
+        # WordPress gets the realistic photo background, Blogger gets the illustration
+        if not is_blogger:
+            bg_path = os.path.join(HERE, "assets", f"study_bg_wp_{idx}.png")
+        else:
+            bg_path = os.path.join(HERE, "assets", f"study_bg_{idx}.png")
             
-    # Redraw draw object
-    draw = ImageDraw.Draw(img)
-    
-    # Draw random structural shapes in background to vary the perceptual hash (phash)
-    for _ in range(random.randint(5, 10)):
-        shape_type = random.choice(["circle", "rectangle", "line"])
-        sx = random.randint(0, width)
-        sy = random.randint(0, height)
-        size = random.randint(40, 160)
-        opacity = random.randint(10, 35)
+        if os.path.exists(bg_path):
+            orig_img = Image.open(bg_path).convert("RGBA")
+            orig_w, orig_h = orig_img.size
+            if not is_blogger:
+                # --- WordPress Polaroid Editorial Style ---
+                img = Image.new("RGBA", (width, height), (250, 249, 246, 255)) # Cream background
+                photo_h = 470
+                photo_y = 110
+                scale = max(width / orig_w, photo_h / orig_h)
+                new_w = int(orig_w * scale)
+                new_h = int(orig_h * scale)
+                photo_img = orig_img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+                left = (new_w - width) // 2
+                # Custom crop factors for WordPress Study Background illustrations to ensure Y Y-offset is correct
+                crop_factors = {
+                    0: 0.1,  # Keep top hair Y-offset
+                    1: 0.05, # High top-bias to avoid cutting counselor hair
+                    2: 0.5,  # Center Y-offset for books
+                    3: 0.35, # Centered students at table
+                    4: 0.5,  # Center Y-offset for books
+                    5: 0.5,  # Center Y-offset for desk/lamp
+                    6: 0.2   # Focus on seminar people
+                }
+                factor = crop_factors.get(idx, 0.5)
+                top = int((new_h - photo_h) * factor)
+                photo_img = photo_img.crop((left, top, left + width, top + photo_h))
+                img.paste(photo_img, (0, photo_y))
+            else:
+                scale = max(width / orig_w, height / orig_h)
+                new_w = int(orig_w * scale)
+                new_h = int(orig_h * scale)
+                img = orig_img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+                left = (new_w - width) // 2
+                top = (new_h - height) // 2
+                img = img.crop((left, top, left + width, top + height))
+            print(f"[SUCCESS] Loaded and aspect-cropped local illustration background: {bg_path}")
+        else:
+            print(f"[WARN] Local background not found at {bg_path}. Falling back to gradient.")
+    except Exception as e:
+        print(f"[WARN] Failed to load local background illustration: {e}")
         
-        overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-        overlay_draw = ImageDraw.Draw(overlay)
-        
-        if shape_type == "circle":
-            overlay_draw.ellipse([sx, sy, sx + size, sy + size], fill=(255, 255, 255, opacity))
-        elif shape_type == "rectangle":
-            overlay_draw.rectangle([sx, sy, sx + size, sy + size], fill=(255, 255, 255, opacity))
-        elif shape_type == "line":
-            overlay_draw.line([(sx, sy), (sx + size, sy + random.randint(-50, 50))], fill=(255, 255, 255, opacity), width=random.randint(1, 4))
+    if img is None:
+        # Fallback to gradient & shape drawing if local image loading fails
+        img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        if is_blogger:
+            PALETTES = [
+                ((15, 32, 67), (6, 182, 212)),      # Dark Blue to Cyan
+                ((76, 29, 149), (217, 70, 239)),    # Deep Violet to Fuchsia
+                ((6, 78, 59), (13, 148, 136)),      # Emerald to Teal
+                ((136, 19, 55), (225, 29, 72)),     # Rose to Red
+                ((120, 53, 4), (249, 115, 22)),      # Amber to Orange
+                ((49, 46, 129), (124, 58, 237)),    # Indigo to Violet
+                ((15, 23, 42), (71, 85, 105)),      # Slate to Charcoal
+                ((20, 83, 45), (132, 204, 22)),     # Forest Green to Lime
+                ((153, 27, 27), (244, 63, 94)),     # Crimson to Coral
+                ((8, 47, 73), (134, 25, 143))       # Midnight Blue to Plum
+            ]
+            h_idx = int(hashlib.md5(title.encode('utf-8')).hexdigest(), 16) % len(PALETTES)
+            selected_palette = PALETTES[h_idx]
             
-        img = Image.alpha_composite(img.convert("RGBA"), overlay)
-    
-    # 2. Draw modern Card overlay
-    card_margin = 60
-    card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    card_draw = ImageDraw.Draw(card_overlay)
-    card_draw.rounded_rectangle(
-        [card_margin, card_margin, width - card_margin, height - card_margin],
-        radius=24,
-        fill=(255, 255, 255, 30),
-        outline=(255, 255, 255, 60),
-        width=2
-    )
-    img = Image.alpha_composite(img, card_overlay)
-    draw = ImageDraw.Draw(img)
-    
-    # 3. Load font (Malgun Gothic or default)
-    font_path = "C:\\Windows\\Fonts\\malgun.ttf"
+            c1_offset = (random.randint(-15, 15), random.randint(-15, 15), random.randint(-15, 15))
+            c2_offset = (random.randint(-15, 15), random.randint(-15, 15), random.randint(-15, 15))
+            
+            color1 = (max(0, min(255, selected_palette[0][0] + c1_offset[0])),
+                      max(0, min(255, selected_palette[0][1] + c1_offset[1])),
+                      max(0, min(255, selected_palette[0][2] + c1_offset[2])), 255)
+            color2 = (max(0, min(255, selected_palette[1][0] + c2_offset[0])),
+                      max(0, min(255, selected_palette[1][1] + c2_offset[1])),
+                      max(0, min(255, selected_palette[1][2] + c2_offset[2])), 255)
+                
+            for y in range(height):
+                for x in range(width):
+                    factor = (x / width + y / height) / 2
+                    r = int(color1[0] + (color2[0] - color1[0]) * factor)
+                    g = int(color1[1] + (color2[1] - color1[1]) * factor)
+                    b = int(color1[2] + (color2[2] - color1[2]) * factor)
+                    img.putpixel((x, y), (r, g, b, 255))
+        else:
+            img = Image.new("RGBA", (width, height), (250, 249, 246, 255))
+
+    # 3. Load font (Batang Serif for WordPress, Malgun Gothic for Blogger)
+    font_path = "C:\\Windows\\Fonts\\batang.ttc" if not is_blogger else "C:\\Windows\\Fonts\\malgun.ttf"
+    if not os.path.exists(font_path):
+        font_path = "C:\\Windows\\Fonts\\malgun.ttf"
     if not os.path.exists(font_path):
         font_path = "C:\\Windows\\Fonts\\arial.ttf"
         
     try:
-        font_title = ImageFont.truetype(font_path, 48)
-        font_subtitle = ImageFont.truetype(font_path, 32)
-        font_tag = ImageFont.truetype(font_path, 22)
+        if not is_blogger:
+            font_title = ImageFont.truetype(font_path, 34)
+            font_subtitle = ImageFont.truetype(font_path, 22)
+            font_tag = ImageFont.truetype(font_path, 18)
+        else:
+            font_title = ImageFont.truetype(font_path, 48)
+            font_subtitle = ImageFont.truetype(font_path, 32)
+            font_tag = ImageFont.truetype(font_path, 22)
     except Exception:
         font_title = ImageFont.load_default()
         font_subtitle = ImageFont.load_default()
         font_tag = ImageFont.load_default()
-        
-    # 4. Draw Pill Badge tag
+
     tag_text = f"📚 {subject} 학습 요약"
-        
-    tag_w = 320
-    tag_h = 42
-    tag_x = width // 2 - tag_w // 2
-    tag_y = card_margin + 40
-    draw.rounded_rectangle(
-        [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
-        radius=20,
-        fill=(255, 255, 255, 50),
-        outline=(255, 255, 255, 100),
-        width=1
-    )
-    draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
+    footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
     
-    # 5. Draw Title text
+    # Split title text
     import re
     title_text = title
     max_len = 24
@@ -632,18 +679,78 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
             lines.append(current_line)
     else:
         lines.append(title_text)
-        
     lines = lines[:2]
-    title_y = height // 2 - 20
-    if len(lines) == 1:
-        draw.text((width // 2, title_y), lines[0], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+
+    if is_blogger:
+        # --- Blogger Card Layout Style ---
+        card_margin = 60
+        card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        card_draw = ImageDraw.Draw(card_overlay)
+        card_draw.rounded_rectangle(
+            [card_margin, card_margin, width - card_margin, height - card_margin],
+            radius=24,
+            fill=(45, 15, 8, 185),  # Blogger warm dark orange/plum card overlay
+            outline=(255, 255, 255, 60),
+            width=2
+        )
+        img = Image.alpha_composite(img, card_overlay)
+        draw = ImageDraw.Draw(img)
+
+        # Draw Pill Badge tag
+        tag_w = 320
+        tag_h = 42
+        tag_x = width // 2 - tag_w // 2
+        tag_y = card_margin + 40
+        draw.rounded_rectangle(
+            [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
+            radius=20,
+            fill=(255, 255, 255, 50),
+            outline=(255, 255, 255, 100),
+            width=1
+        )
+        draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
+
+        # Draw Title text (Centered)
+        title_y = height // 2 - 20
+        if len(lines) == 1:
+            draw.text((width // 2, title_y), lines[0], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+        else:
+            draw.text((width // 2, title_y - 35), lines[0], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+            draw.text((width // 2, title_y + 35), lines[1], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+
+        # Draw footer logo
+        draw.text((width // 2, height - card_margin - 60), footer_text, fill=(255, 255, 255, 180), font=font_subtitle, anchor="mm")
+
     else:
-        draw.text((width // 2, title_y - 35), lines[0], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
-        draw.text((width // 2, title_y + 35), lines[1], fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+        # --- WordPress Elegant Polaroid Editorial Style ---
+        draw = ImageDraw.Draw(img)
         
-    # 6. Draw footer logo
-    footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
-    draw.text((width // 2, height - card_margin - 60), footer_text, fill=(255, 255, 255, 180), font=font_subtitle, anchor="mm")
+        # Left aligned margins
+        text_x = 60
+        text_y_start = 30
+        
+        # Draw tag text in elegant Batang Serif font (grey/slate color)
+        draw.text(
+            (text_x, text_y_start), tag_text, 
+            fill=(51, 65, 85, 255), font=font_tag, anchor="lt"
+        )
+        
+        # Draw Title text on a single line
+        title_y_start = text_y_start + 40
+        title_display = title
+        if len(title_display) > 34:
+            title_display = title_display[:34] + "..."
+            
+        draw.text(
+            (text_x, title_y_start), title_display, 
+            fill=(15, 23, 42, 255), font=font_title, anchor="lt"
+        )
+            
+        # Draw footer logo at the bottom right
+        draw.text(
+            (width - 60, height - 15), footer_text, 
+            fill=(71, 85, 105, 255), font=font_subtitle, anchor="rb"
+        )
     
     img.convert("RGB").save(output_path, "PNG")
     print(f"[DYNAMIC BANNER] Created banner for '{title}' at: {output_path}")
@@ -657,88 +764,156 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
         return
         
     width, height = 1000, 380
-    img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    
-    # Gradient background selection: different for WP and Blogger
-    if not is_blogger:
-        # WordPress Quiz: Deep Indigo to Violet
-        color1 = (49, 46, 129, 255)   # #312e81
-        color2 = (124, 58, 237, 255)  # #7c3aed
-    else:
-        # Blogger Quiz: Deep Plum/Magenta to Rose
-        color1 = (76, 5, 25, 255)     # #4c0519
-        color2 = (244, 63, 94, 255)   # #f43f5e
-    
-    for y in range(height):
-        for x in range(width):
-            factor = (x / width + y / height) / 2
-            r = int(color1[0] + (color2[0] - color1[0]) * factor)
-            g = int(color1[1] + (color2[1] - color1[1]) * factor)
-            b = int(color1[2] + (color2[2] - color1[2]) * factor)
-            img.putpixel((x, y), (r, g, b, 255))
+    import hashlib
+    import datetime
+    img = None
+    try:
+        # Mix the current weekday and the subject hash to guarantee a unique index for different subjects
+        weekday = datetime.date.today().weekday()
+        subj_hash = int(hashlib.md5(subject.encode('utf-8')).hexdigest(), 16)
+        idx = (weekday + subj_hash) % 7
+        if not is_blogger:
+            bg_path = os.path.join(HERE, "assets", f"quiz_bg_wp_{idx}.png")
+        else:
+            bg_path = os.path.join(HERE, "assets", f"quiz_bg_{idx}.png")
+        if os.path.exists(bg_path):
+            orig_img = Image.open(bg_path).convert("RGBA")
+            orig_w, orig_h = orig_img.size
+            if not is_blogger:
+                # --- WordPress Polaroid Editorial Style ---
+                img = Image.new("RGBA", (width, height), (250, 249, 246, 255)) # Cream background
+                photo_h = 265
+                photo_y = 80
+                scale = max(width / orig_w, photo_h / orig_h)
+                new_w = int(orig_w * scale)
+                new_h = int(orig_h * scale)
+                photo_img = orig_img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+                left = (new_w - width) // 2
+                top = (new_h - photo_h) // 2
+                photo_img = photo_img.crop((left, top, left + width, top + photo_h))
+                img.paste(photo_img, (0, photo_y))
+            else:
+                scale = max(width / orig_w, height / orig_h)
+                new_w = int(orig_w * scale)
+                new_h = int(orig_h * scale)
+                img = orig_img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+                left = (new_w - width) // 2
+                top = (new_h - height) // 2
+                img = img.crop((left, top, left + width, top + height))
+            print(f"[SUCCESS] Loaded and aspect-cropped local quiz background: {bg_path}")
+        else:
+            print(f"[WARN] Local quiz background not found at {bg_path}. Falling back to gradient.")
+    except Exception as e:
+        print(f"[WARN] Failed to load local quiz background: {e}")
+        
+    if img is None:
+        # Fallback to gradient & shape drawing if local image loading fails
+        img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        if is_blogger:
+            color1 = (76, 5, 25, 255)     # #4c0519
+            color2 = (244, 63, 94, 255)   # #f43f5e
             
-    draw = ImageDraw.Draw(img)
-    
-    # Card overlay
-    card_margin = 35
-    card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
-    card_draw = ImageDraw.Draw(card_overlay)
-    card_draw.rounded_rectangle(
-        [card_margin, card_margin, width - card_margin, height - card_margin],
-        radius=20,
-        fill=(255, 255, 255, 25),
-        outline=(255, 255, 255, 50),
-        width=1
-    )
-    
-    # Premium dotted grid pattern in the background card overlay
-    dot_spacing = 30
-    for dy in range(card_margin + 20, height - card_margin - 20, dot_spacing):
-        for dx in range(card_margin + 20, width - card_margin - 20, dot_spacing):
-            card_draw.ellipse([dx - 1, dy - 1, dx + 1, dy + 1], fill=(255, 255, 255, 30))
-            
-    img = Image.alpha_composite(img, card_overlay)
-    draw = ImageDraw.Draw(img)
-    
+            for y in range(height):
+                for x in range(width):
+                    factor = (x / width + y / height) / 2
+                    r = int(color1[0] + (color2[0] - color1[0]) * factor)
+                    g = int(color1[1] + (color2[1] - color1[1]) * factor)
+                    b = int(color1[2] + (color2[2] - color1[2]) * factor)
+                    img.putpixel((x, y), (r, g, b, 255))
+        else:
+            img = Image.new("RGBA", (width, height), (250, 249, 246, 255))
+                
     # Fonts
-    font_path = "C:\\Windows\\Fonts\\malgun.ttf"
+    font_path = "C:\\Windows\\Fonts\\batang.ttc" if not is_blogger else "C:\\Windows\\Fonts\\malgun.ttf"
+    if not os.path.exists(font_path):
+        font_path = "C:\\Windows\\Fonts\\malgun.ttf"
     if not os.path.exists(font_path):
         font_path = "C:\\Windows\\Fonts\\arial.ttf"
         
     try:
-        font_title = ImageFont.truetype(font_path, 42)
-        font_subtitle = ImageFont.truetype(font_path, 22)
-        font_tag = ImageFont.truetype(font_path, 18)
+        if not is_blogger:
+            font_title = ImageFont.truetype(font_path, 32)
+            font_subtitle = ImageFont.truetype(font_path, 20)
+            font_tag = ImageFont.truetype(font_path, 16)
+        else:
+            font_title = ImageFont.truetype(font_path, 42)
+            font_subtitle = ImageFont.truetype(font_path, 22)
+            font_tag = ImageFont.truetype(font_path, 18)
     except Exception:
         font_title = ImageFont.load_default()
         font_subtitle = ImageFont.load_default()
         font_tag = ImageFont.load_default()
         
-    # Draw Subject Pill
     tag_text = f"📚 {subject}"
-    tag_w = 220
-    tag_h = 32
-    tag_x = width // 2 - tag_w // 2
-    tag_y = card_margin + 25
-    draw.rounded_rectangle(
-        [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
-        radius=16,
-        fill=(255, 255, 255, 40),
-        outline=(255, 255, 255, 80),
-        width=1
-    )
-    draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
-    
-    # Draw Quiz Title
-    draw.text((width // 2, height // 2), "✓ 자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
-    
-    # Draw Subtitle
-    draw.text((width // 2, height // 2 + 50), "문제를 풀며 오늘 배운 핵심 내용을 최종 점검해 보세요!", fill=(255, 255, 255, 200), font=font_subtitle, anchor="mm")
-    
-    # Draw footer logo/URL
     footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
-    draw.text((width // 2, height - card_margin - 30), footer_text, fill=(255, 255, 255, 150), font=font_subtitle, anchor="mm")
-    
+
+    if is_blogger:
+        # --- Blogger Card Layout Style ---
+        card_margin = 35
+        card_overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        card_draw = ImageDraw.Draw(card_overlay)
+        card_draw.rounded_rectangle(
+            [card_margin, card_margin, width - card_margin, height - card_margin],
+            radius=20,
+            fill=(54, 5, 18, 195),  # Blogger warm dark plum card overlay
+            outline=(255, 255, 255, 50),
+            width=1
+        )
+        img = Image.alpha_composite(img, card_overlay)
+        draw = ImageDraw.Draw(img)
+
+        # Draw Pill Badge tag
+        tag_w = 220
+        tag_h = 32
+        tag_x = width // 2 - tag_w // 2
+        tag_y = card_margin + 25
+        draw.rounded_rectangle(
+            [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
+            radius=16,
+            fill=(255, 255, 255, 40),
+            outline=(255, 255, 255, 80),
+            width=1
+        )
+        draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
+
+        # Draw Quiz Title and Subtitle (Centered)
+        draw.text((width // 2, height // 2), "✓ 자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+        draw.text((width // 2, height // 2 + 50), "문제를 풀며 오늘 배운 핵심 내용을 최종 점검해 보세요!", fill=(255, 255, 255, 200), font=font_subtitle, anchor="mm")
+        
+        # Draw footer logo
+        draw.text((width // 2, height - card_margin - 30), footer_text, fill=(255, 255, 255, 150), font=font_subtitle, anchor="mm")
+
+    else:
+        # --- WordPress Elegant Polaroid Style ---
+        draw = ImageDraw.Draw(img)
+        
+        # Left aligned margins
+        text_x = 50
+        
+        # Draw tag text in elegant Batang Serif font (grey/slate color)
+        draw.text(
+            (text_x, 25), tag_text, 
+            fill=(51, 65, 85, 255), font=font_tag, anchor="lt"
+        )
+        
+        # Draw Quiz Title on the right side
+        draw.text(
+            (width - 50, 20), "✓ 자가진단 QUIZ", 
+            fill=(15, 23, 42, 255), font=font_title, anchor="rt"
+        )
+        
+        # Draw Subtitle on the left
+        draw.text(
+            (text_x, height - 10), "문제를 풀며 핵심 내용을 점검해 보세요!", 
+            fill=(71, 85, 105, 255), font=font_subtitle, anchor="lb"
+        )
+        
+        # Draw footer logo at the bottom right
+        draw.text(
+            (width - 50, height - 10), footer_text, 
+            fill=(71, 85, 105, 255), font=font_subtitle, anchor="rb"
+        )
+
     img.convert("RGB").save(output_path, "PNG")
     print(f"[DYNAMIC QUIZ BANNER] Created quiz banner at: {output_path}")
 
@@ -1070,6 +1245,8 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
         cat_name = "요리/반찬"
     elif category == "study":
         cat_name = current_subject if current_subject else "청소년지도사"
+        if "_" in cat_name:
+            cat_name = cat_name.split("_")[0]
     elif category == "mindset":
         cat_name = "자기계발"
     else:
@@ -1336,7 +1513,7 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                         except Exception as img_err:
                             print(f"[WARN] Blogger banner upload failed: {img_err}")
 
-                wp_body = markdown_to_html_for_blogger(wp_content)
+                wp_body = markdown_to_html_for_blogger(wp_content, is_blogger=False)
 
                 # Embed WordPress recipe images dynamically
                 if category == "recipe" and recipe_images:
@@ -1496,7 +1673,7 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                         else:
                             blogger_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
                         
-                    html_content = markdown_to_html_for_blogger(blogger_body)
+                    html_content = markdown_to_html_for_blogger(blogger_body, is_blogger=True)
                     payload = {
                         "kind": "blogger#post",
                         "blog": {"id": blogger_id},
