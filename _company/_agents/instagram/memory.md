@@ -25,3 +25,4 @@ _Instagram 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-06-28] 2026-06-28 Instagram 2시간 운영 → 산출물 sessions/2026-06-28T18-55/instagram.md
 - [2026-06-30] instagram 비디오 1편 production 및 release → 산출물 sessions/2026-06-30T04-56/instagram.md
 - [2026-06-30] 카피 라이팅 → 산출물 sessions/2026-06-30T06-56/instagram.md
+- [2026-06-30] 그보다 오른쪽에 있는 단일 작업을 quyết정하고, 적절한 1명 에이전트에게 분배해서 executed 하기 → 산출물 sessions/2026-06-30T09-41/instagram.md

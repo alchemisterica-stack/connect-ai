@@ -1,15 +1,15 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 6. 30. 오후 5:43:26_
+_업데이트: 2026. 6. 30. 오후 7:26:35_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
-- [2026-06-29] 유튜브 데이터 수집 → 산출물 sessions/2026-06-29T02-53/youtube.md
 - [2026-06-30] 2026-06-30: 유튜브 비디오 1편 production 및 release → 산출물 sessions/2026-06-30T04-56/youtube.md
 - [2026-06-30] 비즈니스 전략 분석 → 산출물 sessions/2026-06-30T06-56/youtube.md
+- [2026-06-30] 오늘 최적의 작업을 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-06-30T09-41/youtube.md
 ### 📷 Instagram
-- [2026-06-28] 2026-06-28 Instagram 2시간 운영 → 산출물 sessions/2026-06-28T18-55/instagram.md
 - [2026-06-30] instagram 비디오 1편 production 및 release → 산출물 sessions/2026-06-30T04-56/instagram.md
 - [2026-06-30] 카피 라이팅 → 산출물 sessions/2026-06-30T06-56/instagram.md
+- [2026-06-30] 그보다 오른쪽에 있는 단일 작업을 quyết정하고, 적절한 1명 에이전트에게 분배해서 executed 하기 → 산출물 sessions/2026-06-30T09-41/instagram.md
 ### 🎨 Designer
 - [2026-06-30] 다음-week의 주요 Design Project Plan 정립 → 산출물 sessions/2026-06-30T03-26/designer.md
 - [2026-06-30] _agents/designergoal.md → 산출물 sessions/2026-06-30T05-41/designer.md
