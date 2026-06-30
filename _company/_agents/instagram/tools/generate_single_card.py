@@ -4,6 +4,7 @@ generate_single_card.py — 1장짜리 명상 카드 이미지 생성기
 - Pretendard + Emotional Font Mix (MaruBuri, NanumMyeongjo, SongMyung, System Batang)
 - Automatic background brightness detection for dynamic contrast card transparency
 - Dynamic font size adjustment based on character length
+- Background color prompts mixing (5 distinct color tones to avoid beige-fixation)
 - Discrete branding footprint (18px)
 - Layout variations & High-readability bold style support
 """
@@ -38,10 +39,19 @@ BRAND = {
     "white":  "#FFFFFF",
 }
 
+# ─── 5 Distinct Background Color Prompts to Avoid Beige-Fixation ───
+BACKGROUND_COLORS = [
+    "deep emerald green and forest moss wash",
+    "romantic rose pink and lavender wash",
+    "calm midnight blue and starry navy sky",
+    "warm orange sunset and golden amber reflection",
+    "soft cozy beige and warm cream wash"
+]
+
 # ─── Theme Presets ───────────────────────────────────────────────────
 THEMES = {
     "warm": {
-        "bg_prompt": "Beautiful soft watercolor painting of a cozy morning scene with warm golden sunlight streaming through sheer curtains, a steaming cup of coffee on a wooden windowsill, soft pastel cream and beige tones, dreamy peaceful atmosphere, highly detailed, absolutely no text no letters no words",
+        "bg_prompt": "soft watercolor painting of a cozy morning scene with warm golden sunlight streaming through sheer curtains, a steaming cup of coffee on a wooden windowsill, soft pastel cream and beige tones, dreamy peaceful atmosphere, highly detailed, absolutely no text no letters no words",
         "bg_fallback": (245, 240, 230),
         "card_bg": (255, 255, 255, 195),
         "text_color": (51, 51, 51),
@@ -49,7 +59,7 @@ THEMES = {
         "border_color": (255, 255, 255, 120),
     },
     "dark": {
-        "bg_prompt": "Stunning atmospheric digital art of a calm deep blue night sky with soft glowing stars and a crescent moon over a peaceful quiet lake reflection, dark navy and indigo tones, serene contemplative mood, highly detailed, absolutely no text no letters no words",
+        "bg_prompt": "atmospheric digital art of a calm deep blue night sky with soft glowing stars and a crescent moon over a peaceful quiet lake reflection, dark navy and indigo tones, serene contemplative mood, highly detailed, absolutely no text no letters no words",
         "bg_fallback": (25, 32, 48),
         "card_bg": (15, 20, 35, 185),
         "text_color": (240, 240, 245),
@@ -57,7 +67,7 @@ THEMES = {
         "border_color": (255, 255, 255, 60),
     },
     "nature": {
-        "bg_prompt": "Whimsical watercolor illustration of lush green potted plants on a bright sunlit windowsill, soft morning light casting beautiful leaf shadows, fresh mint green and sage tones, uplifting serene botanical atmosphere, highly detailed, absolutely no text no letters no words",
+        "bg_prompt": "watercolor illustration of lush green potted plants on a bright sunlit windowsill, soft morning light casting beautiful leaf shadows, fresh mint green and sage tones, uplifting serene botanical atmosphere, highly detailed, absolutely no text no letters no words",
         "bg_fallback": (220, 238, 225),
         "card_bg": (255, 255, 255, 195),
         "text_color": (44, 62, 44),
@@ -65,7 +75,7 @@ THEMES = {
         "border_color": (255, 255, 255, 100),
     },
     "sunset": {
-        "bg_prompt": "Magical dreamlike digital painting of soft golden orange clouds at sunset with sparkling warm stardust, peaceful comforting fantasy sky in coral and amber tones, highly detailed, absolutely no text no letters no words",
+        "bg_prompt": "dreamlike digital painting of soft golden orange clouds at sunset with sparkling warm stardust, peaceful comforting fantasy sky in coral and amber tones, highly detailed, absolutely no text no letters no words",
         "bg_fallback": (255, 235, 210),
         "card_bg": (255, 255, 255, 195),
         "text_color": (70, 45, 20),
@@ -144,8 +154,8 @@ def draw_text_with_shadow(draw, pos, text, font, fill, shadow_color=(0, 0, 0, 60
     draw.text(pos, text, font=font, fill=fill)
 
 
-def draw_centered_text_block(draw, lines, font, start_y, usable_box, fill, line_spacing_factor=1.5, shadow=True, text_align="center"):
-    """여러 줄의 텍스트를 레이아웃 정렬 방식에 맞춰 그립니다."""
+def draw_centered_text_block(draw, lines, font, start_y, usable_box, fill, line_spacing_factor=1.6, shadow=True, text_align="center"):
+    """여러 줄의 텍스트를 레이아웃 정렬 방식에 맞춰 그립니다. 줄간격 1.6 적용."""
     y = start_y
     for line in lines:
         if not line:
@@ -200,9 +210,9 @@ def load_fonts():
     chosen_path, font_name = random.choice(fonts_pool)
     print(f"[FONT-MIXER] Randomly selected emotional font: '{font_name}' ({chosen_path})")
 
-    # 1. 로드할 타겟 폰트 빌드
+    # 1. 로드할 타겟 폰트 빌드 (명조체 58px ➔ 62px 확대 적용하여 정독 시인성 상향)
     try:
-        serif_font = ImageFont.truetype(chosen_path, 58)
+        serif_font = ImageFont.truetype(chosen_path, 62)
     except Exception:
         serif_font = ImageFont.load_default()
 
@@ -243,9 +253,16 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None, sty
     print(f"  Title: {title.replace(chr(10), ' / ')}")
     print(f"  Subtitle: {subtitle}")
 
-    # ── 1) Generate background ──
-    # AI 9:16 비율 직접 생성 파라미터 연동을 위한 규격 확장 (비주얼 깨짐 원천 차단)
-    bg = generate_background(theme["bg_prompt"], (1080, 1080), theme["bg_fallback"])
+    # ── 1) Background Color prompts mix-matching to avoid beige-fixation ──
+    chosen_color_theme = random.choice(BACKGROUND_COLORS)
+    print(f"  [COLOR-MIXER] Enforcing background color tone: '{chosen_color_theme}'")
+    
+    original_prompt = theme["bg_prompt"]
+    # 프롬프트 맨 앞에 색채 지시어를 믹싱
+    modified_prompt = f"Beautiful {chosen_color_theme} watercolor painting, " + original_prompt.lower().replace("beautiful", "")
+
+    # Generate background
+    bg = generate_background(modified_prompt, (1080, 1080), theme["bg_fallback"])
 
     # ── 2) Calculate background brightness for contrast matching ──
     brightness = calculate_background_brightness(bg)
@@ -255,8 +272,8 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None, sty
     overlay = Image.new("RGBA", (1080, 1080), (0, 0, 0, 0))
     draw_overlay = ImageDraw.Draw(overlay)
 
-    # 대비 지능형 로직: 배경이 밝으면(140 이상) 글상자 불투명도(alpha)를 245로 아주 진하게 어둡게 조절,
-    # 배경이 어두우면(140 미만) 글상자 불투명도를 140~160으로 조절하여 자연스럽게 투명하게 만듦
+    # 대비 지능형 로직: 배경이 밝으면 글상자 불투명도(alpha)를 245로 아주 진하게 어둡게 조절,
+    # 배경이 어두우면 글상자 불투명도를 140~180으로 조절하여 자연스럽게 투명하게 만듦
     card_bg = theme["card_bg"]
     if brightness > 140:
         alpha_val = 245 if is_bold else 225
@@ -297,7 +314,7 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None, sty
     max_text_width = (usable_box[2] - usable_box[0]) - 40
     
     # 텍스트 길이에 따라 자동으로 폰트 크기 계산 (동적 폰트 크기 계산기)
-    base_font_size = 68 if is_bold else 58
+    base_font_size = 68 if is_bold else 62 # 명조체 기본 사이즈 62px로 상향
     char_count = len(title.replace("\n", ""))
     
     if char_count > 30:
@@ -315,7 +332,7 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None, sty
 
     title_lines = wrap_text(title, active_font, max_text_width, draw)
 
-    title_line_h = int(base_font_size * 1.4)
+    title_line_h = int(base_font_size * 1.4) if is_bold else int(base_font_size * 1.6) # 명조체 줄간격 1.6 배율 적용
     sub_line_h = int(34 * 1.5)
     brand_line_h = int(18 * 1.5)
     
@@ -329,7 +346,7 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None, sty
 
     y = draw_centered_text_block(
         draw, title_lines, active_font, start_y, usable_box,
-        fill=theme["text_color"], line_spacing_factor=1.4, text_align=text_align
+        fill=theme["text_color"], line_spacing_factor=1.4 if is_bold else 1.6, text_align=text_align
     )
 
     # ── 6) Render subtitle ──

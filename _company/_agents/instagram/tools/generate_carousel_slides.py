@@ -161,12 +161,12 @@ def load_fonts():
     print(f"[FONT-MIXER] Slides chosen emotional font: '{font_name}' ({chosen_path})")
 
     try:
-        serif_font = ImageFont.truetype(chosen_path, 54)
+        serif_font = ImageFont.truetype(chosen_path, 62)
     except Exception:
         serif_font = ImageFont.load_default()
 
     try:
-        title_font = ImageFont.truetype(FONT_BOLD, 54)
+        title_font = ImageFont.truetype(FONT_BOLD, 62)
         title_font_bold_lg = ImageFont.truetype(FONT_BOLD, 68) # 68px Cover
         sub_font = ImageFont.truetype(FONT_SEMI, 36)
         brand_font = ImageFont.truetype(FONT_REGULAR, 18)
@@ -343,7 +343,7 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     draw = ImageDraw.Draw(img)
 
     # ---- Dynamic Font Size Calculation --------------------------------
-    base_font_size = 68 if is_bold_cover else 54
+    base_font_size = 68 if is_bold_cover else 62
     char_count = len(info["title"].replace("\n", ""))
     
     if char_count > 30:
@@ -362,7 +362,7 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     title_lines = auto_wrap(info["title"], chars_per_line=14 if text_align != "center" else 16)
     sub_lines = auto_wrap(info["subtitle"], chars_per_line=20) if info["subtitle"] else []
 
-    title_line_h = int(base_font_size * 1.4)
+    title_line_h = int(base_font_size * 1.4) if is_bold_cover else int(base_font_size * 1.6)
     sub_line_h = int(36 * 1.5)
     gap_between = 40
     brand_line_h = int(18 * 1.5)
