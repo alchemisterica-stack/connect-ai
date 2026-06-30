@@ -458,6 +458,11 @@ def main():
         default="normal",
         help="Select presentation style: normal (serif/diversified) or bold (high-readability cover)"
     )
+    parser.add_argument(
+        "--exclude-colors",
+        default="",
+        help="Comma-separated list of color presets to exclude"
+    )
     args = parser.parse_args()
 
     # 1. Randomly choose layout type to enforce variation
@@ -508,8 +513,24 @@ def main():
         }
     ]
     
-    chosen_preset = random.choice(COLOR_PRESETS)
+    # 제외 대상 색상 필터링
+    excluded = [c.strip().lower() for c in args.exclude_colors.split(",") if c.strip()]
+    available_presets = [p for p in COLOR_PRESETS if p["name"].lower() not in excluded]
+    
+    if not available_presets:
+        print("[WARN] All presets excluded by filter. Falling back to full pool.")
+        available_presets = COLOR_PRESETS
+        
+    chosen_preset = random.choice(available_presets)
     print(f"[THEME-COLOR] Enforcing slide deck theme: '{chosen_preset['name']}'")
+    
+    # 선택된 톤 파일에 기록 (스케줄러 캘린더 업데이트용)
+    try:
+        preset_file = os.path.join(OUTPUT_DIR, "used_color.txt")
+        with open(preset_file, "w", encoding="utf-8") as pf:
+            pf.write(chosen_preset["name"])
+    except Exception as e:
+        print(f"[WARN] Failed to write chosen color preset to file: {e}")
     
     for slide in SLIDES_INFO:
         slide["bg_color"] = chosen_preset["bg"]

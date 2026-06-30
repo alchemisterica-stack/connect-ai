@@ -40,13 +40,13 @@ BRAND = {
 }
 
 # ─── 5 Distinct Background Color Prompts to Avoid Beige-Fixation ───
-BACKGROUND_COLORS = [
-    "deep emerald green and forest moss wash",
-    "romantic rose pink and lavender wash",
-    "calm midnight blue and starry navy sky",
-    "warm orange sunset and golden amber reflection",
-    "soft cozy beige and warm cream wash"
-]
+BACKGROUND_COLORS_MAP = {
+    "warm_beige": "soft cozy beige and warm cream wash",
+    "deep_forest": "deep emerald green and forest moss wash",
+    "serene_blue": "calm midnight blue and starry navy sky",
+    "sunset_coral": "warm orange sunset and golden amber reflection",
+    "romantic_rose": "romantic rose pink and lavender wash"
+}
 
 # ─── Theme Presets ───────────────────────────────────────────────────
 THEMES = {
@@ -235,7 +235,7 @@ def load_fonts():
 
 
 # ─── Card Generation ─────────────────────────────────────────────────
-def create_single_card(title, subtitle, theme_name="warm", layout_type=None, style="normal"):
+def create_single_card(title, subtitle, theme_name="warm", layout_type=None, style="normal", exclude_colors=""):
     """1장짜리 명상 카드를 생성합니다. 피드용(1080x1080) + 릴스용(1080x1920) 동시 출력."""
     theme = THEMES.get(theme_name, THEMES["warm"])
     title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_path = load_fonts()
@@ -254,9 +254,25 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None, sty
     print(f"  Subtitle: {subtitle}")
 
     # ── 1) Background Color prompts mix-matching to avoid beige-fixation ──
-    chosen_color_theme = random.choice(BACKGROUND_COLORS)
-    print(f"  [COLOR-MIXER] Enforcing background color tone: '{chosen_color_theme}'")
+    excluded = [c.strip().lower() for c in exclude_colors.split(",") if c.strip()]
+    available_colors = {k: v for k, v in BACKGROUND_COLORS_MAP.items() if k.lower() not in excluded}
     
+    if not available_colors:
+        print("  [WARN] All background colors excluded by filter. Falling back to full pool.")
+        available_colors = BACKGROUND_COLORS_MAP
+        
+    chosen_key = random.choice(list(available_colors.keys()))
+    chosen_color_theme = available_colors[chosen_key]
+    print(f"  [COLOR-MIXER] Enforcing background color tone: '{chosen_key}' ({chosen_color_theme})")
+    
+    # 선택된 색상명used_color.txt에 기록 (스케줄러 캘린더 업데이트용)
+    try:
+        preset_file = os.path.join(OUTPUT_DIR, "used_color.txt")
+        with open(preset_file, "w", encoding="utf-8") as pf:
+            pf.write(chosen_key)
+    except Exception as e:
+        print(f"  [WARN] Failed to write chosen color to file: {e}")
+        
     original_prompt = theme["bg_prompt"]
     # 프롬프트 맨 앞에 색채 지시어를 믹싱
     modified_prompt = f"Beautiful {chosen_color_theme} watercolor painting, " + original_prompt.lower().replace("beautiful", "")
@@ -429,6 +445,7 @@ def main():
                         help="테마: warm, dark, nature, sunset")
     parser.add_argument("--style", default="normal", choices=["normal", "bold"],
                         help="스타일: normal (명조) 또는 bold (가독성 강화 68px 고딕)")
+    parser.add_argument("--exclude-colors", default="", help="제외할 색상 프리셋")
     args = parser.parse_args()
 
     title = args.title
@@ -454,7 +471,7 @@ def main():
     layout_choices = ["rect_center", "ellipse_center", "circle_left", "rect_right"]
     layout_type = random.choice(layout_choices)
 
-    feed_path, reels_path = create_single_card(title, subtitle, args.theme, layout_type=layout_type, style=args.style)
+    feed_path, reels_path = create_single_card(title, subtitle, args.theme, layout_type=layout_type, style=args.style, exclude_colors=args.exclude_colors)
 
     print(f"\n{'='*50}")
     print(f"[SUCCESS] Single card generated with layout '{layout_type}' [Style: {args.style}]!")
