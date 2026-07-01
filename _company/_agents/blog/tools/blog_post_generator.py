@@ -316,7 +316,7 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
                             if idx == 0:
                                 tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
                                 for cell in cells:
-                                    tr_html += f'<th style="padding: 12px 14px; border: 1px solid #fed7aa;">{cell}</th>'
+                                    tr_html += f'<th style="padding: 12px 14px; border: 1px solid #fed7aa; text-align: center;">{cell}</th>'
                                 tr_html += '</tr>'
                             else:
                                 bg_color = "#fffdfa" if idx % 2 == 1 else "#ffffff"
@@ -329,7 +329,7 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
                             if idx == 0:
                                 tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-top: 2px solid #3b82f6; border-bottom: 2px solid #3b82f6;">'
                                 for cell in cells:
-                                    tr_html += f'<th style="padding: 12px 14px; font-family: Batang, Georgia, serif;">{cell}</th>'
+                                    tr_html += f'<th style="padding: 12px 14px; font-family: Batang, Georgia, serif; text-align: center;">{cell}</th>'
                                 tr_html += '</tr>'
                             else:
                                 bg_color = "#f8fafc" if idx % 2 == 1 else "#ffffff"
@@ -365,7 +365,7 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
                     if idx == 0:
                         tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
                         for cell in cells:
-                            tr_html += f'<th style="padding: 12px 14px; border: 1px solid #fed7aa;">{cell}</th>'
+                            tr_html += f'<th style="padding: 12px 14px; border: 1px solid #fed7aa; text-align: center;">{cell}</th>'
                         tr_html += '</tr>'
                     else:
                         bg_color = "#fffdfa" if idx % 2 == 1 else "#ffffff"
@@ -377,7 +377,7 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
                     if idx == 0:
                         tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-top: 2px solid #3b82f6; border-bottom: 2px solid #3b82f6;">'
                         for cell in cells:
-                            tr_html += f'<th style="padding: 12px 14px; font-family: Batang, Georgia, serif;">{cell}</th>'
+                            tr_html += f'<th style="padding: 12px 14px; font-family: Batang, Georgia, serif; text-align: center;">{cell}</th>'
                         tr_html += '</tr>'
                     else:
                         bg_color = "#f8fafc" if idx % 2 == 1 else "#ffffff"
@@ -741,7 +741,7 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
         clean_subj = clean_subj.replace(word, "")
     clean_subj = clean_subj.strip()
 
-    tag_text = f"📚 {clean_subj}"
+    tag_text = f"{clean_subj}"
     footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
     
     # Split title text
@@ -786,20 +786,6 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
         img = Image.alpha_composite(img, card_overlay)
         draw = ImageDraw.Draw(img)
 
-        # Draw Pill Badge tag
-        tag_w = 320
-        tag_h = 42
-        tag_x = width // 2 - tag_w // 2
-        tag_y = card_margin + 40
-        draw.rounded_rectangle(
-            [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
-            radius=20,
-            fill=(255, 255, 255, 50),
-            outline=(255, 255, 255, 100),
-            width=1
-        )
-        draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
-
         # Draw Title text (Centered)
         title_y = height // 2 - 20
         if len(lines) == 1:
@@ -819,18 +805,19 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
         text_x = 60
         text_y_start = 30
         
-        # Draw tag text in elegant Batang Serif font (grey/slate color)
-        draw.text(
-            (text_x, text_y_start), tag_text, 
-            fill=(51, 65, 85, 255), font=font_tag, anchor="lt"
-        )
-        
-        # Draw Title text on a single line
-        title_y_start = text_y_start + 40
-        title_display = title
+        # Draw Title text on a single line with left vertical Navy accent bar
+        title_y_start = text_y_start + 10
+        title_display = title_text
         if len(title_display) > 34:
             title_display = title_display[:34] + "..."
             
+        # Draw left vertical accent line (Navy)
+        draw.rounded_rectangle(
+            [text_x - 15, title_y_start + 2, text_x - 10, title_y_start + 36],
+            radius=2,
+            fill=(30, 58, 138, 255) # Navy
+        )
+        
         draw.text(
             (text_x, title_y_start), title_display, 
             fill=(15, 23, 42, 255), font=font_title, anchor="lt"
@@ -940,7 +927,7 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
         clean_subj = clean_subj.replace(word, "")
     clean_subj = clean_subj.strip()
     
-    tag_text = f"📚 {clean_subj}"
+    tag_text = f"{clean_subj}"
     footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
 
     if is_blogger:
@@ -958,22 +945,8 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
         img = Image.alpha_composite(img, card_overlay)
         draw = ImageDraw.Draw(img)
 
-        # Draw Pill Badge tag
-        tag_w = 220
-        tag_h = 32
-        tag_x = width // 2 - tag_w // 2
-        tag_y = card_margin + 25
-        draw.rounded_rectangle(
-            [tag_x, tag_y, tag_x + tag_w, tag_y + tag_h],
-            radius=16,
-            fill=(255, 255, 255, 40),
-            outline=(255, 255, 255, 80),
-            width=1
-        )
-        draw.text((width // 2, tag_y + tag_h // 2), tag_text, fill=(255, 255, 255, 255), font=font_tag, anchor="mm")
-
         # Draw Quiz Title and Subtitle (Centered)
-        draw.text((width // 2, height // 2), "✓ 자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
+        draw.text((width // 2, height // 2), "자가진단 QUIZ", fill=(255, 255, 255, 255), font=font_title, anchor="mm")
         draw.text((width // 2, height // 2 + 50), "문제를 풀며 오늘 배운 핵심 내용을 최종 점검해 보세요!", fill=(255, 255, 255, 200), font=font_subtitle, anchor="mm")
         
         # Draw footer logo
@@ -986,17 +959,14 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
         # Left aligned margins
         text_x = 50
         
-        # Draw tag text in elegant Batang Serif font (grey/slate color)
+        # Draw Quiz Title on the right side in Navy color
         draw.text(
-            (text_x, 25), tag_text, 
-            fill=(51, 65, 85, 255), font=font_tag, anchor="lt"
+            (width - 50, 18), "자가진단 QUIZ", 
+            fill=(30, 58, 138, 255), font=font_title, anchor="rt" # Navy
         )
         
-        # Draw Quiz Title on the right side
-        draw.text(
-            (width - 50, 20), "✓ 자가진단 QUIZ", 
-            fill=(15, 23, 42, 255), font=font_title, anchor="rt"
-        )
+        # Draw a separator horizontal line in blue matching H2 bottom border style
+        draw.line([(50, 60), (width - 50, 60)], fill=(191, 219, 254, 255), width=2)
         
         # Draw Subtitle on the left
         draw.text(
@@ -2068,7 +2038,7 @@ def _main_impl():
 1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
 2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
 3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
-4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식이나 리스트(- 또는 •)를 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하게 정보를 전달하십시오. 이때 워드프레스용 표는 전문적이고 상세한 분류 기준을 다룰 수 있도록 3~4개 열(Column)로 구성된 깊이 있는 상세 정보 표(Table) 형태로 작성하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
 7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
@@ -2098,7 +2068,7 @@ def _main_impl():
 1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
 2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
 3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
-4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하게 정보를 전달하십시오. 이때 구글 블로거용 표는 모바일 가독성을 극대화하기 위해 핵심 요약 위주의 간결한 2개 열(Column)로 구성된 직관적인 비교 표 형태로 작성하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
 7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
@@ -2346,7 +2316,7 @@ def _main_impl():
 1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
 2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
 3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
-4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식이나 리스트(- 또는 •)를 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하게 정보를 전달하십시오. 이때 워드프레스용 표는 전문적이고 상세한 분류 기준을 다룰 수 있도록 3~4개 열(Column)로 구성된 깊이 있는 상세 정보 표(Table) 형태로 작성하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
 7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
@@ -2376,7 +2346,7 @@ def _main_impl():
 1. [핵심 요약 3가지 우선 배치]: 본문 도입부(서론) 직후에, 오늘 공부할 내용에서 가장 중요한 핵심 요점 3가지를 글머리 기호(•) 또는 순서 있는 번호(1., 2., 3.)를 활용하여 한눈에 들어오도록 3줄 요약 리스트로 먼저 제시한 후 본론을 시작하십시오.
 2. [시각적 강약 조절 (강조)]: 단조로운 줄글 구성을 배제하고, 핵심 용어나 중요한 문장은 반드시 마크다운 굵게(**텍스트**) 기호로 감싸 시각적 포인트를 주어 독자가 중요한 내용을 한눈에 파악할 수 있도록 '강약'을 확실하게 구현하십시오.
 3. [인용구 및 정리 블록 활용]: 주요 개념의 정의나 핵심 요약은 마크다운 인용구(> ) 형식을 적극 활용하여 본문과 시각적으로 구분하여 정리해 주십시오.
-4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하고 가독성 높게 정보를 전달하십시오.
+4. [구조화된 정보 제공]: 주요 개념 비교나 분류가 필요한 경우, 적극적으로 표(Table) 형식을 사용하여 깔끔하게 정보를 전달하십시오. 이때 구글 블로거용 표는 모바일 가독성을 극대화하기 위해 핵심 요약 위주의 간결한 2개 열(Column)로 구성된 직관적인 비교 표 형태로 작성하십시오.
 5. [마이크로 문단 및 충분한 여백]: 글을 쓸 때 1~2개 문장 단위로 매우 짧게 단락을 나누고, 문단과 문단 사이에는 빈 줄을 2줄 이상(엔터 3번) 넣어 모바일 화면에서 읽기 편리하도록 충분한 여백(가독성 높은 숨구멍)을 확보하십시오.
 6. [마크다운 문법 적용]: 대제목은 `#`, 중제목은 `##`, 소제목은 `###`을 명확하게 붙여서 구조적인 문서를 만드십시오. (이 기호들은 자동 변환되므로 반드시 작성해 주셔야 합니다.)
 7. [포스팅 하단 태그 삽입]: 모든 버전의 본문 가장 최하단(본문 및 퀴즈 내용이 완전히 끝난 후)에는 다음 해시태그를 공백 문자로 구분하여 반드시 그대로 첨부하십시오. 추가로 본문 주제와 관련된 개별 핵심 태그를 2~3개 더 추가해 주십시오.
