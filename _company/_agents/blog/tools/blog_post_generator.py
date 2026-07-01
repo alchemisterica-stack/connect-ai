@@ -114,12 +114,22 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
         else:
             if in_blockquote:
                 bq_content = '<br>'.join(blockquote_lines)
-                bq_html = (
-                    f'<blockquote style="border-left: 4px solid #f59e0b; '
-                    f'padding: 12px 18px; margin: 18px 0; background-color: #fffbeb; '
-                    f'color: #7c2d12; border-radius: 4px; font-size: 0.95em; line-height: 1.6;">'
-                    f'{bq_content}</blockquote>'
-                )
+                if is_blogger:
+                    bq_html = (
+                        f'<blockquote style="border-left: 4px solid #f59e0b; '
+                        f'padding: 16px 20px; margin: 24px 0; background-color: #fffbeb; '
+                        f'color: #7c2d12; border-radius: 8px; font-size: 0.95em; line-height: 1.7; '
+                        f'font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">'
+                        f'{bq_content}</blockquote>'
+                    )
+                else:
+                    bq_html = (
+                        f'<blockquote style="border-left: 4px solid #3b82f6; '
+                        f'padding: 16px 20px; margin: 24px 0; background-color: #eff6ff; '
+                        f'color: #1e3a8a; border-radius: 6px; font-size: 0.98em; line-height: 1.7; '
+                        f'font-family: Batang, Georgia, serif;">'
+                        f'{bq_content}</blockquote>'
+                    )
                 new_lines.append(bq_html)
                 blockquote_lines = []
                 in_blockquote = False
@@ -127,49 +137,94 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
             
     if in_blockquote:
         bq_content = '<br>'.join(blockquote_lines)
-        bq_html = (
-            f'<blockquote style="border-left: 4px solid #f59e0b; '
-            f'padding: 12px 18px; margin: 18px 0; background-color: #fffbeb; '
-            f'color: #7c2d12; border-radius: 4px; font-size: 0.95em; line-height: 1.6;">'
-            f'{bq_content}</blockquote>'
-        )
+        if is_blogger:
+            bq_html = (
+                f'<blockquote style="border-left: 4px solid #f59e0b; '
+                f'padding: 16px 20px; margin: 24px 0; background-color: #fffbeb; '
+                f'color: #7c2d12; border-radius: 8px; font-size: 0.95em; line-height: 1.7; '
+                f'font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">'
+                f'{bq_content}</blockquote>'
+            )
+        else:
+            bq_html = (
+                f'<blockquote style="border-left: 4px solid #3b82f6; '
+                f'padding: 16px 20px; margin: 24px 0; background-color: #eff6ff; '
+                f'color: #1e3a8a; border-radius: 6px; font-size: 0.98em; line-height: 1.7; '
+                f'font-family: Batang, Georgia, serif;">'
+                f'{bq_content}</blockquote>'
+            )
         new_lines.append(bq_html)
         
     html = '\n'.join(new_lines)
     
     # 2. Headings
-    def replace_h3(match):
-        title = match.group(1).strip()
-        return (
-            f'<h3 style="font-size: 1.2em; color: #7c2d12; margin-top: 24px; '
-            f'margin-bottom: 12px; font-weight: bold; border-left: 3px solid #7c2d12; '
-            f'padding-left: 10px; line-height: 1.4;">{title}</h3>'
-        )
-    html = re.sub(r'^###\s+(.*)$', replace_h3, html, flags=re.MULTILINE)
-    
-    def replace_h2(match):
-        title = match.group(1).strip()
-        return (
-            f'<h2 style="font-size: 1.4em; color: #431407; margin-top: 32px; '
-            f'margin-bottom: 16px; font-weight: bold; border-bottom: 1px solid #fed7aa; '
-            f'padding-bottom: 8px; line-height: 1.4;">{title}</h2>'
-        )
-    html = re.sub(r'^##\s+(.*)$', replace_h2, html, flags=re.MULTILINE)
-    
-    def replace_h1(match):
-        title = match.group(1).strip()
-        return (
-            f'<h1 style="font-size: 1.75em; color: #431407; margin-top: 36px; '
-            f'margin-bottom: 20px; font-weight: bold; line-height: 1.3;">{title}</h1>'
-        )
-    html = re.sub(r'^#\s+(.*)$', replace_h1, html, flags=re.MULTILINE)
+    if is_blogger:
+        def replace_h3_blogger(match):
+            title = match.group(1).strip()
+            return (
+                f'<h3 style="font-size: 1.25em; color: #7c2d12; margin-top: 28px; '
+                f'margin-bottom: 14px; font-weight: bold; border-left: 4px solid #b45309; '
+                f'padding-left: 12px; line-height: 1.4; font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">{title}</h3>'
+            )
+        html = re.sub(r'^###\s+(.*)$', replace_h3_blogger, html, flags=re.MULTILINE)
+        
+        def replace_h2_blogger(match):
+            title = match.group(1).strip()
+            return (
+                f'<h2 style="font-size: 1.45em; color: #431407; margin-top: 36px; '
+                f'margin-bottom: 18px; font-weight: bold; border-bottom: 2px solid #fed7aa; '
+                f'padding-bottom: 8px; line-height: 1.4; font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">{title}</h2>'
+            )
+        html = re.sub(r'^##\s+(.*)$', replace_h2_blogger, html, flags=re.MULTILINE)
+        
+        def replace_h1_blogger(match):
+            title = match.group(1).strip()
+            return (
+                f'<h1 style="font-size: 1.8em; color: #431407; margin-top: 40px; '
+                f'margin-bottom: 22px; font-weight: bold; line-height: 1.3; font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">{title}</h1>'
+            )
+        html = re.sub(r'^#\s+(.*)$', replace_h1_blogger, html, flags=re.MULTILINE)
+    else:
+        # WordPress - Blue-gray elegant editorial look
+        def replace_h3_wp(match):
+            title = match.group(1).strip()
+            return (
+                f'<h3 style="font-size: 1.25em; color: #1e3a8a; margin-top: 28px; '
+                f'margin-bottom: 14px; font-weight: bold; border-left: 4px solid #3b82f6; '
+                f'padding-left: 12px; line-height: 1.4; font-family: Batang, Georgia, serif;">{title}</h3>'
+            )
+        html = re.sub(r'^###\s+(.*)$', replace_h3_wp, html, flags=re.MULTILINE)
+        
+        def replace_h2_wp(match):
+            title = match.group(1).strip()
+            return (
+                f'<h2 style="font-size: 1.45em; color: #0f172a; margin-top: 36px; '
+                f'margin-bottom: 18px; font-weight: bold; border-bottom: 2px solid #bfdbfe; '
+                f'padding-bottom: 8px; line-height: 1.4; font-family: Batang, Georgia, serif;">{title}</h2>'
+            )
+        html = re.sub(r'^##\s+(.*)$', replace_h2_wp, html, flags=re.MULTILINE)
+        
+        def replace_h1_wp(match):
+            title = match.group(1).strip()
+            return (
+                f'<h1 style="font-size: 1.8em; color: #0f172a; margin-top: 40px; '
+                f'margin-bottom: 22px; font-weight: bold; line-height: 1.3; font-family: Batang, Georgia, serif;">{title}</h1>'
+            )
+        html = re.sub(r'^#\s+(.*)$', replace_h1_wp, html, flags=re.MULTILINE)
 
     # 3. Links and Horizontal Rules
-    html = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" style="color: #7c2d12; text-decoration: underline;">\1</a>', html)
-    html = re.sub(r'^---$', r'<hr style="border: 0; border-top: 1px solid #fed7aa; margin: 24px 0;" />', html, flags=re.MULTILINE)
+    if is_blogger:
+        html = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" style="color: #b45309; text-decoration: underline;">\1</a>', html)
+        html = re.sub(r'^---$', r'<hr style="border: 0; border-top: 1px solid #fed7aa; margin: 28px 0;" />', html, flags=re.MULTILINE)
+    else:
+        html = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" style="color: #2563eb; text-decoration: underline; font-family: Batang, Georgia, serif;">\1</a>', html)
+        html = re.sub(r'^---$', r'<hr style="border: 0; border-top: 1px solid #bfdbfe; margin: 28px 0;" />', html, flags=re.MULTILINE)
 
-    # 4. Bold
-    html = re.sub(r'\*\*(.*?)\*\*', r'<strong style="color: #431407; font-weight: bold;">\1</strong>', html)
+    # 4. Bold / Strong
+    if is_blogger:
+        html = re.sub(r'\*\*(.*?)\*\*', r'<strong style="color: #7c2d12; font-weight: bold;">\1</strong>', html)
+    else:
+        html = re.sub(r'\*\*(.*?)\*\*', r'<strong style="color: #1e3a8a; font-weight: bold; font-family: Batang, Georgia, serif;">\1</strong>', html)
     
     # 5. Lists (Unordered & Ordered)
     lines = html.split('\n')
@@ -239,37 +294,48 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
             table_lines.append(strip_line)
         else:
             if in_table:
-                table_html = (
-                    '<table style="width: 100%; border-collapse: collapse; margin: 20px 0; '
-                    'font-size: 0.95em; text-align: left; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">'
-                )
+                if is_blogger:
+                    # Blogger: Modern Card-style Grid Table (With vertical lines, rounded corners, warm borders)
+                    table_html = (
+                        '<table style="width: 100%; border-collapse: collapse; margin: 24px 0; '
+                        'font-size: 0.95em; text-align: left; line-height: 1.6; border: 1px solid #fed7aa; '
+                        'font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">'
+                    )
+                else:
+                    # WordPress: Editorial Slate-Blue Grid Table (No vertical lines, clean borders, minimal zebra-striping)
+                    table_html = (
+                        '<table style="width: 100%; border-collapse: collapse; margin: 24px 0; '
+                        'font-size: 0.95em; text-align: left; line-height: 1.6; '
+                        'font-family: Batang, Georgia, serif;">'
+                    )
                 for idx, tline in enumerate(table_lines):
                     cells = [c.strip() for c in tline.split('|') if c.strip() or tline.startswith('|') or tline.endswith('|')]
                     if len(cells) > 0:
                         if is_blogger:
-                            tr_style = "border-bottom: 1px solid #e2e8f0;"
+                            tr_style = "border-bottom: 1px solid #fed7aa;"
                             if idx == 0:
                                 tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
                                 for cell in cells:
-                                    tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
+                                    tr_html += f'<th style="padding: 12px 14px; border: 1px solid #fed7aa;">{cell}</th>'
                                 tr_html += '</tr>'
                             else:
-                                tr_html = f'<tr style="{tr_style}">'
+                                bg_color = "#fffdfa" if idx % 2 == 1 else "#ffffff"
+                                tr_html = f'<tr style="background-color: {bg_color}; {tr_style}">'
                                 for cell in cells:
-                                    tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
+                                    tr_html += f'<td style="padding: 11px 13px; border: 1px solid #fed7aa; color: #27272a;">{cell}</td>'
                                 tr_html += '</tr>'
                         else:
-                            # WordPress: Clean blue-gray editorial table with Batang font and zebra stripes
+                            # WordPress: Clean blue-gray editorial table with Batang font, no vertical borders
                             if idx == 0:
-                                tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-bottom: 2px solid #bfdbfe;">'
+                                tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-top: 2px solid #3b82f6; border-bottom: 2px solid #3b82f6;">'
                                 for cell in cells:
-                                    tr_html += f'<th style="padding: 12px 14px; border: 1px solid #bfdbfe; font-family: Batang, Georgia, serif;">{cell}</th>'
+                                    tr_html += f'<th style="padding: 12px 14px; font-family: Batang, Georgia, serif;">{cell}</th>'
                                 tr_html += '</tr>'
                             else:
                                 bg_color = "#f8fafc" if idx % 2 == 1 else "#ffffff"
                                 tr_html = f'<tr style="background-color: {bg_color}; border-bottom: 1px solid #e2e8f0;">'
                                 for cell in cells:
-                                    tr_html += f'<td style="padding: 10px 12px; border: 1px solid #bfdbfe; color: #334155; font-family: Batang, Georgia, serif;">{cell}</td>'
+                                    tr_html += f'<td style="padding: 10px 12px; color: #334155; font-family: Batang, Georgia, serif;">{cell}</td>'
                                 tr_html += '</tr>'
                         table_html += tr_html
                 table_html += '</table>'
@@ -279,37 +345,45 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
             new_lines.append(line)
             
     if in_table:
-        table_html = (
-            '<table style="width: 100%; border-collapse: collapse; margin: 20px 0; '
-            'font-size: 0.95em; text-align: left; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">'
-        )
+        if is_blogger:
+            table_html = (
+                '<table style="width: 100%; border-collapse: collapse; margin: 24px 0; '
+                'font-size: 0.95em; text-align: left; line-height: 1.6; border: 1px solid #fed7aa; '
+                'font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif;">'
+            )
+        else:
+            table_html = (
+                '<table style="width: 100%; border-collapse: collapse; margin: 24px 0; '
+                'font-size: 0.95em; text-align: left; line-height: 1.6; '
+                'font-family: Batang, Georgia, serif;">'
+            )
         for idx, tline in enumerate(table_lines):
             cells = [c.strip() for c in tline.split('|') if c.strip() or tline.startswith('|') or tline.endswith('|')]
             if len(cells) > 0:
                 if is_blogger:
-                    tr_style = "border-bottom: 1px solid #e2e8f0;"
+                    tr_style = "border-bottom: 1px solid #fed7aa;"
                     if idx == 0:
                         tr_html = f'<tr style="background-color: #ffedd5; color: #7c2d12; font-weight: bold; {tr_style}">'
                         for cell in cells:
-                            tr_html += f'<th style="padding: 10px 12px; border: 1px solid #fed7aa;">{cell}</th>'
+                            tr_html += f'<th style="padding: 12px 14px; border: 1px solid #fed7aa;">{cell}</th>'
                         tr_html += '</tr>'
                     else:
-                        tr_html = f'<tr style="{tr_style}">'
+                        bg_color = "#fffdfa" if idx % 2 == 1 else "#ffffff"
+                        tr_html = f'<tr style="background-color: {bg_color}; {tr_style}">'
                         for cell in cells:
-                            tr_html += f'<td style="padding: 10px 12px; border: 1px solid #fed7aa; color: #4b5563;">{cell}</td>'
+                            tr_html += f'<td style="padding: 11px 13px; border: 1px solid #fed7aa; color: #27272a;">{cell}</td>'
                         tr_html += '</tr>'
                 else:
-                    # WordPress: Clean blue-gray editorial table with Batang font and zebra stripes
                     if idx == 0:
-                        tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-bottom: 2px solid #bfdbfe;">'
+                        tr_html = f'<tr style="background-color: #eff6ff; color: #1e3a8a; font-weight: bold; border-top: 2px solid #3b82f6; border-bottom: 2px solid #3b82f6;">'
                         for cell in cells:
-                            tr_html += f'<th style="padding: 12px 14px; border: 1px solid #bfdbfe; font-family: Batang, Georgia, serif;">{cell}</th>'
+                            tr_html += f'<th style="padding: 12px 14px; font-family: Batang, Georgia, serif;">{cell}</th>'
                         tr_html += '</tr>'
                     else:
                         bg_color = "#f8fafc" if idx % 2 == 1 else "#ffffff"
                         tr_html = f'<tr style="background-color: {bg_color}; border-bottom: 1px solid #e2e8f0;">'
                         for cell in cells:
-                            tr_html += f'<td style="padding: 10px 12px; border: 1px solid #bfdbfe; color: #334155; font-family: Batang, Georgia, serif;">{cell}</td>'
+                            tr_html += f'<td style="padding: 10px 12px; color: #334155; font-family: Batang, Georgia, serif;">{cell}</td>'
                         tr_html += '</tr>'
                 table_html += tr_html
         table_html += '</table>'
@@ -327,7 +401,10 @@ def markdown_to_html_for_blogger(md_text, is_blogger=True):
     html = re.sub(r'(<br>\s*){3,}', '<br><br>', html)
     
     # Wrap in container with modern fonts, line-height, and slate-gray text color
-    return f'<div style="font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif; font-size: 16px; line-height: 1.8; color: #334155;">{html}</div>'
+    if is_blogger:
+        return f'<div style="font-family: \'Apple SD Gothic Neo\', \'Malgun Gothic\', sans-serif; font-size: 16px; line-height: 1.8; color: #27272a;">{html}</div>'
+    else:
+        return f'<div style="font-family: Batang, Georgia, serif; font-size: 16.5px; line-height: 1.85; color: #334155;">{html}</div>'
 
 def ask_llm(ollama_url, model, prompt, gemini_api_key=None):
     if gemini_api_key:
@@ -658,12 +735,25 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
         font_subtitle = ImageFont.load_default()
         font_tag = ImageFont.load_default()
 
-    tag_text = f"📚 {subject} 학습 요약"
+    # Clean up subject from forbidden keywords
+    clean_subj = subject
+    for word in ["청소년지도사 자격증 대비:", "청소년지도사 자격증 대비 :", "청소년지도사자격증대비:", "청소년지도사 자격증 대비", "청소년지도사자격증대비", "청소년지도사", "핵심 요약", "핵심요약"]:
+        clean_subj = clean_subj.replace(word, "")
+    clean_subj = clean_subj.strip()
+
+    tag_text = f"📚 {clean_subj}"
     footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
     
     # Split title text
     import re
     title_text = title
+    for word in ["청소년지도사 자격증 대비:", "청소년지도사 자격증 대비 :", "청소년지도사자격증대비:", "청소년지도사 자격증 대비", "청소년지도사자격증대비", "청소년지도사", "핵심 요약", "핵심요약"]:
+        title_text = title_text.replace(word, "")
+    # Remove leading/trailing dashes, colons, spaces
+    title_text = re.sub(r'^[\s\-:\s]+', '', title_text)
+    title_text = re.sub(r'[\s\-:\s]+$', '', title_text)
+    title_text = title_text.strip()
+    
     max_len = 24
     lines = []
     if len(title_text) > max_len:
@@ -844,7 +934,13 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
         font_subtitle = ImageFont.load_default()
         font_tag = ImageFont.load_default()
         
-    tag_text = f"📚 {subject}"
+    # Clean up subject from forbidden keywords in quiz banner
+    clean_subj = subject
+    for word in ["청소년지도사 자격증 대비:", "청소년지도사 자격증 대비 :", "청소년지도사자격증대비:", "청소년지도사 자격증 대비", "청소년지도사자격증대비", "청소년지도사", "핵심 요약", "핵심요약"]:
+        clean_subj = clean_subj.replace(word, "")
+    clean_subj = clean_subj.strip()
+    
+    tag_text = f"📚 {clean_subj}"
     footer_text = "congcandy.wordpress.com" if not is_blogger else "congcandy.blogspot.com"
 
     if is_blogger:
@@ -1127,18 +1223,35 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
             ]
             blogger_content = blogger_content + "\n\n\n" + " ".join(tags)
     
-    # Also clean up the titles if they somehow still contain brackets/weeks/instructions
-    wp_title = re.sub(r'^\d+주차\s*\d+교시\.?\s*', '', wp_title)
-    wp_title = re.sub(r'^\d+주차_\d+교시_?', '', wp_title)
+    if category == "study":
+        lesson_part = target_file_name.replace('.pdf','').replace('.txt','').replace('.hwp','').replace('.md','').replace('_', ' ').strip()
+        wp_title = f"{current_subject} - {lesson_part}"
+        blogger_title = f"{current_subject} - {lesson_part}"
+
+    # Also clean up the titles if they somehow still contain brackets/weeks/instructions/forbidden phrases
+    for word in ["청소년지도사 자격증 대비:", "청소년지도사 자격증 대비 :", "청소년지도사자격증대비:", "청소년지도사 자격증 대비", "청소년지도사자격증대비", "청소년지도사", "핵심 요약", "핵심요약"]:
+        wp_title = wp_title.replace(word, "")
+        blogger_title = blogger_title.replace(word, "")
+
     wp_title = re.sub(r'^\[워드프레스용\s*제목\]\s*', '', wp_title)
     wp_title = re.sub(r'^\[워드프레스용\]\s*', '', wp_title)
     wp_title = wp_title.replace('[', '').replace(']', '').strip()
+    wp_title = re.sub(r'^[\s\-:\s]+', '', wp_title)
+    wp_title = re.sub(r'[\s\-:\s]+$', '', wp_title)
+    wp_title = wp_title.strip()
     
-    blogger_title = re.sub(r'^\d+주차\s*\d+교시\.?\s*', '', blogger_title)
-    blogger_title = re.sub(r'^\d+주차_\d+교시_?', '', blogger_title)
     blogger_title = re.sub(r'^\[블로거용\s*제목\]\s*', '', blogger_title)
     blogger_title = re.sub(r'^\[블로거용\]\s*', '', blogger_title)
     blogger_title = blogger_title.replace('[', '').replace(']', '').strip()
+    blogger_title = re.sub(r'^[\s\-:\s]+', '', blogger_title)
+    blogger_title = re.sub(r'[\s\-:\s]+$', '', blogger_title)
+    blogger_title = blogger_title.strip()
+
+    # Re-enforce standard [과목명] - [차시명] format if it got too cleaned up
+    if category == "study" and "-" not in wp_title:
+        wp_title = f"{current_subject} - {wp_title}"
+    if category == "study" and "-" not in blogger_title:
+        blogger_title = f"{current_subject} - {blogger_title}"
     
     wp_url = ""
     wp_banner_url = ""
@@ -1546,7 +1659,7 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                         print(f"[WARN] WordPress quiz banner failed: {q_err}")
 
                     if wp_quiz_url:
-                        img_tag = f'\n\n<img src="{wp_quiz_url}" style="max-width:70%; height:auto; display:block; margin: 20px auto;" alt="Quiz Banner" />\n\n'
+                        img_tag = f'\n<br><br>\n<img src="{wp_quiz_url}" style="width: 100%; max-width: 850px; height: auto; display: block; margin: 40px auto;" alt="Quiz Banner" />\n<br><br>\n'
                         pattern = r'\[?이곳에\s*학습\s*퀴즈\s*관련\s*이미지가?\s*들어갈\s*자리입니다\.?\]?'
                         if re.search(pattern, wp_body):
                             wp_body = re.sub(pattern, img_tag, wp_body)
@@ -1561,7 +1674,7 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                     if category == "recipe":
                         wp_body = f'<img src="{wp_banner_url}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="대표 완성 요리" />\n\n' + wp_body
                     else:
-                        wp_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + wp_body
+                        wp_body = f'<img src="{wp_banner_url}" style="width: 100%; max-width: 850px; height: auto; display: block; margin: 30px auto;" alt="Banner" />\n\n' + wp_body
 
                 # Check and dynamically create WordPress category if not exists
                 wp_categories = []
@@ -1651,7 +1764,7 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                             print(f"[WARN] Blogger quiz banner failed: {q_err}")
 
                         if blogger_quiz_url:
-                            img_tag = f'\n\n<img src="{blogger_quiz_url}" style="max-width:70%; height:auto; display:block; margin: 20px auto;" alt="Quiz Banner" />\n\n'
+                            img_tag = f'\n<br><br>\n<img src="{blogger_quiz_url}" style="width: 100%; max-width: 850px; height: auto; display: block; margin: 40px auto;" alt="Quiz Banner" />\n<br><br>\n'
                             pattern = r'\[?이곳에\s*학습\s*퀴즈\s*관련\s*이미지가?\s*들어갈\s*자리입니다\.?\]?'
                             if re.search(pattern, blogger_body):
                                 blogger_body = re.sub(pattern, img_tag, blogger_body)
@@ -1666,12 +1779,12 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                         if category == "recipe":
                             blogger_body = f'<img src="{blogger_banner_url}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="대표 완성 요리" />\n\n' + blogger_body
                         else:
-                            blogger_body = f'<img src="{blogger_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
+                            blogger_body = f'<img src="{blogger_banner_url}" style="width: 100%; max-width: 850px; height: auto; display: block; margin: 30px auto;" alt="Banner" />\n\n' + blogger_body
                     elif wp_banner_url:
                         if category == "recipe":
                             blogger_body = f'<img src="{wp_banner_url}" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 24px auto; border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" alt="대표 완성 요리" />\n\n' + blogger_body
                         else:
-                            blogger_body = f'<img src="{wp_banner_url}" style="max-width:70%; height:auto; display:block; margin: 15px auto;" alt="Banner" />\n\n' + blogger_body
+                            blogger_body = f'<img src="{wp_banner_url}" style="width: 100%; max-width: 850px; height: auto; display: block; margin: 30px auto;" alt="Banner" />\n\n' + blogger_body
                         
                     html_content = markdown_to_html_for_blogger(blogger_body, is_blogger=True)
                     payload = {
