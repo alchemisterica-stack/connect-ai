@@ -70,7 +70,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
       "enabled": true,
-      "lastFiredAt": "2026-07-01"
+      "lastFiredAt": "2026-07-02"
     },
     {
       "id": "sched-blog-publish-monday-scan",
