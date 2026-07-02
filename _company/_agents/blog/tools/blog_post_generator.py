@@ -625,8 +625,8 @@ def create_dynamic_banner(title, category, subject, output_path, is_blogger=Fals
     import hashlib
     img = None
     try:
-        # Map post title to one of the 7 pre-downloaded high-quality local background illustrations
-        idx = int(hashlib.md5(title.encode('utf-8')).hexdigest(), 16) % 7
+        # Select background strictly based on the current day of the week (Monday=0, Tuesday=1, ..., Sunday=6)
+        idx = datetime.datetime.now().weekday()
         
         # WordPress gets the realistic photo background, Blogger gets the illustration
         if not is_blogger:
@@ -845,10 +845,8 @@ def create_quiz_banner(subject, output_path, is_blogger=False):
     import datetime
     img = None
     try:
-        # Mix the current weekday and the subject hash to guarantee a unique index for different subjects
-        weekday = datetime.date.today().weekday()
-        subj_hash = int(hashlib.md5(subject.encode('utf-8')).hexdigest(), 16)
-        idx = (weekday + subj_hash) % 7
+        # Select background strictly based on the current day of the week (Monday=0, Tuesday=1, ..., Sunday=6)
+        idx = datetime.date.today().weekday()
         if not is_blogger:
             bg_path = os.path.join(HERE, "assets", f"quiz_bg_wp_{idx}.png")
         else:
@@ -1170,13 +1168,17 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
     blogger_content = clean_remnants(blogger_content)
 
     # 자체 텍스트 품질 검수(QC) 가동
+    blogger_qc_passed = True
+    blogger_qc_reason = ""
     if automation_utils:
         is_passed, reason = automation_utils.run_text_self_qc(wp_content, category, gemini_api_key)
         if not is_passed:
             raise ValueError(f"WordPress 본문 자체 검수(QC) 실패: {reason}")
         is_passed, reason = automation_utils.run_text_self_qc(blogger_content, category, gemini_api_key)
         if not is_passed:
-            raise ValueError(f"Blogger 본문 자체 검수(QC) 실패: {reason}")
+            print(f"[WARN] Blogger 본문 자체 검수(QC) 실패: {reason}")
+            blogger_qc_passed = False
+            blogger_qc_reason = reason
     
     # Automatically append hashtags for recipe posts if none exist in the draft
     if category == "recipe" and cleaned_lesson:
@@ -1562,7 +1564,10 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                             break
                         else:
                             if attempt == max_attempts:
-                                raise ValueError(f"배너 이미지 비주얼 검수(QC) 최종 실패: {reason}")
+                                print(f"[WARN] Banner Visual QC failed on final attempt: {reason}. Falling back to default banners.")
+                                banner_path = os.path.join(HERE, "youth_instructor_banner.png")
+                                blogger_banner_path = os.path.join(HERE, "youth_instructor_banner_blogger.png")
+                                break
                             else:
                                 print(f"[QC-RETRY] Retrying banner generation...")
 
@@ -1701,6 +1706,9 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                 if creds:
                     access_token = creds.token
                     
+                    if not blogger_qc_passed:
+                        raise ValueError(f"Blogger 본문 품질 검수(QC) 통과 실패: {blogger_qc_reason}")
+                        
                     blogger_body = blogger_content
 
                     # Embed Blogger recipe images dynamically
