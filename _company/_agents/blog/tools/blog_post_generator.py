@@ -1355,6 +1355,20 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                 blogger_banner_path = None
                 if category == "recipe" and cleaned_lesson:
                     dish_name = cleaned_lesson
+                    # Resolve actual dish name from metadata if available
+                    if metadata and metadata.get("Dish"):
+                        dish_name = metadata.get("Dish")
+                    else:
+                        meta_match = re.search(r'\[METADATA\]([\s\S]*?)\[END METADATA\]', result)
+                        if meta_match:
+                            meta_text = meta_match.group(1).strip()
+                            for line in meta_text.split('\n'):
+                                if ':' in line:
+                                    k, v = line.split(':', 1)
+                                    if k.strip().lower() == 'dish':
+                                        dish_name = v.strip()
+                                        break
+                    
                     clean_dish = dish_name.replace(" ", "").lower()
                     user_home = os.path.expanduser("~")
                     custom_dirs = [
@@ -1374,7 +1388,11 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                                 if f_lower.startswith(clean_dish):
                                     suffix = f_lower.replace(clean_dish, "").strip("_")
                                     photo_type = None
-                                    if "ing" in suffix:
+                                    if "wp_ing" in suffix:
+                                        photo_type = "wp_ing"
+                                    elif "blogger_ing" in suffix or "bg_ing" in suffix:
+                                        photo_type = "blogger_ing"
+                                    elif "ing" in suffix:
                                         photo_type = "ing"
                                     elif "wp_fin" in suffix:
                                         photo_type = "wp_fin"
@@ -1385,7 +1403,13 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                                     elif "step" in suffix:
                                         m_step = re.search(r'step(\d+)', suffix)
                                         if m_step:
-                                            photo_type = f"step{m_step.group(1)}"
+                                            num = m_step.group(1)
+                                            if "wp" in suffix:
+                                                photo_type = f"wp_step{num}"
+                                            elif "blogger" in suffix or "bg" in suffix:
+                                                photo_type = f"blogger_step{num}"
+                                            else:
+                                                photo_type = f"step{num}"
                                     
                                     if photo_type and photo_type not in local_files:
                                         temp_name = f"temp_optimized_{photo_type}.png"
@@ -1606,11 +1630,17 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                 # Embed WordPress recipe images dynamically
                 if category == "recipe" and recipe_images:
                     wp_recipe_images = {}
-                    if "ing" in recipe_images: wp_recipe_images["ing"] = recipe_images["ing"]
+                    if "wp_ing" in recipe_images: wp_recipe_images["ing"] = recipe_images["wp_ing"]
+                    elif "ing" in recipe_images: wp_recipe_images["ing"] = recipe_images["ing"]
+                    
                     if "wp_fin" in recipe_images: wp_recipe_images["fin"] = recipe_images["wp_fin"]
                     elif "fin" in recipe_images: wp_recipe_images["fin"] = recipe_images["fin"]
+                    
                     for k, v in recipe_images.items():
-                        if k.startswith("step"):
+                        if k.startswith("wp_step"):
+                            step_num = k.replace("wp_step", "")
+                            wp_recipe_images[f"step{step_num}"] = v
+                        elif k.startswith("step") and f"wp_{k}" not in recipe_images:
                             wp_recipe_images[k] = v
                     wp_body = embed_images_in_content(wp_body, wp_recipe_images, exclude_fin=False)
                 
@@ -1714,11 +1744,17 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                     # Embed Blogger recipe images dynamically
                     if category == "recipe" and recipe_images:
                         blogger_recipe_images = {}
-                        if "ing" in recipe_images: blogger_recipe_images["ing"] = recipe_images["ing"]
+                        if "blogger_ing" in recipe_images: blogger_recipe_images["ing"] = recipe_images["blogger_ing"]
+                        elif "ing" in recipe_images: blogger_recipe_images["ing"] = recipe_images["ing"]
+                        
                         if "blogger_fin" in recipe_images: blogger_recipe_images["fin"] = recipe_images["blogger_fin"]
                         elif "fin" in recipe_images: blogger_recipe_images["fin"] = recipe_images["fin"]
+                        
                         for k, v in recipe_images.items():
-                            if k.startswith("step"):
+                            if k.startswith("blogger_step"):
+                                step_num = k.replace("blogger_step", "")
+                                blogger_recipe_images[f"step{step_num}"] = v
+                            elif k.startswith("step") and f"blogger_{k}" not in recipe_images:
                                 blogger_recipe_images[k] = v
                         blogger_body = embed_images_in_content(blogger_body, blogger_recipe_images, exclude_fin=False)
                     

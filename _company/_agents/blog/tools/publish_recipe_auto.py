@@ -26,6 +26,10 @@ except ImportError:
     automation_utils = None
 
 def get_recipe_topic():
+    if len(sys.argv) > 1:
+        print(f"[INFO] Using manual CLI recipe topic: {sys.argv[1]}")
+        return sys.argv[1]
+        
     default_topic = "여름철 더위를 시원하게 날려주는 오이냉국"
     
     # Load completed lessons from blog_queue.json
@@ -246,15 +250,57 @@ def _main_impl():
         except Exception:
             pass
 
-    result = generate_recipe_post(topic, gemini_api_key)
-    if not result:
-        print("[ERROR] Failed to generate recipe blog post content.")
-        sys.exit(1)
+    # Check if a pre-generated approved draft already exists for this dish
+    use_existing_draft = False
+    result = ""
+    if os.path.exists(DRAFT_PATH) and os.path.getsize(DRAFT_PATH) > 1000:
+        try:
+            with open(DRAFT_PATH, "r", encoding="utf-8") as f_draft:
+                existing_content = f_draft.read()
+            
+            # Extract clean target dish name
+            clean_target = topic.replace(" ", "").lower()
+            for word in ["메밀국수", "오이냉국", "감자떡", "이모모찌", "김치찌개", "된장찌개", "제육볶음"]:
+                if word in topic:
+                    clean_target = word
+                    break
+            
+            # Parse dish name from metadata block in existing draft
+            meta_match = re.search(r'\[METADATA\]([\s\S]*?)\[END METADATA\]', existing_content)
+            draft_dish = ""
+            if meta_match:
+                meta_text = meta_match.group(1).strip()
+                for line in meta_text.split('\n'):
+                    if ':' in line:
+                        k, v = line.split(':', 1)
+                        if k.strip().lower() == 'dish':
+                            draft_dish = v.strip().replace(" ", "").lower()
+                            break
+            
+            print(f"[DEBUG] DRAFT_PATH: {DRAFT_PATH}")
+            print(f"[DEBUG] Exists: {os.path.exists(DRAFT_PATH)}, Size: {os.path.getsize(DRAFT_PATH)}")
+            print(f"[DEBUG] clean_target: '{clean_target}', draft_dish: '{draft_dish}'")
+            print(f"[DEBUG] clean_target in draft_dish?: {clean_target in draft_dish}")
+            print(f"[DEBUG] clean_target in existing_content.lower()?: {clean_target in existing_content.lower()}")
+            
+            if clean_target and (clean_target in draft_dish or clean_target in existing_content.lower()):
+                print(f"[INFO] Found matching existing approved draft for '{clean_target}'. Reusing it.")
+                result = existing_content
+                use_existing_draft = True
+        except Exception as draft_err:
+            print(f"[WARN] Failed to inspect existing draft: {draft_err}")
 
-    print(f"[INFO] Writing generated content to draft: {DRAFT_PATH}")
-    os.makedirs(SESSIONS_DIR, exist_ok=True)
-    with open(DRAFT_PATH, "w", encoding="utf-8") as f:
-        f.write(result)
+    print(f"[DEBUG] use_existing_draft flag: {use_existing_draft}")
+    if not use_existing_draft:
+        print("[INFO] Generating new recipe post from scratch...")
+        result = generate_recipe_post(topic, gemini_api_key)
+        if not result:
+            print("[ERROR] Failed to generate recipe blog post content.")
+            sys.exit(1)
+        print(f"[INFO] Writing generated content to draft: {DRAFT_PATH}")
+        os.makedirs(SESSIONS_DIR, exist_ok=True)
+        with open(DRAFT_PATH, "w", encoding="utf-8") as f:
+            f.write(result)
 
     # Extract a clean dish name for a unique lesson key using LLM
     dish_name = None
