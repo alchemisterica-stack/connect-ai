@@ -436,7 +436,7 @@ def create_reels_version(card_img, bg_img, theme):
     return canvas
 
 
-# ─── Main ─────────────────────────────────────────────────────────────
+# --- Main -------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser(description="1장짜리 명상 카드 생성기")
     parser.add_argument("--title", default=DEFAULT_TITLE, help="카드 제목 (줄바꿈: \n)")

@@ -212,26 +212,54 @@ def upload_to_transfer_sh(local_path):
         print(f"[ERROR] Failed to upload to Transfer.sh: {e}")
         return None
 
+def upload_to_tmpfiles(local_path):
+    if not os.path.exists(local_path):
+        return None
+    url = "https://tmpfiles.org/api/v1/upload"
+    try:
+        print(f"[INFO] Uploading local file to Tmpfiles.org: {os.path.basename(local_path)}")
+        with open(local_path, "rb") as f:
+            r = requests.post(url, files={"file": f}, timeout=60)
+        if r.status_code == 200:
+            res_data = r.json()
+            if res_data.get("status") == "success":
+                raw_url = res_data.get("data", {}).get("url")
+                if raw_url:
+                    # Meta 다운로드를 위해 다이렉트 링크인 /dl/ 주소로 변환 처리합니다.
+                    direct_url = raw_url.replace("https://tmpfiles.org/", "https://tmpfiles.org/dl/", 1)
+                    print(f"[SUCCESS] Tmpfiles upload succeeded! Direct URL: {direct_url}")
+                    return direct_url
+        print(f"[ERROR] Tmpfiles upload failed (status={r.status_code}): {r.text}")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Failed to upload to Tmpfiles: {e}")
+        return None
+
 def get_public_url(source):
     if source.startswith("http://") or source.startswith("https://"):
         return source
         
-    # Try WordPress first (works for images, blocks mp4)
+    # 1. Tmpfiles.org (대용량 비디오에 매우 안정적이고 빠름)
+    url = upload_to_tmpfiles(source)
+    if url:
+        return url
+
+    # 2. WordPress (이미지만 업로드 허용)
     url = upload_image_to_wordpress(source)
     if url:
         return url
         
-    # 1st Fallback: Catbox.moe
+    # 3. Catbox.moe Fallback
     url = upload_image_to_catbox(source)
     if url:
         return url
         
-    # 2nd Fallback: File.io
+    # 4. File.io Fallback
     url = upload_to_file_io(source)
     if url:
         return url
         
-    # 3rd Fallback: Transfer.sh
+    # 5. Transfer.sh Fallback
     return upload_to_transfer_sh(source)
 
 def create_item_container(image_source, token, biz_id):

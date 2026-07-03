@@ -248,10 +248,10 @@ def fetch_pollinations_background(prompt, retries=3, wait=3):
             print(f"  [AI-BG] Error: {exc}")
 
         if attempt < retries:
-            print(f"  [AI-BG] Waiting {wait}s before retry…")
+            print(f"  [AI-BG] Waiting {wait}s before retry...")
             time.sleep(wait)
 
-    print("  [AI-BG] All retries exhausted — returning None.")
+    print("  [AI-BG] All retries exhausted - returning None.")
     return None
 
 # ---------------------------------------------------------------------------
@@ -441,14 +441,14 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     slide_path = os.path.join(OUTPUT_DIR, f"slide_{slide_idx + 1}.png")
     img.convert("RGB").save(slide_path, "PNG")
-    print(f"[SUCCESS] Saved slide {slide_idx + 1} → {slide_path}")
+    print(f"[SUCCESS] Saved slide {slide_idx + 1} -> {slide_path}")
     return slide_path
 
 
 def main():
-    print("=" * 60)
-    print(" Instagram Carousel Card News — Slide Generator")
-    print("=" * 60)
+    print("============================================================")
+    print(" Instagram Carousel Card News - Slide Generator")
+    print("============================================================")
 
     # Parse Arguments
     parser = argparse.ArgumentParser(description="Generate Instagram Carousel Card News Slides.")
