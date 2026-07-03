@@ -146,3 +146,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-02] 기획 단계: 새로운 제품의 concept, target audience, branding strategy → 산출물 sessions/2026-07-02T23-00/designer.md
 - [2026-07-03] 2026-07-04 10:00~2026-07-05 17:00 Design concept development → 산출물 sessions/2026-07-03T02-55/designer.md
 - [2026-07-03] review recent decisions and meeting notes → 산출물 sessions/2026-07-03T16-15/designer.md
+- [2026-07-03] 새로운 브랜드 아이디어를 기획하고, design 브리프을 작성합니다. → 산출물 sessions/2026-07-03T16-30/designer.md
