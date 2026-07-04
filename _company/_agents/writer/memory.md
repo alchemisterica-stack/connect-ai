@@ -131,3 +131,4 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-03] video script writing → 산출물 sessions/2026-07-03T13-00/writer.md
 - [2026-07-03] 사용자의 목표와需求에 맞는 새로운 메시지를 작성합니다. → 산출물 sessions/2026-07-03T16-30/writer.md
 - [2026-07-03] __agents/1/good_copywriting_task.md → 산출물 sessions/2026-07-03T17-15/writer.md
+- [2026-07-04] 카피라이팅 및 영상 스크립트 작성 → 산출물 sessions/2026-07-04T03-30/writer.md
