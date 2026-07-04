@@ -136,3 +136,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-07-04] 최근 1개월간 '콩콩캔디' 브랜드(간식, 캔디, 먹방, ASMR 등)와 연관성이 높은 유튜브 인기 콘텐츠 트렌드 2~3가지를 조사하고, 각 트렌드의 핵심 특징 및 성장 가능성을 요약하세요. → 산출물 sessions/2026-07-04T15-30/researcher.md
 - [2026-07-04] 모 tả적으로 company goal 정산 → 산출물 sessions/2026-07-04T21-45/researcher.md
 - [2026-07-04] 인스타 그룹의 분석 결과와 company mission goals, company vision goals, recent decisions, memorandums review → 산출물 sessions/2026-07-04T22-15/researcher.md
+- [2026-07-04] 조사 및 분석 - 특정 Company의 사업 목표, 각 Employee의 Individual Goal, 최근 quyết định 및 메모리스트 검토 → 산출물 sessions/2026-07-04T23-00/researcher.md
