@@ -16,6 +16,91 @@
       "preAlarmsSent": [],
       "evidence": "완료: sessions/2026-06-24T04-05/_report.md\n- 레오: 2026-06-24 주간 뉴스 기회 구축하기 (주간뉴시) : youtube 비디오(12~20) / 카피라이팅(2~3) - 연체 7일\n- Instagram: 2026-06-24 주간 Instagram 채널 뉴스 기회 구축하기 (주간인스타시) : 릴스(3~4), 피드(2~3), 해시태그(12~15)\n- Designer: 2026-06-24 주간 디자인 패턴 구축하기 (주간디자인) : design brief(3일), 썸네일/브랜드 비주얼(2일)\n\nCEO 종합 요점: ## 🗂 작업 라운드 — 누가 뭐 했나\n\n### 📺 레오 _(Head of YouTube)_\n> 📋 **지시**: 2026-06-24 주간 뉴스 기회 구축하기 (주간뉴시) : youtube 비디오(12~20) / 카피라이팅(2~3) - 연체 7일\n> 🔧 **도구 실행**: `my_videos_check.py (prefetch)`\n> 📊 **수집 데",
       "completedAt": "2026-06-24T05:35:20.904Z"
+    },
+    {
+      "id": "20260705093047-a6ib",
+      "title": "'희망찬 새벽' 컨셉이 명확히 드러나는가?",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-07-05T09:30:47.703Z",
+      "status": "done",
+      "sessionDir": "2026-07-05T09-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-07-05T09-30/_report.md\n- Designer: 이전에 제작한 유튜브 및 인스타그램 썸네일 시안('아침 자존감 UP! 긍정 명언 3가지' 문구 기반)을 바탕으로, '희망찬 새벽' 컨셉과 Pri\n\nCEO 종합 요점: 🎨 Designer: 작업 시작합니다.\n\n이전 썸네일 시안과 확정된 브랜드 가이드라인(희망찬 새벽 컨셉, Primary Blue/Accent Yellow 컬러, Noto Sans KR Bold 폰트)을 바탕으로, 실제 사용 가능한 고품질 썸네일 이미지 파일 제작을 위한 상세 디자인 브리프를 작성하겠습니다. 이는 이미지 파일 생성을 위한 구체적인 지침이 될",
+      "completedAt": "2026-07-05T09:30:47.781Z"
+    },
+    {
+      "id": "20260705093047-5873",
+      "title": "Primary Blue, Accent Yellow 브랜드 컬러가 적절하게 사용되었는가?",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-07-05T09:30:47.719Z",
+      "status": "done",
+      "sessionDir": "2026-07-05T09-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-07-05T09-30/_report.md\n- Designer: 이전에 제작한 유튜브 및 인스타그램 썸네일 시안('아침 자존감 UP! 긍정 명언 3가지' 문구 기반)을 바탕으로, '희망찬 새벽' 컨셉과 Pri\n\nCEO 종합 요점: 🎨 Designer: 작업 시작합니다.\n\n이전 썸네일 시안과 확정된 브랜드 가이드라인(희망찬 새벽 컨셉, Primary Blue/Accent Yellow 컬러, Noto Sans KR Bold 폰트)을 바탕으로, 실제 사용 가능한 고품질 썸네일 이미지 파일 제작을 위한 상세 디자인 브리프를 작성하겠습니다. 이는 이미지 파일 생성을 위한 구체적인 지침이 될",
+      "completedAt": "2026-07-05T09:30:47.795Z"
+    },
+    {
+      "id": "20260705093047-54h7",
+      "title": "Noto Sans KR Bold 폰트가 가독성 높게 적용되었는가?",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-07-05T09:30:47.733Z",
+      "status": "done",
+      "sessionDir": "2026-07-05T09-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-07-05T09-30/_report.md\n- Designer: 이전에 제작한 유튜브 및 인스타그램 썸네일 시안('아침 자존감 UP! 긍정 명언 3가지' 문구 기반)을 바탕으로, '희망찬 새벽' 컨셉과 Pri\n\nCEO 종합 요점: 🎨 Designer: 작업 시작합니다.\n\n이전 썸네일 시안과 확정된 브랜드 가이드라인(희망찬 새벽 컨셉, Primary Blue/Accent Yellow 컬러, Noto Sans KR Bold 폰트)을 바탕으로, 실제 사용 가능한 고품질 썸네일 이미지 파일 제작을 위한 상세 디자인 브리프를 작성하겠습니다. 이는 이미지 파일 생성을 위한 구체적인 지침이 될",
+      "completedAt": "2026-07-05T09:30:47.811Z"
+    },
+    {
+      "id": "20260705093047-ytfp",
+      "title": "핵심 문구의 시인성이 충분히 확보되었는가?",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-07-05T09:30:47.749Z",
+      "status": "done",
+      "sessionDir": "2026-07-05T09-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-07-05T09-30/_report.md\n- Designer: 이전에 제작한 유튜브 및 인스타그램 썸네일 시안('아침 자존감 UP! 긍정 명언 3가지' 문구 기반)을 바탕으로, '희망찬 새벽' 컨셉과 Pri\n\nCEO 종합 요점: 🎨 Designer: 작업 시작합니다.\n\n이전 썸네일 시안과 확정된 브랜드 가이드라인(희망찬 새벽 컨셉, Primary Blue/Accent Yellow 컬러, Noto Sans KR Bold 폰트)을 바탕으로, 실제 사용 가능한 고품질 썸네일 이미지 파일 제작을 위한 상세 디자인 브리프를 작성하겠습니다. 이는 이미지 파일 생성을 위한 구체적인 지침이 될",
+      "completedAt": "2026-07-05T09:30:47.827Z"
+    },
+    {
+      "id": "20260705093047-mhdf",
+      "title": "로고가 규격에 맞게 배치되었는가?",
+      "description": "자동 등록 (Designer 산출물에서 추출)",
+      "owner": "agent",
+      "agentIds": [
+        "designer"
+      ],
+      "createdAt": "2026-07-05T09:30:47.765Z",
+      "status": "done",
+      "sessionDir": "2026-07-05T09-30",
+      "nudges": 0,
+      "priority": "normal",
+      "preAlarmsSent": [],
+      "evidence": "완료: sessions/2026-07-05T09-30/_report.md\n- Designer: 이전에 제작한 유튜브 및 인스타그램 썸네일 시안('아침 자존감 UP! 긍정 명언 3가지' 문구 기반)을 바탕으로, '희망찬 새벽' 컨셉과 Pri\n\nCEO 종합 요점: 🎨 Designer: 작업 시작합니다.\n\n이전 썸네일 시안과 확정된 브랜드 가이드라인(희망찬 새벽 컨셉, Primary Blue/Accent Yellow 컬러, Noto Sans KR Bold 폰트)을 바탕으로, 실제 사용 가능한 고품질 썸네일 이미지 파일 제작을 위한 상세 디자인 브리프를 작성하겠습니다. 이는 이미지 파일 생성을 위한 구체적인 지침이 될",
+      "completedAt": "2026-07-05T09:30:47.843Z"
     }
   ]
 }
