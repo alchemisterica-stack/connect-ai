@@ -31,3 +31,4 @@ _Instagram 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-02] 2026-07-02 - instagram 분석 및 창작 → 산출물 sessions/2026-07-02T10-00/instagram.md
 - [2026-07-03] instagram posting delay investigate → 산출물 sessions/2026-07-03T13-00/instagram.md
 - [2026-07-03] Designer 에이전트가 작성한 '자존감 높이는 긍정 한마디' 시리즈의 디자인 브리프를 검토하고, 인스타그램 플랫폼(릴스/카드뉴스)에서 시각적 콘텐츠의 인게이지먼트와 도달율을 극대화할 수 있는 구체적인 시각적 전략 피드백을 제공하세요. 특히 트렌디한 디자인 요소 [근거: 통합 스케줄 Instagram 최근 활동]와 사용자 경험을 고려한 개선점을 제안해야 합니다. → 산출물 sessions/2026-07-03T17-30/instagram.md
+- [2026-07-05] instagr.am 캡션 및 해시태그 작성 → 산출물 sessions/2026-07-05T03-45/instagram.md
