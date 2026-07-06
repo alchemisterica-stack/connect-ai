@@ -22,7 +22,7 @@
       ],
       "action": "briefing",
       "enabled": true,
-      "lastFiredAt": "2026-06-29"
+      "lastFiredAt": "2026-07-06"
     },
     {
       "id": "sched-briefing-weekday-evening",
@@ -82,7 +82,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_monday_scan.py",
       "enabled": true,
-      "lastFiredAt": "2026-06-29"
+      "lastFiredAt": "2026-07-06"
     },
     {
       "id": "sched-email-pipeline-daily-0600",
@@ -120,7 +120,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-07-04"
+      "lastFiredAt": "2026-07-05"
     },
     {
       "id": "sched-insta-publish-evening",
