@@ -1,8 +1,8 @@
 [METADATA]
-Dish: Cucumber Kimchi (Oi-sobagi)
-Ingredients: Cucumber, chives, chili powder, fish sauce, garlic
-Step 1: Splitting fresh cucumbers into quarters while keeping the base intact for the filling.
-Step 2: Mixing spicy red pepper flakes with aromatic chives and savory seasonings to create the perfect kimchi paste.
+Dish: 제육볶음
+Ingredients: 돼지고기 앞다리살, 고추장, 양파, 대파, 다진 마늘
+Step 1: prep ingredients
+Step 2: cooking step
 [END METADATA]
 
 ========== WORDPRESS VERSION ==========
