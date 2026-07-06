@@ -1,6 +1,7 @@
 # 📝 블로그 에이전트 메모리 (Memory)
 
 ## 최근 소식 & 히스토리
+- [2026-07-07] 청소년지도방법론_1~14주 강의교안 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=479, Blogger: https://congcandy.blogspot.com/2026/07/114-4-1_0902563549.html)
 - [2026-07-07] 청소년지도방법론_1~14주 강의교안 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=472, Blogger: https://congcandy.blogspot.com/2026/07/114-4-1_01091714589.html)
 - [2026-07-07] 청소년지도방법론_1~14주 강의교안 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=468, Blogger: https://congcandy.blogspot.com/2026/07/114-4-1.html)
 - [2026-07-06] 청소년지도방법론_1~14주 강의교안 - 3주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=461, Blogger: https://congcandy.blogspot.com/2026/07/114-3-2_0559835227.html)
@@ -44,4 +45,6 @@
 - [2026-06-01] 청소년지도사 요약, 인스타 칼럼 가공, 집 반찬 소개 3대 카테고리 구성 완료.
 
 ## 핵심 가이드라인
-- 전문 학술 글귀는 서머리 형식으로 일목요연하게 작성 (요약 + �
+- 전문 학술 글귀는 서머리 형식으로 일목요연하게 작성 (요약 + 학습평가 구성).
+- 감성 글귀 가공 시 원본의 감성을 훼손하지 않되 풍부한 해설과 가독성을 챙길 것.
+- 집 반찬 메뉴는 친근한 가정식 느낌으로 레시피 꿀팁 위주 서술.
