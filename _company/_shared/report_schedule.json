@@ -37,7 +37,7 @@
       ],
       "action": "briefing",
       "enabled": true,
-      "lastFiredAt": "2026-07-03"
+      "lastFiredAt": "2026-07-07"
     },
     {
       "id": "sched-blog-publish-0200",
@@ -100,7 +100,7 @@
       ],
       "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
       "enabled": true,
-      "lastFiredAt": "2026-07-06"
+      "lastFiredAt": "2026-07-07"
     },
     {
       "id": "sched-insta-publish-morning",
@@ -140,7 +140,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-07-06"
+      "lastFiredAt": "2026-07-07"
     },
     {
       "id": "sched-insta-publish-night",
