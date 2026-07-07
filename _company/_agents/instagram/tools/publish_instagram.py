@@ -235,26 +235,53 @@ def upload_to_tmpfiles(local_path):
         print(f"[ERROR] Failed to upload to Tmpfiles: {e}")
         return None
 
+def upload_to_oshi(local_path):
+    if not os.path.exists(local_path):
+        return None
+    url = "https://oshi.at"
+    try:
+        print(f"[INFO] Uploading local file to Oshi.at: {os.path.basename(local_path)}")
+        with open(local_path, "rb") as f:
+            # oshi.at에 multipart form 형식으로 파일을 전송합니다.
+            r = requests.post(url, files={"f": f}, timeout=60)
+        if r.status_code == 200:
+            # 응답 본문에서 직독 다운로드용 DL URL을 정규식으로 파출합니다.
+            match = re.search(r"DL:\s*(https://oshi\.at/[^\s]+)", r.text)
+            if match:
+                direct_url = match.group(1).strip()
+                print(f"[SUCCESS] Oshi upload succeeded! Direct URL: {direct_url}")
+                return direct_url
+        print(f"[ERROR] Oshi upload failed (status={r.status_code}): {r.text}")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Failed to upload to Oshi: {e}")
+        return None
+
 def get_public_url(source):
     if source.startswith("http://") or source.startswith("https://"):
         return source
         
-    # 1. Tmpfiles.org (대용량 비디오에 매우 안정적이고 빠름)
+    # 1. Tmpfiles.org (기본 대용량 비디오 업로더)
     url = upload_to_tmpfiles(source)
     if url:
         return url
 
-    # 2. WordPress (이미지만 업로드 허용)
+    # 2. Oshi.at (강력한 2차 백업 업로더)
+    url = upload_to_oshi(source)
+    if url:
+        return url
+
+    # 3. WordPress (이미지만 업로드 허용)
     url = upload_image_to_wordpress(source)
     if url:
         return url
         
-    # 3. Catbox.moe Fallback
+    # 4. Catbox.moe Fallback
     url = upload_image_to_catbox(source)
     if url:
         return url
         
-    # 4. File.io Fallback
+    # 5. File.io Fallback
     url = upload_to_file_io(source)
     if url:
         return url
