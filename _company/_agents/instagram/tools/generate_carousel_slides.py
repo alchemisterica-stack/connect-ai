@@ -233,7 +233,7 @@ def fetch_pollinations_background(prompt, retries=3, wait=3):
 
     for attempt in range(1, retries + 1):
         try:
-            print(f"  [AI-BG] Attempt {attempt}/{retries} — requesting image…")
+            print(f"  [AI-BG] Attempt {attempt}/{retries} - requesting image...")
             resp = requests.get(url, timeout=60)
             if resp.status_code == 200 and len(resp.content) > 1000:
                 img = Image.open(io.BytesIO(resp.content))
@@ -281,7 +281,7 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     if is_bold_cover:
         layout_type = "rect_center"
         
-    print(f"\n[SLIDE {slide_idx + 1}] Generating using '{layout_type}' layout…")
+    print(f"\n[SLIDE {slide_idx + 1}] Generating using '{layout_type}' layout...")
 
     # ---- Background ---------------------------------------------------
     bg_img = fetch_pollinations_background(info["prompt"])
@@ -549,7 +549,7 @@ def main():
     print("[DONE] All 5 slides generated successfully!")
     print(f"Output directory: {OUTPUT_DIR}")
     for p in paths:
-        print(f"  • {os.path.basename(p)}")
+        print(f"  - {os.path.basename(p)}")
     print("=" * 60)
 
 
