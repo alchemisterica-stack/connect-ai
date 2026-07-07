@@ -34,3 +34,4 @@ _Instagram 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-05] instagr.am 캡션 및 해시태그 작성 → 산출물 sessions/2026-07-05T03-45/instagram.md
 - [2026-07-05] 인스타 데이터 수집 → 산출물 sessions/2026-07-05T10-45/instagram.md
 - [2026-07-07] 2026-07-08일 1인 기업, 24시간 운영. instagram의 가장 가치 있는 단일 작업1개를 결정하고, 적절한 1명 에이전트에게 분배. → 산출물 sessions/2026-07-07T11-15/instagram.md
+- [2026-07-07] 인스타의 가장 가치 있는 작업 1개를选择하고, 가장 suitable에 따라 1~2명 에이전트에게 분배하고 execution 시_execute 합니다. → 산출물 sessions/2026-07-07T18-30/instagram.md
