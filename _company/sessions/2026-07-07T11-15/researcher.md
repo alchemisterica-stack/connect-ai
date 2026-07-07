@@ -1,246 +1,26 @@
-# 🔍 Researcher — 2026-07-13일 1인 기업, 24시간 운영. researcher의 가장 가치 있는 단일 작업1개를 결정하고, 적절한 에이전트에게 분배.
+# 🔍 Researcher — 2026-07-17일 1인 기업, 24시간 운영. researcher의 가장 가치 있는 단일 작업1개를 결정하고, 적절한 에이전트에게 분배.
 
-[CEO의 지시]
-2026-07-13일 1인 기업, 24시간 운영. researcher의 가장 가치 있는 단일 작업1개를 결정하고, 적절한 에이전트에게 분배.
+🔍 Researcher: 작업 시작합니다.
 
-### 🎯 Researcher
+현재 콩콩캔디의 여러 에이전트들이 '자존감 높이는 긍정 한마디' 콘텐츠 기획 및 제작에 집중하고 있습니다. 이 콘텐츠가 인스타그램에서 최대한의 효과를 발휘하고 수익화로 연결될 수 있도록, Researcher로서 가장 가치 있는 단일 작업은 **"자존감 높이는 긍정 한마디" 콘텐츠를 인스타그램에서 가장 효과적으로 수익화하고 확산시킬 수 있는 전략 (수익화 모델, 콘텐츠 형식별 확산 전략, 성공 사례)을 리서치하고 제안**하는 것입니다.
 
-*   **researcher Goal**: 
-    *   **목표**:
-      - **주제**: "자존감 높이는 긍정 한마디"
-      - **시각적 콘텐츠(제목, 썸네일, 색상, 구성 등)**: 
-        ```json
-{
-  "title_text_font_size": 12pt,
-  "text_color_primary_blue": "#000000",
-  "icon Font size":18pt
-}
-```
-      - **시각적 콘텐츠(제목, 썸네일, 색상, 구성 등)**: 
-        ```json
-{
-  "title_text_font_size": 12pt,
-  "text_color_primary_blue": "#000000",
-  "icon Font size":18pt
-}
-```
-    - **개별 에이전트**:
-      ```json
-{
-  "agent_id": "YOUTUBE_API_KEY",
-  "goal": {
-    "title_text_font_size": 12pt,
-    "text_color_primary_blue": "#000000"
-  }
-}
-```
--   **메모리스트**: 
-  - **task1**:
-    ```json
-{
-  "id": "task1_id",
-  "name": "task1_name",
-  "description": "Task1 description",
-  "components": [
-    {
-      "componentId": "component1_id",
-      "componentType": "Component1_type",
-      "priority": "High"
-    },
-    {
-      "componentId": "component2_id",
-      "componentType": "Component2_type",
-      "priority": "Low"
-    }
-  ]
-}
-```
--   **task2**:
-  - **task2_description**: task2 description
--   **task3**:
-  - **task3_description**: task3 description
+이는 저의 개인 목표인 '인스타 수익화' 및 '직관적이고 잘 운영되는 인스타 추천 정리'에 직접적으로 부합하며, 회사 공동 목표인 '매월 1천만원' 수익 달성과 '게시글 10개, 쇼츠 10개' 제작에 필요한 실질적인 인사이트를 제공할 것입니다.
 
-### 🎯 Business
+**[작업 내용]**
 
-*   **브랜드 identity(컬러, 타이ポ)**: 
-```json
-{
-  "brand_color": "#000000",
-  "brand_text_color": "#ffffff"
-}
-```
--   **business_goal**: 
-  *   **1인 기업, 24시간 운영**:
-    - 주제: "자존감 높이는 긍정 한마디"
-    - 최근의 video search api data: https://www.youtubedataapi.com/
-    - 패턴을 분석하여 nextVideoID로 transition
-*   **개별 에이전트**: 
-  ```json
-{
-  "agent_id": "YOUTUBE_API_KEY",
-  "goal": {
-    "title_text_font_size": 12pt,
-    "text_color_primary_blue": "#000000"
-  }
-}
-```
-```python
-from string import ascii_uppercase
+1.  **'자존감 높이는 긍정 한마디' 유사 콘텐츠 인스타그램 성공 사례 분석:**
+    *   유사한 주제로 인스타그램에서 성공한 계정 2-3곳 선정 (팔로워 수, 인게이지먼트, 주요 콘텐츠 형식, 수익화 방식 등) [근거: Researcher 개인 목표 - 경쟁사 2곳 최근 활동·성공 콘텐츠 정리]
+    *   해당 계정들의 핵심 성공 요인 (콘텐츠 특징, 소통 방식, 해시태그 전략 등) 분석 [근거: Researcher 개인 목표 - 잘 운영되는 인스타 추천 정리]
+2.  **수익화 모델 리서치 및 제안:**
+    *   '자존감/긍정 확언' 콘텐츠로 가능한 수익화 모델 탐색 (예: 전자책, 온라인 강의, 명상 앱 연동, 굿즈 판매, 제휴 마케팅, 유료 멤버십 등) [근거: Researcher 개인 목표 - 인스타 수익화]
+    *   각 모델의 초기 진입 장벽, 예상 수익성, 콩콩캔디에 적합성 평가 [근거: 회사 공동 목표 - 매월 1천만원]
+3.  **인스타그램 콘텐츠 확산 전략:**
+    *   릴스, 카드뉴스 등 주요 콘텐츠 형식별 인스타그램 알고리즘 노출 및 확산에 유리한 전략 [근거: Researcher 검증된 지식 - 숏폼 비디오(릴스)의 강세, 카드뉴스 및 인포그래픽]
+    *   팔로워 인게이지먼트 및 공유를 유도하는 상호작용 요소 (Q&A, 설문, 챌린지, 댓글 유도 등) 제안 [근거: Researcher 검증된 지식 - 진정성 있는 소통]
+4.  **'자존감 높이는 긍정 한마디' 특화 인스타그램 계정명 추가 제안:**
+    *   위의 리서치 내용을 바탕으로, 콘텐츠 주제와 수익화 가능성을 고려한 직관적이고 매력적인 인스타그램 계정명 3가지 추가 제안 (기존 제안과 중복되지 않도록) [근거: Researcher 개인 목표 - 인스타 계정명 추천]
 
-def gtau(api_key):
-    # YouTube API 연동 방식 (다른 도구 또는 코드) 파악하고, API 키와 채널 ID를 설정하여 youtube 에이전트가 채널 데이터에 정상적으로 접근할 수 있도록 조치합니다.
-    url = f'https://www.googleapis.com/youtube/v3/commentThreads/list?q={Channel_ID}&maxResults=100&key={api_key}'
-    response = requests.get(url)
-    comment_data = []
-    for item in response.json()['items']:
-        comment_data.append({
-            'id': item['snippet']['topLevelCommentId'],
-            'textBase': item['snippet']['snippet']['topLevelComment']['snippet']['renderedText']
-        })
-    return comment_data
+이 작업은 Researcher 에이전트가 직접 수행하며, 그 결과는 Instagram 에이전트와 Business 에이전트의 다음 작업에 중요한 자료가 될 것입니다.
 
-def gtau_comment_data(api_key, channel_id):
-    # youtube_data_api_v2 API를 사용하여 ytvideocommentapi 사용하고, videoid의 패턴을 분석하여 nextCommentID로 transition을 진행합니다.
-    api = google.apis.client()
-    data = gtau(api_key)
-    comment_ids = [item['id'] for item in data]
-    max_id = 0
-    for comment_id in comment_ids:
-        if comment_id > max_id:
-            max_id = comment_id
-    return max_id
-
-def gtau_task1(api_key):
-    # task1의 가장 가치 있는 작업은 
-    url = f'https://www.googleapis.com/youtube/v3/commentThreads/list?q={Channel_ID}&maxResults=100&key={api_key}'
-    response = requests.get(url)
-    comment_data = []
-    for item in response.json()['items']:
-        comment_data.append({
-            'id': item['snippet']['topLevelCommentId'],
-            'textBase': item['snippet']['snippet']['topLevelComment']['snippet']['renderedText']
-        })
-    return comment_data
-
-def gtau_task2(api_key):
-    # task2의 가장 가치 있는 작업은 
-    url = f'https://www.googleapis.com/youtube/v3/commentThreads/list?q={Channel_ID}&maxResults=100&key={api_key}'
-    response = requests.get(url)
-    comment_data = []
-    for item in response.json()['items']:
-        comment_data.append({
-            'id': item['snippet']['topLevelCommentId'],
-            'textBase': item['snippet']['snippet']['topLevelComment']['snippet']['renderedText']
-        })
-    return comment_data
-
-def gtau_task3(api_key):
-    # task3의 가장 가치 있는 작업은 
-    url = f'https://www.googleapis.com/youtube/v3/commentThreads/list?q={Channel_ID}&maxResults=100&key={api_key}'
-    response = requests.get(url)
-    comment_data = []
-    for item in response.json()['items']:
-        comment_data.append({
-            'id': item['snippet']['topLevelCommentId'],
-            'textBase': item['snippet']['snippet']['topLevelComment']['snippet']['renderedText']
-        })
-    return comment_data
-```
--   **task1_description**: task1 description
-
-### 🎯 Instagram 브랜드
-
-*   **브랜드 identity(컬러, 타이포)**: 
-```json
-{
-  "brand_color": "#000000",
-  "brand_text_color": "#ffffff"
-}
-```
-
-### 💻 도구 실행 결과 (시스템 자동执行)
-
-#### 🔧 실행: `cd "c:\Users\User\.connect-ai-brain\_company\_agents\editor\tools" && C:\Users\User\AppData\Local\Pr`
-```
-❌ 음악 모델 미설치.
-  먼저 같은 폴더의 'music_studio_setup.py' 실행해주세요 (▶ 클릭).
-  기본은 MusicGen Small (300MB) — 가벼움.
-
-_❌ exit 1_
-```
-
--   **task1**:
-    - task1_description: task1 description
--   **task2**:
-    - task2_description: task2 description
-
-### 🎯 Business
-
-*   **브랜드 identity(컬러, 타이ポ)**: 
-```json
-{
-  "brand_color": "#000000",
-  "brand_text_color": "#ffffff"
-}
-```
-
-### 💻 도구실행 결과 (시스템自動执行)
-
-#### 🔧 실행: `cd "c:\Users\User\.connect-ai-brain\_company\_agents\editor\tools" && C:\Users\User\AppData\Local\Pr`
-```
-❌ 음악 모델 미설치.
-  먼저 같은 폴더의 'music_studio_setup.py' 실행해주세요 (▶ 클릭).
-  기본은 MusicGen Small (300MB) — 가벼움.
-
-_❌ exit 1_
-```
-
--   **task1**:
-    - task1_description: task1 description
--   **task2**:
-    - task2_description: task2 description
-
-### 🎯 Instagram 카드뉴스
-
-*   **카드_news 디자이너**: 
-```json
-{
-  "agent_id": "YOUTUBE_API_KEY",
-  "goal": {
-    "title_text_font_size": 12pt,
-    "text_color_primary_blue": "#000000"
-  }
-}
-```
--   **카드_news 디자이너가 진행한 카드-news에 맞는 images, icons 및 background image를 작성하고, 카드_news 브랜드 identity를 완성합니다.**
-
-### 🎯 Instagram 게시물
-
-*   **business 에이전트**: 
-```json
-{
-  "agent_id": "YOUTUBE_API_KEY",
-  "goal": {
-    "title_text_font_size": 12pt,
-    "text_color_primary_blue": "#000000"
-  }
-}
-```
--   **business 에이전트가 제시한 '@하루콩 congessiln' 계정의 콘셉트와 콘텐츠 방향(카드뉴스, 릴스 등)을 바탕으로, 10개의 게시물(카드_news) 및 10개의 릴스를 작성합니다. 각 기획안에는 주제, 핵심 메시지, 구체적인 내용 구성(예: 카드 뉴스 슬라이드별 내용 요약, 릴스는 스크립트), 그리고 매력적인 캡션과 후크, CTA(Call To Action) 아이디어를 포함해야 합니다. [근거: CEO 개인 목표, 회사 공동 목표, 지난 의사결정 로그, 이전 비즈니스 에이전트 산출물]**
-
--   **카드_news 디자이너**:
-  - 카드뉴스 디자이너가 작성한 카드-news의 패턴을 분석하여 nextCommentID로 transition을 진행합니다.
-
-### 🎯 Instagram 게시물
-
-*   **business 에이전트**: 
-```json
-{
-  "agent_id": "YOUTUBE_API_KEY",
-  "goal": {
-    "title_text_font_size": 12pt,
-    "text_color_primary_blue": "#000000"
-  }
-}
-```
--   **business 에이전트가 제시한 '@하루콩 congessiln' 계정의 콘셉트와 콘텐츠 방향(카드뉴스, 릴스 등)을 바탕으로, 10개의 게시물(카드_news) 및 10개의 릴스를 작성합니다. 각 기획안에는 주제, 핵심 메시지, 구체적인 내용 구성(예: 카드(news slidanimalbriefly), 릴스는 스크립트), 그리고 매력적인 캡션과 후크, CTA(Call To Action) 아이디어를 포함해야 합니다. [근거: CEO 개인 목표, 회사 공동 목표, 지난 의사결정 로그, 이전 비즈니스 에이전트 산출물]
+📊 평가: 진행중 — '자존감 높이는 긍정 한마디' 인스타그램 수익화 및 확산 전략 리서치를 시작합니다.
+📝 다음 단계: 인스타그램 성공 사례 분석, 수익화 모델 리서치, 확산 전략 수립 및 계정명 제안 보고서를 작성합니다.
