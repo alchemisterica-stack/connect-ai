@@ -37,7 +37,7 @@
       ],
       "action": "briefing",
       "enabled": true,
-      "lastFiredAt": "2026-07-07"
+      "lastFiredAt": "2026-07-08"
     },
     {
       "id": "sched-blog-publish-0200",
@@ -140,7 +140,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-07-07"
+      "lastFiredAt": "2026-07-08"
     },
     {
       "id": "sched-insta-publish-night",
