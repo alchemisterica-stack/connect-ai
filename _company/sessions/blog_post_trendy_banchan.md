@@ -1,8 +1,8 @@
 [METADATA]
-Dish: Stuffed Cucumber Kimchi
-Ingredients: cucumber, garlic, chili powder, chives, fish sauce
-Step 1: slicing fresh cucumbers into quarters without cutting through the bottom
-Step 2: rubbing the spicy red pepper paste into the carved cucumber sections
+Dish: 제육볶음
+Ingredients: 돼지고기 앞다리살, 고추장, 양파, 대파, 다진 마늘
+Step 1: prep ingredients
+Step 2: cooking step
 [END METADATA]
 
 ========== WORDPRESS VERSION ==========
