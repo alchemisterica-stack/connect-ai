@@ -162,3 +162,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-07-07] 2026년 7월 7일 현재 가장 가치 있는 단일 작업 identification과 그 근거를 검토 → 산출물 sessions/2026-07-07T16-15/researcher.md
 - [2026-07-07] 다음 2년에 도달할 수 있는 새로운 시장의Research를 수행합니다. → 산출물 sessions/2026-07-07T20-00/researcher.md
 - [2026-07-08] 2026-07-08 (자율 cycles) - 개인 목표 및 현재 메모리에서 가장 가치 있는 단일 작업을 xác định합니다.  Task 1: company mission & CEO's personal goal.md → 산출물 sessions/2026-07-08T03-49/researcher.md
+- [2026-07-08] 지난 1주일간 인스타그램 릴스에서 가장 높은 참여율을 보인 트렌드/포맷 3가지와 각 특징을 조사하고 요약하세요. → 산출물 sessions/2026-07-08T09-49/researcher.md
