@@ -171,3 +171,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-07-09] company mission 및 employee goal을 분석하고, 개인 목표를 정하는 데 도움이 될 수 있는 research doc 생성 → 산출물 sessions/2026-07-09T03-34/researcher.md
 - [2026-07-09] 최근 2주간 유튜브에서 높은 조회수를 기록하고 있는 콘텐츠 트렌드 3가지와 각 트렌드의 핵심 성공 요인을 분석하여 보고하세요. → 산출물 sessions/2026-07-09T05-04/researcher.md
 - [2026-07-09] 유튜브 데이터 매칭 → 산출물 sessions/2026-07-09T06-49/researcher.md
+- [2026-07-09] 트렌드, 데이터 수집 → 산출물 sessions/2026-07-09T11-04/researcher.md
