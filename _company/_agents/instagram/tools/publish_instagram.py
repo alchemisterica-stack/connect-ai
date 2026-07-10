@@ -290,17 +290,45 @@ def upload_to_gofile(local_path):
         print(f"[ERROR] Failed to upload to Gofile: {e}")
         return None
 
+def upload_to_uguu(local_path):
+    """Uguu.se 임시 파일 호스팅 (Meta 크롤러 접근 검증 완료)."""
+    if not os.path.exists(local_path):
+        return None
+    try:
+        print(f"[INFO] Uploading local file to Uguu.se: {os.path.basename(local_path)}")
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        with open(local_path, "rb") as f:
+            r = requests.post(
+                "https://uguu.se/upload",
+                files={"files[]": f},
+                timeout=60,
+                verify=False
+            )
+        if r.status_code == 200:
+            res_data = r.json()
+            if res_data.get("success") and res_data.get("files"):
+                file_url = res_data["files"][0].get("url")
+                if file_url:
+                    print(f"[SUCCESS] Uguu upload succeeded! Public URL: {file_url}")
+                    return file_url
+        print(f"[ERROR] Uguu upload failed (status={r.status_code}): {r.text[:200]}")
+        return None
+    except Exception as e:
+        print(f"[ERROR] Failed to upload to Uguu: {e}")
+        return None
+
 def get_public_url(source):
     if source.startswith("http://") or source.startswith("https://"):
         return source
         
-    # 1. Catbox.moe (SSL 우회 기용으로 가장 확실하고 속도 빠른 안정 스토리지)
-    url = upload_image_to_catbox(source)
+    # 1. Uguu.se (Meta 크롤러 접근 검증 완료 - 최우선)
+    url = upload_to_uguu(source)
     if url:
         return url
 
-    # 2. Gofile.io (가장 현대적이고 크롤러 차단이 없는 최고속 스토리지)
-    url = upload_to_gofile(source)
+    # 2. Catbox.moe (이미지용 폴백 - 비디오는 Meta 크롤러 차단됨)
+    url = upload_image_to_catbox(source)
     if url:
         return url
 
@@ -314,17 +342,22 @@ def get_public_url(source):
     if url:
         return url
         
-    # 5. Oshi.at (서비스 종료 - 폴백 용도로 최하위 지정)
+    # 5. Gofile.io
+    url = upload_to_gofile(source)
+    if url:
+        return url
+        
+    # 6. Oshi.at
     url = upload_to_oshi(source)
     if url:
         return url
         
-    # 5. File.io Fallback
+    # 7. File.io Fallback
     url = upload_to_file_io(source)
     if url:
         return url
         
-    # 5. Transfer.sh Fallback
+    # 8. Transfer.sh Fallback
     return upload_to_transfer_sh(source)
 
 def create_item_container(image_source, token, biz_id):
@@ -425,7 +458,13 @@ def publish_carousel(image_sources, caption, slot=None):
         return None
 
 def publish_reels(video_source, caption, slot=None):
-    """Publishes a video (Reels) to Instagram"""
+    """Publishes a video (Reels) to Instagram.
+    
+    자가 진단 로직:
+    - Meta ERROR 시 status 필드를 파싱하여 원인 구분
+    - 'error code 0' (다운로드 실패) → 자동으로 다음 업로더로 폴백
+    - 기타 에러 (비디오 규격 문제) → 즉시 중단 + 명확한 에러 메시지
+    """
     cfg = load_instagram_config()
     token = cfg.get("META_ACCESS_TOKEN", "").strip()
     biz_id = cfg.get("INSTAGRAM_BUSINESS_ID", "").strip()
@@ -434,13 +473,128 @@ def publish_reels(video_source, caption, slot=None):
         print("[ERROR] META_ACCESS_TOKEN or INSTAGRAM_BUSINESS_ID is missing in config.md")
         return None
 
-    # Get public URL for video
-    url = get_public_url(video_source)
-    if not url:
-        print("[ERROR] Failed to get a public URL for the video.")
-        return None
+    # 이미 URL인 경우 직접 사용
+    if video_source.startswith("http://") or video_source.startswith("https://"):
+        return _publish_reels_with_url(video_source, caption, token, biz_id, slot)
 
-    print(f"[INFO] 1/3. Creating Reels container for video: {url}")
+    # 로컬 파일인 경우: 업로더 우선순위 목록을 순회하며 자동 폴백
+    uploaders = [
+        ("Uguu.se", upload_to_uguu),
+        ("Catbox.moe", upload_image_to_catbox),
+        ("Tmpfiles.org", upload_to_tmpfiles),
+        ("Gofile.io", upload_to_gofile),
+        ("Oshi.at", upload_to_oshi),
+        ("File.io", upload_to_file_io),
+        ("Transfer.sh", upload_to_transfer_sh),
+    ]
+
+    container_url = f"https://graph.facebook.com/v20.0/{biz_id}/media"
+
+    for idx, (uploader_name, uploader_fn) in enumerate(uploaders):
+        # 1) 업로드
+        print(f"\n[UPLOAD] Trying uploader {idx+1}/{len(uploaders)}: {uploader_name}")
+        url = uploader_fn(video_source)
+        if not url:
+            print(f"[WARN] {uploader_name} upload failed. Skipping to next.")
+            continue
+
+        # 2) 컨테이너 생성
+        print(f"[INFO] 1/3. Creating Reels container for video: {url}")
+        payload = {
+            "media_type": "REELS",
+            "video_url": url,
+            "caption": caption,
+            "share_to_feed": "true",
+            "access_token": token
+        }
+
+        try:
+            r = requests.post(container_url, data=payload, timeout=25)
+            if r.status_code != 200:
+                print(f"[ERROR] Container creation failed via {uploader_name} (status={r.status_code}): {r.text}")
+                continue
+
+            creation_id = r.json().get("id")
+            if not creation_id:
+                print(f"[ERROR] No creation ID from {uploader_name}. Response: {r.text}")
+                continue
+
+            # 3) 폴링 — status_code + status(상세 메시지) 동시 조회
+            print(f"[INFO] 2/3. Polling video processing status for container: {creation_id}")
+            status_url = f"https://graph.facebook.com/v20.0/{creation_id}?fields=status_code,status&access_token={token}"
+            max_attempts = 60
+            processing_result = None
+
+            for attempt in range(max_attempts):
+                sr = requests.get(status_url, timeout=10)
+                status_data = sr.json()
+                sc = status_data.get("status_code", "").upper()
+                status_msg = status_data.get("status", "")
+                print(f" -> Attempt {attempt+1}/{max_attempts}: Status is '{sc}'")
+
+                if sc == "FINISHED":
+                    processing_result = "FINISHED"
+                    break
+                elif sc == "ERROR":
+                    print(f"[DIAG] Meta error detail: {status_msg}")
+                    if "error code 0" in status_msg.lower():
+                        processing_result = "DOWNLOAD_FAILURE"
+                        print(f"[DIAG] → Meta couldn't download video from {uploader_name}. Trying next uploader.")
+                    else:
+                        processing_result = "VIDEO_ERROR"
+                        print(f"[ERROR] → Video format/codec issue detected. No point retrying with other uploaders.")
+                    break
+
+                sleep_time = min(5 * (1.25 ** attempt), 60)
+                time.sleep(sleep_time)
+            else:
+                print("[ERROR] Video processing timed out.")
+                return None
+
+            # 4) 결과 분기
+            if processing_result == "DOWNLOAD_FAILURE":
+                continue  # 다음 업로더로 자동 폴백
+
+            if processing_result == "VIDEO_ERROR":
+                return None  # 비디오 자체 문제 — 즉시 중단
+
+            if processing_result == "FINISHED":
+                # 5) 발행
+                print(f"[INFO] 3/3. Publishing Reels (ID: {creation_id})...")
+                publish_url = f"https://graph.facebook.com/v20.0/{biz_id}/media_publish"
+                publish_payload = {
+                    "creation_id": creation_id,
+                    "access_token": token
+                }
+
+                pr = requests.post(publish_url, data=publish_payload, timeout=20)
+                pr.raise_for_status()
+                media_id = pr.json().get("id")
+                if not media_id:
+                    print(f"[ERROR] Failed to get Reels media ID. Response: {pr.text}")
+                    return None
+
+                link_url = f"https://graph.facebook.com/v20.0/{media_id}?fields=permalink&access_token={token}"
+                lr = requests.get(link_url, timeout=10)
+                permalink = lr.json().get("permalink")
+
+                print(f"[SUCCESS] Instagram Reels successfully published via {uploader_name}!")
+                if permalink:
+                    print(f" - 포스트 링크: {permalink}")
+                    record_to_calendar(caption, permalink, slot=slot)
+                    return permalink
+                return media_id
+
+        except Exception as e:
+            print(f"[ERROR] Exception with {uploader_name}: {e}")
+            continue
+
+    print("[ERROR] All upload services exhausted. Could not publish Reels.")
+    return None
+
+
+def _publish_reels_with_url(url, caption, token, biz_id, slot=None):
+    """이미 공개 URL이 주어진 경우의 단순 발행 경로."""
     container_url = f"https://graph.facebook.com/v20.0/{biz_id}/media"
     payload = {
         "media_type": "REELS",
@@ -449,66 +603,43 @@ def publish_reels(video_source, caption, slot=None):
         "share_to_feed": "true",
         "access_token": token
     }
-    
+
     try:
         r = requests.post(container_url, data=payload, timeout=25)
-        # Fallback to Catbox if WordPress upload gets blocked
-        if r.status_code != 200:
-            print(f"[ERROR] Meta Reels API failed (status={r.status_code}): {r.text}")
-            err_code = r.json().get("error", {}).get("code")
-            if err_code == 9004 and not (video_source.startswith("http://") or video_source.startswith("https://")):
-                print(f"[WARN] Meta failed to download video from WordPress. Trying Catbox.moe fallback...")
-                cat_url = upload_image_to_catbox(video_source) # upload_image works for videos too on Catbox
-                if cat_url:
-                    payload["video_url"] = cat_url
-                    r = requests.post(container_url, data=payload, timeout=25)
-                    if r.status_code != 200:
-                        print(f"[ERROR] Meta Reels API fallback failed (status={r.status_code}): {r.text}")
-                    
         r.raise_for_status()
         creation_id = r.json().get("id")
         if not creation_id:
             print(f"[ERROR] Failed to get Reels creation ID. Response: {r.text}")
             return None
-            
-        print(f"[INFO] 2/3. Polling video processing status for container: {creation_id}")
-        # Wait until the video is finished processing on Meta's server
-        status_url = f"https://graph.facebook.com/v20.0/{creation_id}?fields=status_code&access_token={token}"
-        max_attempts = 60
-        for attempt in range(max_attempts):
+
+        print(f"[INFO] Polling video processing status for container: {creation_id}")
+        status_url = f"https://graph.facebook.com/v20.0/{creation_id}?fields=status_code,status&access_token={token}"
+        for attempt in range(60):
             sr = requests.get(status_url, timeout=10)
-            status_code = sr.json().get("status_code", "").upper()
-            print(f" -> Attempt {attempt+1}/{max_attempts}: Status is '{status_code}'")
-            if status_code == "FINISHED":
+            status_data = sr.json()
+            sc = status_data.get("status_code", "").upper()
+            status_msg = status_data.get("status", "")
+            print(f" -> Attempt {attempt+1}/60: Status is '{sc}'")
+            if sc == "FINISHED":
                 break
-            elif status_code == "ERROR":
-                print(f"[ERROR] Video processing failed on Meta side: {sr.text}")
+            elif sc == "ERROR":
+                print(f"[ERROR] Video processing failed: {status_msg}")
                 return None
-            sleep_time = min(5 * (1.25 ** attempt), 60)
-            time.sleep(sleep_time)
+            time.sleep(min(5 * (1.25 ** attempt), 60))
         else:
             print("[ERROR] Video processing timed out.")
             return None
 
-        print(f"[INFO] 3/3. Publishing Reels (ID: {creation_id})...")
         publish_url = f"https://graph.facebook.com/v20.0/{biz_id}/media_publish"
-        publish_payload = {
-            "creation_id": creation_id,
-            "access_token": token
-        }
-        
-        pr = requests.post(publish_url, data=publish_payload, timeout=20)
+        pr = requests.post(publish_url, data={"creation_id": creation_id, "access_token": token}, timeout=20)
         pr.raise_for_status()
         media_id = pr.json().get("id")
         if not media_id:
-            print(f"[ERROR] Failed to get Reels media ID. Response: {pr.text}")
             return None
-            
-        # Get permalink
-        link_url = f"https://graph.facebook.com/v20.0/{media_id}?fields=permalink&access_token={token}"
-        lr = requests.get(link_url, timeout=10)
+
+        lr = requests.get(f"https://graph.facebook.com/v20.0/{media_id}?fields=permalink&access_token={token}", timeout=10)
         permalink = lr.json().get("permalink")
-        
+
         print(f"[SUCCESS] Instagram Reels successfully published!")
         if permalink:
             print(f" - 포스트 링크: {permalink}")
