@@ -457,25 +457,31 @@ def publish_carousel(image_sources, caption, slot=None):
         print(f"[ERROR] Failed to publish Carousel: {e}")
         return None
 
-def publish_reels(video_source, caption, slot=None):
+def publish_reels(video_source, caption, slot=None, exclude_uploaders=None):
     """Publishes a video (Reels) to Instagram.
     
     자가 진단 로직:
     - Meta ERROR 시 status 필드를 파싱하여 원인 구분
     - 'error code 0' (다운로드 실패) → 자동으로 다음 업로더로 폴백
     - 기타 에러 (비디오 규격 문제) → 즉시 중단 + 명확한 에러 메시지
+    
+    Returns:
+        tuple(str|None, set): (permalink 또는 None, 실패한 업로더 이름 set)
+        호출부에서 실패 업로더를 다음 재시도에 exclude_uploaders로 전달 가능.
     """
+    _failed = set(exclude_uploaders or [])
     cfg = load_instagram_config()
     token = cfg.get("META_ACCESS_TOKEN", "").strip()
     biz_id = cfg.get("INSTAGRAM_BUSINESS_ID", "").strip()
 
     if not token or not biz_id:
         print("[ERROR] META_ACCESS_TOKEN or INSTAGRAM_BUSINESS_ID is missing in config.md")
-        return None
+        return None, _failed
 
     # 이미 URL인 경우 직접 사용
     if video_source.startswith("http://") or video_source.startswith("https://"):
-        return _publish_reels_with_url(video_source, caption, token, biz_id, slot)
+        result = _publish_reels_with_url(video_source, caption, token, biz_id, slot)
+        return result, _failed
 
     # 로컬 파일인 경우: 업로더 우선순위 목록을 순회하며 자동 폴백
     uploaders = [
@@ -491,11 +497,17 @@ def publish_reels(video_source, caption, slot=None):
     container_url = f"https://graph.facebook.com/v20.0/{biz_id}/media"
 
     for idx, (uploader_name, uploader_fn) in enumerate(uploaders):
+        # 이전 시도에서 실패한 업로더 건너뛰기
+        if uploader_name in _failed:
+            print(f"[SKIP] {uploader_name} — 이전 시도에서 실패 이력 있어 건너뜀.")
+            continue
+
         # 1) 업로드
         print(f"\n[UPLOAD] Trying uploader {idx+1}/{len(uploaders)}: {uploader_name}")
         url = uploader_fn(video_source)
         if not url:
             print(f"[WARN] {uploader_name} upload failed. Skipping to next.")
+            _failed.add(uploader_name)
             continue
 
         # 2) 컨테이너 생성
@@ -553,10 +565,11 @@ def publish_reels(video_source, caption, slot=None):
 
             # 4) 결과 분기
             if processing_result == "DOWNLOAD_FAILURE":
+                _failed.add(uploader_name)
                 continue  # 다음 업로더로 자동 폴백
 
             if processing_result == "VIDEO_ERROR":
-                return None  # 비디오 자체 문제 — 즉시 중단
+                return None, _failed  # 비디오 자체 문제 — 즉시 중단
 
             if processing_result == "FINISHED":
                 # 5) 발행
@@ -582,15 +595,16 @@ def publish_reels(video_source, caption, slot=None):
                 if permalink:
                     print(f" - 포스트 링크: {permalink}")
                     record_to_calendar(caption, permalink, slot=slot)
-                    return permalink
-                return media_id
+                    return permalink, _failed
+                return media_id, _failed
 
         except Exception as e:
             print(f"[ERROR] Exception with {uploader_name}: {e}")
+            _failed.add(uploader_name)
             continue
 
     print("[ERROR] All upload services exhausted. Could not publish Reels.")
-    return None
+    return None, _failed
 
 
 def _publish_reels_with_url(url, caption, token, biz_id, slot=None):
