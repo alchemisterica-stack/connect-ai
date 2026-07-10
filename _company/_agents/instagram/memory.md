@@ -47,3 +47,4 @@ _Instagram 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-10] 오늘 미팅에서 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행하는 것을 quyết정 → 산출물 sessions/2026-07-10T04-09/instagram.md
 - [2026-07-10] 2026년 07.09.을 기준으로 최소 3일간 운영 중인 Instagram의 게시 times 및 caption analysis → 산출물 sessions/2026-07-10T05-24/instagram.md
 - [2026-07-10] instagram 데이터 수집 → 산출물 sessions/2026-07-10T10-39/instagram.md
+- [2026-07-10] 이전에 posted 한 사진과 비슷한 단일 작업을 선택하고, 적절한 각도로 진전시키고, 같은 항목이 24시간 내에 출처가change 해지도록 assist → 산출물 sessions/2026-07-10T20-09/instagram.md

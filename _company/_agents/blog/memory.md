@@ -1,6 +1,8 @@
 # 📝 블로그 에이전트 메모리 (Memory)
 
 ## 최근 소식 & 히스토리
+- [2026-07-11] 청소년지도방법론_1~14주 강의교안 - 6주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=536, Blogger: https://congcandy.blogspot.com/2026/07/114-6-1_0364656179.html)
+- [2026-07-11] 청소년지도방법론_1~14주 강의교안 - 6주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=532, Blogger: https://congcandy.blogspot.com/2026/07/114-6-1.html)
 - [2026-07-10] 청소년지도방법론_1~14주 강의교안 - 5주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=522, Blogger: https://congcandy.blogspot.com/2026/07/114-5-2_01153896561.html)
 - [2026-07-10] 청소년지도방법론_1~14주 강의교안 - 5주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=521, Blogger: https://congcandy.blogspot.com/2026/07/114-5-2_01605498187.html)
 - [2026-07-10] 청소년지도방법론_1~14주 강의교안 - 5주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=520, Blogger: https://congcandy.blogspot.com/2026/07/114-5-2.html)
