@@ -196,3 +196,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-10] 오늘 미팅에 적합한 카피 스크립트를 작성하고, 유튜브 video video title과 caption에 적용 → 산출물 sessions/2026-07-10T14-39/designer.md
 - [2026-07-10] 기사, 캡션 및 Other media content generation의 design을 위한 최선의 기관 및 사람들을 구체적으로 결정하여 최상단 작업1개를 결정합니다. → 산출물 sessions/2026-07-10T17-54/designer.md
 - [2026-07-11] 2026년 7월 11일 1인 기업, 24시간 운영 중; 회사의 목표과 각 에이전트의 개인 목표 및 최근 사안을 검토하여 가장 가치 있는 단일 작업을 결정하고 적절한 1~2명 에이전트에게 분배서 실행하는 work → 산출물 sessions/2026-07-11T09-39/designer.md
+- [2026-07-11] 다음 best practice에 맞은 캘린더 미팅 planning 및 준비 → 산출물 sessions/2026-07-11T12-09/designer.md
