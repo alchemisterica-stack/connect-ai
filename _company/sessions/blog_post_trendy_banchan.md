@@ -1,8 +1,8 @@
 [METADATA]
-Dish: Stir-fried Zucchini
-Ingredients: Zucchini, garlic, onion, shrimp powder, perilla oil
-Step 1: Thinly slicing the vibrant green summer zucchini into uniform half-moon shapes on a clean wooden board.
-Step 2: Sautéing the sliced zucchini with minced garlic in a pan until it becomes tender and fragrant.
+Dish: 제육볶음
+Ingredients: 돼지고기 앞다리살, 고추장, 양파, 대파, 다진 마늘
+Step 1: prep ingredients
+Step 2: cooking step
 [END METADATA]
 
 ========== WORDPRESS VERSION ==========
