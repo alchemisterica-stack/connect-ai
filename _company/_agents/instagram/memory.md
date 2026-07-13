@@ -49,3 +49,4 @@ _Instagram 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-10] instagram 데이터 수집 → 산출물 sessions/2026-07-10T10-39/instagram.md
 - [2026-07-10] 이전에 posted 한 사진과 비슷한 단일 작업을 선택하고, 적절한 각도로 진전시키고, 같은 항목이 24시간 내에 출처가change 해지도록 assist → 산출물 sessions/2026-07-10T20-09/instagram.md
 - [2026-07-11] insta-data수집 및 분석 → 산출물 sessions/2026-07-11T12-54/instagram.md
+- [2026-07-12] 다음 2일 동안 메모리에 비슷한 항목이 있는 것이 있는지 확인하기 → 산출물 sessions/2026-07-12T22-54/instagram.md
