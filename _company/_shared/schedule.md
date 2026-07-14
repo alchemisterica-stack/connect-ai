@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 14. 오후 9:58:38_
+_업데이트: 2026. 7. 14. 오후 10:40:30_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 7. 14. 오후 9:58:38_
 - [2026-07-12] 다음 2일 동안 메모리에 비슷한 항목이 있는 것이 있는지 확인하기 → 산출물 sessions/2026-07-12T22-54/instagram.md
 - [2026-07-13] 주제·보조 text 및 image 생성 → 산출물 sessions/2026-07-13T11-54/instagram.md
 ### 🎨 Designer
-- [2026-07-13] 다음-week에 유튜브 видеосeries를 만들고 구독자 수를 올리기 → 산출물 sessions/2026-07-13T18-09/designer.md
 - [2026-07-13] 시êu설 design 및 브랜드 identity creation → 산출물 sessions/2026-07-13T18-39/designer.md
 - [2026-07-14] 자신의 가장 가치 있는 프로젝트 분배 → 산출물 sessions/2026-07-14T09-54/designer.md
+- [2026-07-14] 2026-07-16 14:00 → 산출물 sessions/2026-07-14T13-09/designer.md
 ### 💻 코다리
 - [2026-07-14] YouTube API 키 '자격증명 부족' 오류를 최우선으로 해결하세요. 직접 해결이 어렵다면, 문제 해결을 위한 구체적인 절차(예: 새 API 키 생성, Google Cloud Platform 권한 재설정 요청 등)와 함께 CEO의 승인이 필요한 사항을 명확히 보고하세요. [근거: 통합 스케줄 Developer/YouTube 최근 활동, 지난 의사결정 로그] → 산출물 sessions/2026-07-14T08-54/developer.md
 - [2026-07-14] YouTube API 키 '자격증명 부족' 오류 해결을 위해, 시스템이 제시한 정확한 절대 경로(c:\Users\User\.connect-ai-brain\_company\agents\developer\tools)를 사용하여 YouTube API 관련 설정 파일 위치를 파악하고, 해당 파일들을 분석하여 문제 진단 계획을 수립하세요. [근거: 통합 스케줄 Developer 최근 활동, 지난 의사결정 로그, 회사 공동 목표] → 산출물 sessions/2026-07-14T09-24/developer.md
@@ -35,9 +35,9 @@ _업데이트: 2026. 7. 14. 오후 9:58:38_
 - [2026-07-13] 부드럽고 매력적인 문구 작성 → 산출물 sessions/2026-07-13T18-39/writer.md
 - [2026-07-14] 이번 주의 가치 있는 단일 작업 분배 → 산출물 sessions/2026-07-14T09-54/writer.md
 ### 🔍 Researcher
-- [2026-07-13] 대부분의 target audience를 분석하고, 미래를 예상한 기회로 인해 새로운 chiến lược을 도입하도록 지원 → 산출물 sessions/2026-07-13T18-39/researcher.md
 - [2026-07-14] youtube 에이전트가 선정한 저조한 성과 영상의 주제와 유사한 콘텐츠를 다루는 경쟁사 채널 중, 성공적인 영상 3개의 특징(제목, 썸네일 스타일, 구성, 후크 등)을 분석하고 데이터를 수집하여 벤치마킹 자료를 만드세요. → 산출물 sessions/2026-07-13T23-09/researcher.md
 - [2026-07-14] 주요 목표 · 개인 목표 · 가장 가치 있는 단일 작업 분배 → 산출물 sessions/2026-07-14T09-54/researcher.md
+- [2026-07-14] 2026-07-15 10:00 → 산출물 sessions/2026-07-14T13-09/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
