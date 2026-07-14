@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 14. 오후 6:25:09_
+_업데이트: 2026. 7. 14. 오후 6:46:38_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -15,9 +15,9 @@ _업데이트: 2026. 7. 14. 오후 6:25:09_
 - [2026-07-13] 다음-week에 유튜브 видеосeries를 만들고 구독자 수를 올리기 → 산출물 sessions/2026-07-13T18-09/designer.md
 - [2026-07-13] 시êu설 design 및 브랜드 identity creation → 산출물 sessions/2026-07-13T18-39/designer.md
 ### 💻 코다리
-- [2026-07-13] YouTube API 키 및 채널 ID의 '자격증명 부족' 오류 진단 결과를 바탕으로, 해당 문제를 해결하기 위한 구체적인 수정 조치를 실행하고 YouTube 에이전트가 정상적으로 작동할 수 있도록 하세요. [근거: 통합 스케줄 Developer 최근 활동, 회사 공동 목표] → 자격증명 부족으로 차단됨
 - [2026-07-14] YouTube API 키 '자격증명 부족' 오류를 최우선으로 해결하세요. 직접 해결이 어렵다면, 문제 해결을 위한 구체적인 절차(예: 새 API 키 생성, Google Cloud Platform 권한 재설정 요청 등)와 함께 CEO의 승인이 필요한 사항을 명확히 보고하세요. [근거: 통합 스케줄 Developer/YouTube 최근 활동, 지난 의사결정 로그] → 산출물 sessions/2026-07-14T08-54/developer.md
 - [2026-07-14] YouTube API 키 '자격증명 부족' 오류 해결을 위해, 시스템이 제시한 정확한 절대 경로(c:\Users\User\.connect-ai-brain\_company\agents\developer\tools)를 사용하여 YouTube API 관련 설정 파일 위치를 파악하고, 해당 파일들을 분석하여 문제 진단 계획을 수립하세요. [근거: 통합 스케줄 Developer 최근 활동, 지난 의사결정 로그, 회사 공동 목표] → 산출물 sessions/2026-07-14T09-24/developer.md
+- [2026-07-14] YouTube API 키 '자격증명 부족' 오류 해결을 위해, 정확한 절대 경로 'c:\Users\User\.connect-ai-brain\_company\agents\developer\tools'를 사용하여 YouTube API 관련 설정 파일 위치를 다시 파악하고, 해당 파일들을 분석하여 문제 진단 및 해결 계획을 수립하세요. [근거: 통합 스케줄 Developer 최근 활동, 지난 의사결정 로그, 회사 공동 목표] → 산출물 sessions/2026-07-14T09-39/developer.md
 ### 💼 현빈
 - [2026-07-12] 2026-07-12 01:00 - 04:00 사이 cycles의 최종 분석 performed → 자격증명 부족으로 차단됨
 - [2026-07-12] CEO의 개인 목표(_agents/CEO goal.md) → 산출물 sessions/2026-07-12T20-24/business.md
