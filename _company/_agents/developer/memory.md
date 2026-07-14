@@ -56,3 +56,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-13] 구성·연습 → 산출물 sessions/2026-07-13T11-54/developer.md
 - [2026-07-13] YouTube API 키 및 채널 ID의 '자격증명 부족' 오류 진단 결과를 바탕으로, 해당 문제를 해결하기 위한 구체적인 수정 조치를 실행하고 YouTube 에이전트가 정상적으로 작동할 수 있도록 하세요. [근거: 통합 스케줄 Developer 최근 활동, 회사 공동 목표] → 자격증명 부족으로 차단됨
 - [2026-07-14] YouTube API 키 '자격증명 부족' 오류를 최우선으로 해결하세요. 직접 해결이 어렵다면, 문제 해결을 위한 구체적인 절차(예: 새 API 키 생성, Google Cloud Platform 권한 재설정 요청 등)와 함께 CEO의 승인이 필요한 사항을 명확히 보고하세요. [근거: 통합 스케줄 Developer/YouTube 최근 활동, 지난 의사결정 로그] → 산출물 sessions/2026-07-14T08-54/developer.md
+- [2026-07-14] YouTube API 키 '자격증명 부족' 오류 해결을 위해, 시스템이 제시한 정확한 절대 경로(c:\Users\User\.connect-ai-brain\_company\agents\developer\tools)를 사용하여 YouTube API 관련 설정 파일 위치를 파악하고, 해당 파일들을 분석하여 문제 진단 계획을 수립하세요. [근거: 통합 스케줄 Developer 최근 활동, 지난 의사결정 로그, 회사 공동 목표] → 산출물 sessions/2026-07-14T09-24/developer.md
