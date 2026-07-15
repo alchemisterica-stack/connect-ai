@@ -221,3 +221,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-15] _agents/designer.goal.md → 산출물 sessions/2026-07-15T10-09/designer.md
 - [2026-07-15] currntly designing a new campaign for our brand, let's focus on the creative direction and visuals → 산출물 sessions/2026-07-15T19-54/designer.md
 - [2026-07-15] 기본적인 디자인 브리프 → 산출물 sessions/2026-07-15T21-09/designer.md
+- [2026-07-15] 다음 단계의 작업을 계획하기 위해 necessary design 브리프 → 산출물 sessions/2026-07-15T23-09/designer.md
