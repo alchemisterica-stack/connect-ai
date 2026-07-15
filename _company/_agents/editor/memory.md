@@ -53,3 +53,4 @@ _루나 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-12] 2026-07-12_17:15_00_30_45_20_05_10_40_99 → 산출물 sessions/2026-07-12T04-09/editor.md
 - [2026-07-12] 오늘의 영상 및 사운드 브риф을 정리 → 산출물 sessions/2026-07-12T16-09/editor.md
 - [2026-07-14] 다음 주의 가치 있는 단일 작업 분배 → 산출물 sessions/2026-07-14T09-54/editor.md
+- [2026-07-15] start recording and editting the 1-hour video script → 산출물 sessions/2026-07-15T19-54/editor.md
