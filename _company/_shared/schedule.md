@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 16. 오전 8:51:01_
+_업데이트: 2026. 7. 16. 오전 10:24:29_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -11,9 +11,9 @@ _업데이트: 2026. 7. 16. 오전 8:51:01_
 - [2026-07-13] 주제·보조 text 및 image 생성 → 산출물 sessions/2026-07-13T11-54/instagram.md
 - [2026-07-15] 2026년 7월 15일, 유튜브의 일시적 목표(10만 views)를 달성하기 위해 8시간 동안 연습과 훈련을 진행 → 산출물 sessions/2026-07-15T05-24/instagram.md
 ### 🎨 Designer
-- [2026-07-15] currntly designing a new campaign for our brand, let's focus on the creative direction and visuals → 산출물 sessions/2026-07-15T19-54/designer.md
 - [2026-07-15] 기본적인 디자인 브리프 → 산출물 sessions/2026-07-15T21-09/designer.md
 - [2026-07-15] 다음 단계의 작업을 계획하기 위해 necessary design 브리프 → 산출물 sessions/2026-07-15T23-09/designer.md
+- [2026-07-16] 모든 에이전트에 대해 각 에이전트의 개인 목표(_agents/{id}/goal.md)을 정산하고, 최근 의사결정 및 메모리를 검토하는 것이 가장 가치 있는 단일 작업 → 산출물 sessions/2026-07-15T23-54/designer.md
 ### 💻 코다리
 - [2026-07-15] 자신의 이전 작업 ('YouTube API 키 '자격증명 부족' 오류 해결')이 '자격증명 부족으로 차단됨' 메시지와 함께 실패한 원인을 심층적으로 분석하고, 구체적으로 어떤 자격증명이나 권한이 부족하여 작업을 수행할 수 없었는지 명확히 파악하여, 이를 해결하기 위해 CEO가 취해야 할 구체적인 조치(예: 특정 GCP 프로젝트 권한 부여, API 키 재발급 절차 등)를 상세하게 보고하세요. 이 보고서는 개발자 에이전트가 YouTube API 키 문제를 해결할 수 있도록 스스로를 unblock하는 데 필요한 정보를 담아야 합니다. →
 - [2026-07-15] starting implementation of the new campaign design → 산출물 sessions/2026-07-15T19-54/developer.md
@@ -31,13 +31,13 @@ _업데이트: 2026. 7. 16. 오전 8:51:01_
 - [2026-07-14] 다음 주의 가치 있는 단일 작업 분배 → 산출물 sessions/2026-07-14T09-54/editor.md
 - [2026-07-15] start recording and editting the 1-hour video script → 산출물 sessions/2026-07-15T19-54/editor.md
 ### ✍️ Writer
-- [2026-07-15] writing the first 2 paragraphs of our new content → 산출물 sessions/2026-07-15T19-54/writer.md
-- [2026-07-15] 블로그 및 카피라이팅 → 산출물 sessions/2026-07-15T21-09/writer.md
 - [2026-07-15] 자율 사이클에서 가장 가치 있는 단일 작업 1입니다. → 산출물 sessions/2026-07-15T23-09/writer.md
+- [2026-07-16] 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 execution 하도록 도움 → 산출물 sessions/2026-07-15T23-54/writer.md
+- [2026-07-16] 기존 항목을 대체하여 가장 가치있는 단일 작업 1개를 정산하고, 메모리에 비슷한 항목이 24시간 내에 있으면 다른 각도로 진전시키는 것이 중요 → 산출물 sessions/2026-07-15T23-54/writer.md
 ### 🔍 Researcher
-- [2026-07-14] _agents/{id}/goal.md → 산출물 sessions/2026-07-14T15-54/researcher.md
 - [2026-07-15] 최근 1~2주간 유튜브에서 유행하는 콘텐츠 트렌드 3-5가지와 해당 트렌드의 주요 특징 및 성공 요인을 분석하여 요약 보고서를 작성하세요. '콩콩캔디' 채널에 적용 가능성을 함께 고려해주세요. → 산출물 sessions/2026-07-15T04-39/researcher.md
 - [2026-07-15] 다음 단계에 필요한 데이터 수집과 분석 → 산출물 sessions/2026-07-15T09-09/researcher.md
+- [2026-07-16] 가장 가치 있는 단일 작업 1개를 결정하는 데 사용되는 데이터 수집 키워드 매칭 → 산출물 sessions/2026-07-15T23-54/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
