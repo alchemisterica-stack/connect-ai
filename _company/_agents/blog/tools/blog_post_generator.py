@@ -1905,16 +1905,21 @@ def _main_impl():
         with open(queue_path, "r", encoding="utf-8") as f:
             queue_data = json.load(f)
             
-        # 1일 1회 초과 발행 방지 안전 제어 장치 (study 카테고리 한정)
+        # 1일 1회 초과 발행 방지 안전 제어 장치 (동일 subject 카테고리 한정)
         today_str = time.strftime("%Y-%m-%d")
+        current_subject = queue_data.get("current_subject", "")
+        if not current_subject and queue_data.get("queue"):
+            current_subject = queue_data["queue"][0]
+            
         today_study_posts = [
             p for p in queue_data.get("completed_lessons", [])
-            if p.get("date") == today_str and p.get("status") == "published" and p.get("subject") not in ["요리/반찬", "인스타그램"]
+            if p.get("date") == today_str and p.get("status") == "published" and p.get("subject") == current_subject and p.get("subject") not in ["요리/반찬", "인스타그램"]
         ]
         if len(today_study_posts) >= 1:
-            print(f"\n[INFO] Daily limit reached. Today ({today_str}) already published: {[p['lesson'] for p in today_study_posts]}")
+            print(f"\n[INFO] Daily limit reached for subject '{current_subject}'. Today ({today_str}) already published: {[p['lesson'] for p in today_study_posts]}")
             print("Execution skipped to protect SEO rating from search engines.")
             sys.exit(0)
+
             
         current_subject = queue_data.get("current_subject", "")
         current_idx = queue_data.get("current_lesson_index", 0)
