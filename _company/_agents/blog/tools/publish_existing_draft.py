@@ -8,7 +8,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from blog_post_generator import auto_publish_post
 
 def main():
-    draft_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "sessions", "blog_post_trendy_banchan.md"))
+    if len(sys.argv) > 1:
+        draft_path = os.path.abspath(sys.argv[1])
+    else:
+        draft_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "sessions", "blog_post_trendy_banchan.md"))
+        
     if not os.path.exists(draft_path):
         print(f"[ERROR] Draft not found at: {draft_path}")
         sys.exit(1)
@@ -19,7 +23,13 @@ def main():
 
     category = "recipe"
     subject = "요리/반찬"
-    target_file_name = "blog_post_trendy_banchan.md"
+    
+    parent_dir = os.path.basename(os.path.dirname(draft_path))
+    base_name = os.path.basename(draft_path)
+    if parent_dir and parent_dir not in ["sessions", "tools", "blog", ""]:
+        target_file_name = f"session_{parent_dir}_{base_name}"
+    else:
+        target_file_name = base_name
 
     print(f"[INFO] Publishing cooking blog draft to WordPress and Blogger...")
     

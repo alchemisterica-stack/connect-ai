@@ -1,0 +1,191 @@
+{
+  "meeting_time": "2026-07-19 00:20:52",
+  "participants": [
+    "👔 CEO",
+    "✍️ Writer",
+    "🎨 Designer",
+    "💻 Developer",
+    "📱 Secretary",
+    "🎵 Luna"
+  ],
+  "agenda": "실시간 발행 현황 및 에이전트별 디자인/글 고도화 공약",
+  "recent_performance_audit": [
+    {
+      "date": "2026-07-18",
+      "subject": "인스타그램",
+      "name": "오늘도 거울 앞에서 스스로를 탓했나요.md"
+    },
+    {
+      "date": "2026-07-18",
+      "subject": "인스타그램",
+      "name": "아무것도 하기 싫은 날이 있어요.md"
+    },
+    {
+      "date": "2026-07-18",
+      "subject": "청소년지도방법론_1~14주 강의교안",
+      "name": "10주차_2교시.pdf"
+    },
+    {
+      "date": "2026-07-17",
+      "subject": "인스타그램",
+      "name": "오늘의 anxiety 마음 처방전.md"
+    },
+    {
+      "date": "2026-07-17",
+      "subject": "인스타그램",
+      "name": "오늘의 consolation 마음 처방전.md"
+    }
+  ],
+  "ceo_review": "이번 주 실제 온라인 채널을 통해 청지사 교안 요약 및 인스타그램 힐링 카드뉴스가 완벽히 발행되었습니다. 에이전트 공유망에 실시간으로 발행 이력이 연계되었으니, 다음 주 발전을 위한 각 에이전트의 구체적 고도화 공약과 비교 시안을 점검하겠습니다.",
+  "commitments": [
+    {
+      "agent": "blog",
+      "emoji": "📝",
+      "name": "블로그 에이전트",
+      "issue": "기존의 청지사 학습 요약본의 텍스트가 밋밋하여 수험생들의 핵심 학습 내용 눈길 분산 우려.",
+      "commitment": "청지사 수험생의 학습 피로도를 줄이기 위해, 주요 개념별 그라데이션 배지와 카드 디자인 가이드라인을 수립하고, 실시간 O/X 퀴즈 및 정답 해설 보드의 가독성 레이아웃을 100% 개조하여 발행 시안을 빌드하겠습니다.",
+      "sample_before": "/assets/weekly_samples/blog_before.html",
+      "sample_after": "/assets/weekly_samples/blog_after.html"
+    },
+    {
+      "agent": "instagram",
+      "emoji": "📷",
+      "name": "인스타그램 에이전트",
+      "issue": "단조로운 흰색 배경과 기본 고딕 폰트 배치로 인해 릴스/피드 가속 스크롤 중 유저 시선 확보 한계.",
+      "commitment": "유행하는 힐링 감성을 담을 수 있도록 딥 펄플/인디고 그라데이션 광원 배경 기술을 도입하고, Noto Serif KR 및 Outfit 폰트를 교차 활용해 프리미엄 힐링 글귀 레이아웃 디자인을 전격 이식하겠습니다.",
+      "sample_before": "/assets/weekly_samples/insta_before.html",
+      "sample_after": "/assets/weekly_samples/insta_after.html"
+    }
+  ],
+  "agent_activity": [
+    {
+      "id": "editor",
+      "name": "루나 (Luna)",
+      "role": "Sound Director & Composer",
+      "emoji": "🎵",
+      "stat": "BGM 음원 생성 17건",
+      "tasks": [
+        "인스타그램 힐링 명상 콘텐츠 전용 BGM 제작 및 마스터링",
+        "배경 영상과 신규 BGM 음향 합성(Muxing) 및 인코딩 완료"
+      ],
+      "details": [
+        "오늘의 burnout 마음 처방전.md",
+        "오늘의 burnout 마음 처방전.md",
+        "오늘의 self_esteem 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 relationship 마음 처방전.md",
+        "오늘의 self_esteem 마음 처방전.md",
+        "오늘의 relationship 마음 처방전.md",
+        "오늘의 self_esteem 마음 처방전.md",
+        "오늘의 anxiety 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 anxiety 마음 처방전.md",
+        "오늘의 burnout 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 anxiety 마음 처방전.md",
+        "아무것도 하기 싫은 날이 있어요.md",
+        "오늘도 거울 앞에서 스스로를 탓했나요.md"
+      ]
+    },
+    {
+      "id": "writer",
+      "name": "Writer",
+      "role": "Copywriter",
+      "emoji": "✍️",
+      "stat": "원고 및 캡션 작성 23건",
+      "tasks": [
+        "인스타그램 힐링 카드뉴스 감성 카피라이팅 및 캡션 17건 작성 완료",
+        "청소년지도사 수험 교안 요약 및 요리 레시피 블로그 포스팅 원고 6건 작성 완료"
+      ],
+      "details": [
+        "[청소년지도방법론_1~14주 강의교안] 7주차_1교시.pdf",
+        "[청소년지도방법론_1~14주 강의교안] 7주차_2교시.pdf",
+        "[청소년지도방법론_1~14주 강의교안] 9주차_1교시.pdf",
+        "[청소년지도방법론_1~14주 강의교안] 9주차_2교시.pdf",
+        "[청소년지도방법론_1~14주 강의교안] 10주차_1교시.pdf",
+        "[청소년지도방법론_1~14주 강의교안] 10주차_2교시.pdf",
+        "오늘의 burnout 마음 처방전.md",
+        "오늘의 burnout 마음 처방전.md",
+        "오늘의 self_esteem 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 relationship 마음 처방전.md",
+        "오늘의 self_esteem 마음 처방전.md",
+        "오늘의 relationship 마음 처방전.md",
+        "오늘의 self_esteem 마음 처방전.md",
+        "오늘의 anxiety 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 anxiety 마음 처방전.md",
+        "오늘의 burnout 마음 처방전.md",
+        "오늘의 consolation 마음 처방전.md",
+        "오늘의 anxiety 마음 처방전.md",
+        "아무것도 하기 싫은 날이 있어요.md",
+        "오늘도 거울 앞에서 스스로를 탓했나요.md"
+      ]
+    },
+    {
+      "id": "researcher",
+      "name": "Researcher",
+      "role": "Trend & Data Researcher",
+      "emoji": "🔍",
+      "stat": "실시간 트렌드 분석 스캔 7회 (매일)",
+      "tasks": [
+        "네이버/구글 실시간 급상승 요리 레시피 트렌드 분석 및 주요 식재료 식별",
+        "청소년지도사 면접 기간 수험생들이 주로 검색하는 기출 핵심 질문 키워드 수집"
+      ],
+      "details": [
+        "가지볶음 (제철 반찬)",
+        "소고기 애호박 죽 (이유식)",
+        "청소년지도사 2급 면접 요약 (수험)"
+      ]
+    },
+    {
+      "id": "developer",
+      "name": "코다리 (Kodari)",
+      "role": "시니어 풀스택 엔지니어",
+      "emoji": "💻",
+      "stat": "시스템 유지보수 및 연동 패치 4회",
+      "tasks": [
+        "실시간 발행 대장(schedule.md) 데이터 수집 동기화 스케줄러 패치",
+        "대표님을 위한 오류사항 개선 대시보드 바탕화면 바로가기 자동화 스크립트 작성",
+        "웹 서버 assets 하위 정적 경로 드라이브 대소문자 오류 정정 및 재기동"
+      ],
+      "details": [
+        "src/extension.ts",
+        "scripts/dashboard_server.py",
+        "scripts/create_shortcut.py"
+      ]
+    },
+    {
+      "id": "ceo",
+      "name": "CEO",
+      "role": "Chief Executive Agent",
+      "emoji": "🧭",
+      "stat": "의사결정 및 태스크 오케스트레이션 7회 (매일)",
+      "tasks": [
+        "에이전트 데일리 업무 감시 및 목표 우선순위 자동 배분 주재",
+        "주간 업무 보고서 감사 및 디자인 가이드라인 고도화 기획 지시"
+      ],
+      "details": [
+        "goals.md 관리",
+        "decisions.md 실시간 갱신"
+      ]
+    },
+    {
+      "id": "secretary",
+      "name": "영숙 (Secretary)",
+      "role": "비서 / Personal Assistant",
+      "emoji": "📱",
+      "stat": "업무 정리 보고 및 텔레그램 알림 14회",
+      "tasks": [
+        "에이전트별 업무 결과 로그 모니터링 및 상태 업데이트 요약",
+        "대표님 원클릭 모니터링용 텔레그램 브리핑 메시지 템플릿 작성"
+      ],
+      "details": [
+        "오류사항 대시보드 알림",
+        "데일리 발행 내역 미러링"
+      ]
+    }
+  ]
+}
