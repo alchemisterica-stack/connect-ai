@@ -59,3 +59,4 @@ _루나 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-17] 브랜드 비주얼 · 현재 작업 중인 예시 → 산출물 sessions/2026-07-17T03-40/editor.md
 - [2026-07-17] 유튜브 video 분석 및 오디오 후처리, 인스타그램 해시태그 및 caption 작성 → 산출물 sessions/2026-07-17T11-39/editor.md
 - [2026-07-17] 모든 BGM_AUTO 생성(MusicGen/ACE-Step)와 사운드디자인의 최적화 등은 현재 진행 중입니다. → 산출물 sessions/2026-07-17T20-54/editor.md
+- [2026-07-18] 새로운 mission의 contents를 편집하고, 새로운 music과 sound effect을 생성합니다. (BGMAutomatic generation) → 산출물 sessions/2026-07-18T01-54/editor.md
