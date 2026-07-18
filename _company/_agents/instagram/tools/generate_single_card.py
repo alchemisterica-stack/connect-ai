@@ -227,54 +227,96 @@ def draw_block_centered(img_w, img_h, draw, lines, font, sub_lines, sub_font,
     return y
 
 def create_single_card(title, subtitle, theme_name="warm", layout_type=None, style="normal", exclude_colors=""):
-    """단일 카드 생성 — 피드(1080×1080) + 릴스(1080×1920)"""
+    """단일 카드 생성 — 피드(1080×1080) + 릴스(1080×1920)
+    style='bold'  → 아침 08:30 발행용: Pretendard Bold, 큰 폰트, 강한 스크림
+    style='normal'→ 저녁 20:30 발행용: 명조체(감성체), 보통 폰트, 부드러운 스크림
+    """
     W, H = 1080, 1080
     W2, H2 = 1080, 1920
 
-    print(f"\n[CARD] theme='{theme_name}' | title: {title[:30].replace(chr(10),' / ')}")
+    print(f"\n[CARD] theme='{theme_name}' style='{style}' | title: {title[:30].replace(chr(10),' / ')}")
+
+    is_bold = (style == "bold")  # 아침 발행 = bold, 저녁 = normal
 
     # ── 1. 배경 ──────────────────────────────────────────────────────────
     bg_feed = get_bg(theme_name, (W, H))
     bg_reel = bg_feed.resize((W2, H2), Image.Resampling.LANCZOS)
 
-    # ── 2. 스크림 ─────────────────────────────────────────────────────────
-    feed = add_scrim(bg_feed, strength=0.50)
-    reel = add_scrim(bg_reel, strength=0.50)
+    # ── 2. 스크림 (bold는 더 진하게 → 가독성 강화) ───────────────────────
+    scrim_strength = 0.60 if is_bold else 0.48
+    feed = add_scrim(bg_feed, strength=scrim_strength)
+    reel = add_scrim(bg_reel, strength=scrim_strength)
 
-    # ── 3. 폰트 ──────────────────────────────────────────────────────────
+    # ── 3. 폰트 결정 ─────────────────────────────────────────────────────
+    # bold(아침): Pretendard Bold — 굵고 강렬하게
+    # normal(저녁): 명조체 — 부드럽고 감성적으로
     char_count = len(title.replace("\n", ""))
-    if char_count > 28:
-        ts = 58
-    elif char_count > 18:
-        ts = 66
+    if is_bold:
+        if char_count > 28:
+            ts = 64
+        elif char_count > 18:
+            ts = 74
+        else:
+            ts = 84
+        font_path = FONT_BOLD
     else:
-        ts = 76
+        if char_count > 28:
+            ts = 58
+        elif char_count > 18:
+            ts = 66
+        else:
+            ts = 76
+        serif_candidates = [
+            os.path.join(FONTS_DIR, "MaruBuri-Regular.ttf"),
+            os.path.join(FONTS_DIR, "NanumMyeongjo-Regular.ttf"),
+            os.path.join(FONTS_DIR, "SongMyung-Regular.ttf"),
+            r"C:\Windows\Fonts\batang.ttc",
+        ]
+        font_path = FONT_BOLD
+        for p in serif_candidates:
+            if os.path.exists(p) and os.path.getsize(p) > 10000:
+                font_path = p
+                break
 
-    tf, sf, bf = load_fonts(size_title=ts, size_sub=34, size_brand=20)
+    try:
+        tf = ImageFont.truetype(font_path, ts)
+    except Exception:
+        tf = ImageFont.truetype(FONT_BOLD, ts)
+    try:
+        sf = ImageFont.truetype(FONT_SEMI, 34 if is_bold else 32)
+    except Exception:
+        sf = ImageFont.load_default()
+    try:
+        bf = ImageFont.truetype(FONT_REG, 20)
+    except Exception:
+        bf = ImageFont.load_default()
 
     # ── 4. 색상 ──────────────────────────────────────────────────────────
     title_color = (255, 255, 255, 255)
-    sub_color   = (220, 220, 220, 200)  # 흰색 반투명 — accent 색 제거
-    brand_color = (180, 180, 180, 160)
+    sub_color   = (230, 225, 220, 210) if is_bold else (220, 218, 215, 190)
+    brand_color = (180, 180, 180, 150)
 
-    # ── 5. 피드 카드 렌더 ─────────────────────────────────────────────────
+    # ── 5. 줄간격 (bold 타이트, normal 여유) ──────────────────────────────
+    line_gap = 1.45 if is_bold else 1.60
+    sub_gap  = 1.35 if is_bold else 1.45
+
+    print(f"  [STYLE] {'아침 BOLD: Pretendard, 강한스크림' if is_bold else '저녁 NORMAL: 명조체, 부드러운스크림'}")
+
+    # ── 6. 피드 카드 렌더 ─────────────────────────────────────────────────
     draw_f = ImageDraw.Draw(feed)
     t_lines = wrap_text(title, tf, W - 240, draw_f)
     s_lines = wrap_text(subtitle, sf, W - 280, draw_f) if subtitle else []
 
-    # 제목과 부제 사이 구분선 (얇은 흰선)
     draw_block_centered(W, H, draw_f, t_lines, tf, s_lines, sf,
-                         title_color, sub_color, pad_x=120)
-
-    # 브랜드
+                         title_color, sub_color, line_gap=line_gap, sub_gap=sub_gap, pad_x=120)
     brand = "@rolling.s.cong01"
     bw = draw_f.textbbox((0,0), brand, font=bf)[2]
     draw_f.text(((W - bw)//2, H - 52), brand, font=bf, fill=brand_color)
 
-    # ── 6. 릴스 카드 렌더 ─────────────────────────────────────────────────
+    # ── 7. 릴스 카드 렌더 ─────────────────────────────────────────────────
     draw_r = ImageDraw.Draw(reel)
     draw_block_centered(W2, H2, draw_r, t_lines, tf, s_lines, sf,
-                         title_color, sub_color, pad_x=120)
+                         title_color, sub_color, line_gap=line_gap, sub_gap=sub_gap, pad_x=120)
     bw2 = draw_r.textbbox((0,0), brand, font=bf)[2]
     draw_r.text(((W2 - bw2)//2, H2 - 52), brand, font=bf, fill=brand_color)
 
