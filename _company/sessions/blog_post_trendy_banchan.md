@@ -1,8 +1,8 @@
 [METADATA]
-Dish: Stir-fried Summer Squash
-Ingredients: Zucchini, onion, garlic, perilla oil, salt
-Step 1: Thinly slicing fresh summer zucchini and onions on a wooden cutting board
-Step 2: Sautéing the sliced vegetables in a pan with fragrant perilla oil until tender and slightly golden
+Dish: 제육볶음
+Ingredients: 돼지고기 앞다리살, 고추장, 양파, 대파, 다진 마늘
+Step 1: prep ingredients
+Step 2: cooking step
 [END METADATA]
 
 ========== WORDPRESS VERSION ==========
