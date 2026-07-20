@@ -251,3 +251,4 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-20] 실시간 트렌드 분석 리포트의 '요리/반찬' 카테고리에서 '완도 전복죽' 레시피를 활용하여 인스타그램 카드뉴스용 원고(최소 5장 분량의 슬라이드별 내용 포함)를 작성하세요. 내용은 '요리 초보도 성공하는 완도 전복죽 정갈하고 맛있는 황금 레시피'에 초점을 맞추고, 결과물을 `my-ai-office/content/wando_jeonbokjuk_cardnews_draft.md` 경로에 마크다운 파일로 저장하세요. [근거: 회사 미션, 지난 의사결정, 실시간 트렌드 분석 리포트] → 산출물 sessions/2026-07-20T14-31/w
 - [2026-07-20] _agents/1(goal.md) → 산출물 sessions/2026-07-20T16-31/writer.md
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 blog post 및 article → 산출물 sessions/2026-07-20T17-31/writer.md
+- [2026-07-20] 새로운 문구 및 캡션을 작성하여Company Goal과 Mission statement에 대한 내용을 cập nhật하는 task → 산출물 sessions/2026-07-20T20-31/writer.md
