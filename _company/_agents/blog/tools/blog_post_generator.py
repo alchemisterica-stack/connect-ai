@@ -1878,19 +1878,48 @@ def _main_impl():
     input_arg = ""
     custom_type = ""
     
-    if len(sys.argv) == 2:
+    subject_arg = ""
+    info_file_arg = ""
+    issue_file_arg = ""
+    
+    # 1. Parse CLI custom dynamic arguments
+    if "--subject" in sys.argv:
+        try:
+            idx = sys.argv.index("--subject")
+            subject_arg = sys.argv[idx + 1]
+        except Exception:
+            pass
+            
+    if "--info_file" in sys.argv:
+        try:
+            idx = sys.argv.index("--info_file")
+            info_file_arg = sys.argv[idx + 1]
+        except Exception:
+            pass
+            
+    if "--issue_file" in sys.argv:
+        try:
+            idx = sys.argv.index("--issue_file")
+            issue_file_arg = sys.argv[idx + 1]
+        except Exception:
+            pass
+
+    # 2. Parse basic auto/issue modes
+    if len(sys.argv) >= 2:
         arg_val = sys.argv[1].lower()
         if arg_val == "auto":
             auto_mode = True
         elif arg_val in ["issue", "guide"]:
             auto_mode = True
             custom_type = arg_val
-    elif len(sys.argv) < 3:
+            
+    if not auto_mode and len(sys.argv) < 3:
         print("[USAGE] python blog_post_generator.py <category> <input_text_or_path>")
         print("        categories: study / mindset / recipe")
         print("        Or: python blog_post_generator.py auto")
+        print("        Or: python blog_post_generator.py issue --subject <subj> --info_file <info> --issue_file <issue>")
         sys.exit(1)
-    else:
+    elif not auto_mode:
         category = sys.argv[1].lower()
         input_arg = sys.argv[2]
 
@@ -1902,6 +1931,25 @@ def _main_impl():
     completed_history = []
     files = []
     
+    # 3. Read dynamic trend metadata JSON if CLI parameters are empty
+    trend_meta_path = os.path.join(SESSIONS_DIR, "latest_trend_license.json")
+    if not subject_arg and os.path.exists(trend_meta_path):
+        try:
+            with open(trend_meta_path, "r", encoding="utf-8") as f:
+                meta_data = json.load(f)
+                subject_arg = meta_data.get("subject", "")
+                if not info_file_arg:
+                    info_file_arg = meta_data.get("info_file", "")
+                if not issue_file_arg:
+                    issue_file_arg = meta_data.get("issue_file", "")
+                print(f"[INFO] Dynamically loaded trend metadata: Subject={subject_arg}, Info={info_file_arg}, Issue={issue_file_arg}")
+        except Exception as meta_err:
+            print(f"[WARN] Failed to load trend metadata JSON: {meta_err}")
+            
+    is_dynamic_issue = False
+    if custom_type and subject_arg and (info_file_arg or issue_file_arg):
+        is_dynamic_issue = True
+
     # Auto Mode logic
     if auto_mode:
         if not os.path.exists(queue_path):
@@ -1911,7 +1959,9 @@ def _main_impl():
         with open(queue_path, "r", encoding="utf-8") as f:
             queue_data = json.load(f)
             
-        if custom_type:
+        if is_dynamic_issue:
+            current_subject = subject_arg
+        elif custom_type:
             current_subject = "사회복지사 1급 핵심 요약"
         else:
             current_subject = queue_data.get("current_subject", "")
@@ -1920,7 +1970,7 @@ def _main_impl():
             
         today_str = time.strftime("%Y-%m-%d")
         
-        # 1일 1회 초과 발행 방지 안전 제어 장치 (동일 subject 카테고리 한정, custom_type은 제외)
+        # Prevent double publishing within the same day for standard subject queue (exclude custom dynamic issues)
         if not custom_type:
             today_study_posts = [
                 p for p in queue_data.get("completed_lessons", [])
@@ -1931,146 +1981,202 @@ def _main_impl():
                 print("Execution skipped to protect SEO rating from search engines.")
                 sys.exit(0)
 
-        if not custom_type:
-            current_subject = queue_data.get("current_subject", "")
-            current_idx = queue_data.get("current_lesson_index", 0)
-            subj_queue = queue_data.get("queue", [])
-            completed_history = queue_data.get("completed_history", [])
-        else:
-            current_idx = 0
-            subj_queue = []
-            completed_history = []
+        if is_dynamic_issue:
+            # Dynamic trend linked issue mode: read files directly and combine into content
+            info_text = ""
+            issue_text = ""
+            if info_file_arg and os.path.exists(info_file_arg):
+                try:
+                    with open(info_file_arg, "r", encoding="utf-8") as f:
+                        info_text = f.read()
+                except Exception as e:
+                    print(f"[ERROR] Failed to read info_file: {e}")
+            if issue_file_arg and os.path.exists(issue_file_arg):
+                try:
+                    with open(issue_file_arg, "r", encoding="utf-8") as f:
+                        issue_text = f.read()
+                except Exception as e:
+                    print(f"[ERROR] Failed to read issue_file: {e}")
             
-        if not current_subject:
-            if subj_queue:
-                current_subject = subj_queue.pop(0)
-                current_idx = 0
-                queue_data["current_subject"] = current_subject
-                queue_data["current_lesson_index"] = 0
-                queue_data["queue"] = subj_queue
-            else:
-                print("[ERROR] No active subject and the queue is empty.")
-                sys.exit(1)
+            content_parts = []
+            if info_text:
+                content_parts.append(f"### [자격증 상세 정보]\n{info_text}")
+            if issue_text:
+                content_parts.append(f"### [최신 주요 이슈 및 트렌드]\n{issue_text}")
                 
-        # Find raw folder
-        raw_dir = os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject)
-        if not os.path.exists(raw_dir):
-            print(f"[INFO] Auto-creating missing Raw materials folder: {raw_dir}")
-            os.makedirs(raw_dir, exist_ok=True)
+            content = "\n\n".join(content_parts)
+            category = "study"
+            is_study_category = True
+            target_file_name = f"{current_subject}_{custom_type}.txt"
             
-        # List lesson files (pdf, txt, hwp)
-        all_raw = os.listdir(raw_dir)
-        files = []
-        for f in all_raw:
-            f_low = f.lower()
-            if f_low.endswith(('.pdf', '.hwp')):
-                files.append(f)
-            elif f_low.endswith('.txt'):
-                base = f.rsplit('.', 1)[0]
-                if not (f"{base}.pdf" in all_raw or f"{base}.PDF" in all_raw or f"{base}.hwp" in all_raw or f"{base}.HWP" in all_raw):
-                    files.append(f)
-                    
-        if custom_type and not files:
-            dummy_filename = "사회복지사1급_최신이슈_해설.txt" if custom_type == "issue" else "사회복지사1급_과목공부법_안내.txt"
-            dummy_path = os.path.join(raw_dir, dummy_filename)
+            # Record execution in completed lessons
             try:
-                with open(dummy_path, "w", encoding="utf-8") as dummy_f:
-                    dummy_f.write(f"사회복지사 1급 {custom_type} 생성용 텍스트 원고")
-                files.append(dummy_filename)
-                print(f"[SUCCESS] Created trigger study file for social worker: {dummy_filename}")
-            except Exception as dummy_err:
-                print(f"[WARN] Failed to create dummy file: {dummy_err}")
-                
-        if not files:
-            print(f"[ERROR] No lesson files found in: {raw_dir}")
-            sys.exit(1)
-            
-        # Numerical/Natural sorting
-        def natural_sort_key(filename):
-            nums = re.findall(r'\d+', filename)
-            return [int(n) for n in nums] if nums else [999]
-            
-        files.sort(key=natural_sort_key)
-        
-        if current_idx >= len(files):
-            # Already completed? This shouldn't happen normally, but let's rotate.
-            if subj_queue:
-                completed_history.append(current_subject)
-                current_subject = subj_queue.pop(0)
-                current_idx = 0
-                queue_data["current_subject"] = current_subject
-                queue_data["current_lesson_index"] = 0
-                queue_data["queue"] = subj_queue
-                queue_data["completed_history"] = completed_history
+                completed_lessons = queue_data.setdefault("completed_lessons", [])
+                completed_lessons.append({
+                    "date": today_str,
+                    "subject": current_subject,
+                    "lesson": target_file_name,
+                    "status": "published",
+                    "timestamp": int(time.time())
+                })
                 with open(queue_path, "w", encoding="utf-8") as f:
                     json.dump(queue_data, f, indent=2, ensure_ascii=False)
-                print(f"[INFO] Rotated to next subject '{current_subject}' because index was out of bounds.")
-                # Reload files
-                raw_dir = os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject)
-                all_raw = os.listdir(raw_dir)
-                files = []
-                for f in all_raw:
-                    f_low = f.lower()
-                    if f_low.endswith(('.pdf', '.hwp')):
-                        files.append(f)
-                    elif f_low.endswith('.txt'):
-                        base = f.rsplit('.', 1)[0]
-                        if not (f"{base}.pdf" in all_raw or f"{base}.PDF" in all_raw or f"{base}.hwp" in all_raw or f"{base}.HWP" in all_raw):
-                            files.append(f)
-                files.sort(key=natural_sort_key)
-            else:
-                print(f"[ERROR] All lessons for '{current_subject}' are completed and queue is empty.")
-                sys.exit(1)
+                print(f"[SUCCESS] Registered dynamic lesson metadata: {target_file_name}")
+            except Exception as q_err:
+                print(f"[WARN] Failed to update completed_lessons: {q_err}")
                 
-        target_file_name = files[current_idx]
-        target_file_path = os.path.join(raw_dir, target_file_name)
-        category = "study" # default to study for lectures
-        
-        print(f"[INFO] Auto Queue Selected: Subject='{current_subject}', Lesson='{target_file_name}' ({current_idx + 1}/{len(files)})")
-        
-        # Parse content
-        content = ""
-                # Check if a text file already exists or if we should auto-extract PDF to a text file first
-        text_counterpart_name = target_file_name.rsplit('.', 1)[0] + '.txt'
-        text_counterpart_path = os.path.join(raw_dir, text_counterpart_name)
-
-        if os.path.exists(text_counterpart_path):
-            print(f"[INFO] Found pre-extracted text file counterpart: {text_counterpart_name}")
-            try:
-                with open(text_counterpart_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-            except Exception as e:
-                print(f"[ERROR] Failed to read pre-extracted text file: {e}")
-                sys.exit(1)
-        elif target_file_name.lower().endswith('.pdf'):
-            try:
-                import pypdf
-                print(f"[INFO] Auto-extracting PDF to text file: {text_counterpart_name}...")
-                reader = pypdf.PdfReader(target_file_path)
-                text_list = []
-                for idx_p, page in enumerate(reader.pages):
-                    t = page.extract_text()
-                    if t:
-                        text_list.append(t)
-                full_pdf_text = "\n".join(text_list)
-                
-                # Automatically save the extracted text file to the Raw folder
-                with open(text_counterpart_path, "w", encoding="utf-8") as f:
-                    f.write(full_pdf_text)
-                print(f"[SUCCESS] Extracted text saved to: {text_counterpart_path}")
-                
-                content = full_pdf_text
-                print(f"[INFO] Extracted {len(content)} characters from PDF: {target_file_name}")
-            except Exception as e:
-                print(f"[ERROR] Failed to extract PDF text: {e}")
-                sys.exit(1)
         else:
-            try:
-                with open(target_file_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-            except Exception as e:
-                print(f"[ERROR] Failed to read text file: {e}")
+            # Standard Queue & Raw files path
+            if not custom_type:
+                current_subject = queue_data.get("current_subject", "")
+                current_idx = queue_data.get("current_lesson_index", 0)
+                subj_queue = queue_data.get("queue", [])
+                completed_history = queue_data.get("completed_history", [])
+            else:
+                current_idx = 0
+                subj_queue = []
+                completed_history = []
+                
+            if not current_subject:
+                if subj_queue:
+                    current_subject = subj_queue.pop(0)
+                    current_idx = 0
+                    queue_data["current_subject"] = current_subject
+                    queue_data["current_lesson_index"] = 0
+                    queue_data["queue"] = subj_queue
+                else:
+                    print("[ERROR] No active subject and the queue is empty.")
+                    sys.exit(1)
+                    
+            # Find raw folder
+            raw_dir = os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject)
+            if not os.path.exists(raw_dir):
+                print(f"[INFO] Auto-creating missing Raw materials folder: {raw_dir}")
+                os.makedirs(raw_dir, exist_ok=True)
+                
+            # List lesson files (pdf, txt, hwp)
+            all_raw = os.listdir(raw_dir)
+            files = []
+            for f in all_raw:
+                f_low = f.lower()
+                if f_low.endswith(('.pdf', '.hwp')):
+                    files.append(f)
+                elif f_low.endswith('.txt'):
+                    base = f.rsplit('.', 1)[0]
+                    if not (f"{base}.pdf" in all_raw or f"{base}.PDF" in all_raw or f"{base}.hwp" in all_raw or f"{base}.HWP" in all_raw):
+                        files.append(f)
+                        
+            if custom_type:
+                dummy_filename = "사회복지사1급_최신이슈_해설.txt" if custom_type == "issue" else "사회복지사1급_과목공부법_안내.txt"
+                dummy_path = os.path.join(raw_dir, dummy_filename)
+                if not os.path.exists(dummy_path) or dummy_filename not in files:
+                    try:
+                        with open(dummy_path, "w", encoding="utf-8") as dummy_f:
+                            dummy_f.write(f"사회복지사 1급 {custom_type} 생성용 텍스트 원고")
+                        if dummy_filename not in files:
+                            files.append(dummy_filename)
+                        print(f"[SUCCESS] Created trigger study file for social worker: {dummy_filename}")
+                    except Exception as dummy_err:
+                        print(f"[WARN] Failed to create dummy file: {dummy_err}")
+                    
+            if not files:
+                print(f"[ERROR] No lesson files found in: {raw_dir}")
                 sys.exit(1)
+                
+            # Numerical/Natural sorting
+            def natural_sort_key(filename):
+                nums = re.findall(r'\d+', filename)
+                return [int(n) for n in nums] if nums else [999]
+                
+            files.sort(key=natural_sort_key)
+            
+            if current_idx >= len(files):
+                if subj_queue:
+                    completed_history.append(current_subject)
+                    current_subject = subj_queue.pop(0)
+                    current_idx = 0
+                    queue_data["current_subject"] = current_subject
+                    queue_data["current_lesson_index"] = 0
+                    queue_data["queue"] = subj_queue
+                    queue_data["completed_history"] = completed_history
+                    with open(queue_path, "w", encoding="utf-8") as f:
+                        json.dump(queue_data, f, indent=2, ensure_ascii=False)
+                    print(f"[INFO] Rotated to next subject '{current_subject}' because index was out of bounds.")
+                    # Reload files
+                    raw_dir = os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject)
+                    all_raw = os.listdir(raw_dir)
+                    files = []
+                    for f in all_raw:
+                        f_low = f.lower()
+                        if f_low.endswith(('.pdf', '.hwp')):
+                            files.append(f)
+                        elif f_low.endswith('.txt'):
+                            base = f.rsplit('.', 1)[0]
+                            if not (f"{base}.pdf" in all_raw or f"{base}.PDF" in all_raw or f"{base}.hwp" in all_raw or f"{base}.HWP" in all_raw):
+                                files.append(f)
+                    files.sort(key=natural_sort_key)
+                else:
+                    print(f"[ERROR] All lessons for '{current_subject}' are completed and queue is empty.")
+                    sys.exit(1)
+                    
+            if custom_type:
+                target_keywords = ["최신이슈", "issue"] if custom_type == "issue" else ["과목공부법", "guide"]
+                matched_files = [
+                    f for f in files 
+                    if any(kw in f.lower() for kw in target_keywords)
+                ]
+                if matched_files:
+                    target_file_name = matched_files[0]
+                else:
+                    target_file_name = files[current_idx]
+            else:
+                target_file_name = files[current_idx]
+            target_file_path = os.path.join(raw_dir, target_file_name)
+            category = "study"
+            
+            print(f"[INFO] Auto Queue Selected: Subject='{current_subject}', Lesson='{target_file_name}' ({current_idx + 1}/{len(files)})")
+            
+            # Parse content
+            content = ""
+            text_counterpart_name = target_file_name.rsplit('.', 1)[0] + '.txt'
+            text_counterpart_path = os.path.join(raw_dir, text_counterpart_name)
+
+            if os.path.exists(text_counterpart_path):
+                print(f"[INFO] Found pre-extracted text file counterpart: {text_counterpart_name}")
+                try:
+                    with open(text_counterpart_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                except Exception as e:
+                    print(f"[ERROR] Failed to read pre-extracted text file: {e}")
+                    sys.exit(1)
+            elif target_file_name.lower().endswith('.pdf'):
+                try:
+                    import pypdf
+                    print(f"[INFO] Auto-extracting PDF to text file: {text_counterpart_name}...")
+                    reader = pypdf.PdfReader(target_file_path)
+                    text_list = []
+                    for idx_p, page in enumerate(reader.pages):
+                        t = page.extract_text()
+                        if t:
+                            text_list.append(t)
+                    full_pdf_text = "\n".join(text_list)
+                    
+                    with open(text_counterpart_path, "w", encoding="utf-8") as f:
+                        f.write(full_pdf_text)
+                    print(f"[SUCCESS] Extracted text saved to: {text_counterpart_path}")
+                    
+                    content = full_pdf_text
+                    print(f"[INFO] Extracted {len(content)} characters from PDF: {target_file_name}")
+                except Exception as e:
+                    print(f"[ERROR] Failed to extract PDF text: {e}")
+                    sys.exit(1)
+            else:
+                try:
+                    with open(target_file_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                except Exception as e:
+                    print(f"[ERROR] Failed to read text file: {e}")
+                    sys.exit(1)
         
         # Standardize content to clean circular numbers and brackets directly before passing to LLM
         circle_map = {
@@ -2090,10 +2196,30 @@ def _main_impl():
         
         # Get dynamic hashtags
         trending_study_kws = load_trending_study_keywords()
+        
+        cert_kws = ["청소년지도사", "사회복지사", "직업상담사", "청소년", "사회복지"]
+        keep_cert_kws = []
+        for ck in cert_kws:
+            if ck in current_subject:
+                keep_cert_kws.append(ck)
+                
+        filtered_trending = []
+        for kw in trending_study_kws:
+            if any(ck in kw for ck in cert_kws) and not any(ck in kw for ck in keep_cert_kws):
+                continue
+            filtered_trending.append(kw)
+        trending_study_kws = filtered_trending
+        
         subject_tag = current_subject.replace(" ", "")
         if subject_tag not in trending_study_kws:
             trending_study_kws.insert(0, subject_tag)
-        for def_tag in ["청소년지도사", "사회복지사", "독학합격", "공부계획", "학습팁"]:
+            
+        def_tags = ["독학합격", "공부계획", "학습팁"]
+        for ck in keep_cert_kws:
+            if ck not in def_tags:
+                def_tags.insert(0, ck)
+                
+        for def_tag in def_tags:
             if def_tag not in trending_study_kws:
                 trending_study_kws.append(def_tag)
         hashtag_str = " ".join([f"#{kw}" for kw in trending_study_kws[:10]])
@@ -2102,7 +2228,7 @@ def _main_impl():
         is_study_category = (category == "study")
         if is_study_category:
             wp_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
-아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스(WordPress)에 업로드할 학습 요약 글을 작성하세요.
+아래 제공된 '{current_subject}' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스(WordPress)에 업로드할 학습 요약 글을 작성하세요.
 
 [중요 지시사항]
 - 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
@@ -2132,7 +2258,7 @@ def _main_impl():
 """
 
             blogger_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
-아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 구글 블로거(Blogger)에 업로드할 학습 요약 글을 작성하세요.
+아래 제공된 '{current_subject}' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 구글 블로거(Blogger)에 업로드할 학습 요약 글을 작성하세요.
 
 [중요 지시사항]
 - 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
@@ -2380,11 +2506,14 @@ def _main_impl():
                 trending_study_kws.append(def_tag)
         hashtag_str = " ".join([f"#{kw}" for kw in trending_study_kws[:10]])
         
+        # Determine subject display name
+        subject_display = current_subject if (current_subject and current_subject != "study") else "청소년지도사"
+        
         prompt = ""
         is_study_category = (category == "study")
         if is_study_category:
             wp_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
-아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스(WordPress)에 업로드할 학습 요약 글을 작성하세요.
+아래 제공된 '{subject_display}' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 워드프레스(WordPress)에 업로드할 학습 요약 글을 작성하세요.
 
 [중요 지시사항]
 - 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
@@ -2414,7 +2543,7 @@ def _main_impl():
 """
 
             blogger_prompt = f"""당신은 자격증 시험 전문 교육 블로거입니다.
-아래 제공된 '청소년지도사' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 구글 블로거(Blogger)에 업로드할 학습 요약 글을 작성하세요.
+아래 제공된 '{subject_display}' 관련 학습 텍스트 및 온라인 검색 참고자료를 바탕으로 구글 블로거(Blogger)에 업로드할 학습 요약 글을 작성하세요.
 
 [중요 지시사항]
 - 반드시 처음부터 끝까지 완전하고 완벽한 '한국어'로만 작성하십시오.
