@@ -1,166 +1,241 @@
 {
   "entries": [
     {
-      "id": "sched-blog-trend-saturday",
-      "label": "매주 토요일 요리 추천 및 트렌드 분석 브리핑",
-      "hour": 10,
+      "id": "instagram_render",
+      "label": "인스타그램 렌더링",
+      "hour": 3,
       "minute": 0,
       "days": [
-        6
-      ],
-      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_trend_reader.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-18"
-    },
-    {
-      "id": "sched-briefing-monday-morning",
-      "label": "월요일 아침 주말 업무 보고 브리핑",
-      "hour": 9,
-      "minute": 0,
-      "days": [
-        1
-      ],
-      "action": "briefing",
-      "enabled": true,
-      "lastFiredAt": "2026-07-20"
-    },
-    {
-      "id": "sched-briefing-weekday-evening",
-      "label": "평일 저녁 업무 보고 브리핑 (오후 8시 반)",
-      "hour": 20,
-      "minute": 30,
-      "days": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "action": "briefing",
-      "enabled": true,
-      "lastFiredAt": "2026-07-17"
-    },
-    {
-      "id": "sched-blog-publish-0200",
-      "label": "매일 새벽 5시 청소년복지론 블로그 자동 발행",
-      "hour": 5,
-      "minute": 0,
-      "days": [
-        0,
         1,
         2,
         3,
-        4,
-        5,
-        6
-      ],
-      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
-      "enabled": true,
-      "lastFiredAt": "2026-07-20"
-    },
-    {
-      "id": "sched-blog-publish-weekend-recipe",
-      "label": "금/토/일/월 밤 12시 반 요리 자동 발행",
-      "hour": 0,
-      "minute": 30,
-      "days": [
         4,
         5,
         6,
         0
       ],
-      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-19"
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\render_local_content.py",
+      "enabled": true
     },
     {
-      "id": "sched-blog-publish-monday-scan",
-      "label": "매주 월요일 오전 11시 미발행 요리 자동 감지 및 발행",
-      "hour": 11,
+      "id": "instagram_publish_morning",
+      "label": "인스타그램 발행 (아침)",
+      "hour": 8,
+      "minute": 30,
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "enabled": true
+    },
+    {
+      "id": "instagram_publish_evening",
+      "label": "인스타그램 발행 (저녁)",
+      "hour": 20,
+      "minute": 30,
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "enabled": true
+    },
+    {
+      "id": "instagram_publish_night",
+      "label": "인스타그램 발행 (밤)",
+      "hour": 23,
       "minute": 0,
       "days": [
-        1
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
       ],
-      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_monday_scan.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-20"
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow",
+      "enabled": true
     },
     {
-      "id": "sched-email-pipeline-daily-0600",
-      "label": "매일 밤 10시 메일 확인 및 사진 수집/분류 (자동)",
+      "id": "youth_blog_generate",
+      "label": "청소년지도사 블로그 글 생성",
+      "hour": 5,
+      "minute": 0,
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
+      "enabled": true
+    },
+    {
+      "id": "recipe_blog_generate",
+      "label": "요리 블로그 글 생성",
+      "hour": 6,
+      "minute": 0,
+      "days": [
+        5,
+        6,
+        0,
+        1
+      ],
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\publish_recipe_auto.py",
+      "enabled": false
+    },
+    {
+      "id": "recipe_draft_generate",
+      "label": "요리초",
       "hour": 22,
       "minute": 0,
       "days": [
         0,
         1,
+        2
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scratch\\build_pilot_draft.py",
+      "enabled": false
+    },
+    {
+      "id": "auto_senser_run",
+      "label": "발행 상황 자동 센싱",
+      "hour": 1,
+      "minute": 0,
+      "days": [
+        1,
         2,
         3,
         4,
         5,
-        6
+        6,
+        0
       ],
-      "action": "run_command:python c:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
-      "enabled": true,
-      "lastFiredAt": "2026-07-19"
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\auto_senser.py",
+      "enabled": true
     },
     {
-      "id": "sched-insta-publish-morning",
+      "id": "recipe_cardnews_generate",
+      "label": "요리 카드뉴스 생성",
+      "hour": 5,
+      "minute": 0,
+      "days": [
+        1,
+        3,
+        5,
+        0
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\generate_cooking_cardnews.py",
+      "enabled": true
+    },
+    {
+      "id": "social_worker_issue_generate",
+      "label": "사회복지사 1급 최신 이슈 해설 생성",
+      "hour": 5,
+      "minute": 0,
+      "days": [
+        2,
+        4,
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py issue",
+      "enabled": true
+    },
+    {
+      "id": "social_worker_guide_generate",
+      "label": "사회복지사 1급 과목 공부 핵심 안내 생성",
+      "hour": 5,
+      "minute": 0,
+      "days": [
+        2,
+        4,
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py guide",
+      "enabled": true
+    },
+    {
+      "id": "email_pipeline_run",
+      "label": "매일 밤 10시 메일 확인 및 사진 수집/분류 (자동)",
+      "hour": 22,
+      "minute": 0,
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
+      "enabled": true
+    },
+    {
+      "id": "insta_publish_morning",
       "label": "매일 오전 8시 반 인스타 명상 카드 릴스 발행",
       "hour": 8,
       "minute": 30,
       "days": [
-        0,
         1,
         2,
         3,
         4,
         5,
-        6
+        6,
+        0
       ],
-      "action": "tool",
-      "agentId": "instagram",
-      "tool": "publish_instagram_single",
-      "enabled": true,
-      "lastFiredAt": "2026-07-19"
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\instagram\\tools\\publish_instagram_single.py",
+      "enabled": true
     },
     {
-      "id": "sched-insta-publish-evening",
+      "id": "insta_publish_evening",
       "label": "매일 오후 8시 반 인스타 명상 카드 릴스 발행",
       "hour": 20,
       "minute": 30,
       "days": [
-        0,
         1,
         2,
         3,
         4,
         5,
-        6
+        6,
+        0
       ],
-      "action": "tool",
-      "agentId": "instagram",
-      "tool": "publish_instagram_single",
-      "enabled": true,
-      "lastFiredAt": "2026-07-19"
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\instagram\\tools\\publish_instagram_single.py",
+      "enabled": true
     },
     {
-      "id": "sched-insta-publish-night",
+      "id": "insta_publish_night",
       "label": "매일 밤 11시 인스타 5장 스토리 릴스 발행",
       "hour": 23,
       "minute": 0,
       "days": [
-        0,
         1,
         2,
         3,
         4,
         5,
-        6
+        6,
+        0
       ],
-      "action": "tool",
-      "agentId": "instagram",
-      "tool": "publish_instagram_slideshow",
-      "enabled": true,
-      "lastFiredAt": "2026-07-19"
+      "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\instagram\\tools\\publish_instagram_slideshow.py",
+      "enabled": true
     }
   ]
 }
