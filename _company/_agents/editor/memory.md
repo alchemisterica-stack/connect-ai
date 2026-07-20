@@ -62,3 +62,4 @@ _루나 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-18] 새로운 mission의 contents를 편집하고, 새로운 music과 sound effect을 생성합니다. (BGMAutomatic generation) → 산출물 sessions/2026-07-18T01-54/editor.md
 - [2026-07-18] 2026-07-22 08:00:00 - 2026-07-23 23:59:00 (24시간) 작업을 수행하고, 소프트웨어에 대한 정보를 제공하여 기여 → 산출물 sessions/2026-07-18T18-24/editor.md
 - [2026-07-20] 어휘어ror, 구체화 등 → 산출물 sessions/2026-07-20T10-04/editor.md
+- [2026-07-20] 2026-07-20 ~ 2026-07-22의 video editing 및 sound design → 산출물 sessions/2026-07-20T17-31/editor.md
