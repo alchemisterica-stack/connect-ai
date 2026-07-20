@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 21. 오전 3:18:40_
+_업데이트: 2026. 7. 21. 오전 4:05:06_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-20] **요리/반찬**: recipe_완도 전복죽_1784550740.md ([Link](https://congcandy.wordpress.com/?p=694))
@@ -10,9 +10,9 @@ _업데이트: 2026. 7. 21. 오전 3:18:40_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
-- [2026-07-19] 전체 채널의 동시에 1시간 video 연출 및 배포 → 산출물 sessions/2026-07-19T21-46/youtube.md
 - [2026-07-20] 영화 기획 → 산출물 sessions/2026-07-20T02-53/youtube.md
 - [2026-07-20] 기존 youtube 채널 분석 및 최적화 → 산출물 sessions/2026-07-20T11-49/youtube.md
+- [2026-07-20] researcher 에이전트가 제시한 트렌드 주제 중 가장 잠재력이 높은 하나를 선정하여, 해당 주제로 제작할 유튜브 영상의 핵심 컨셉을 200자 내외로 설명하고, 가제와 영상에 포함될 주요 내용 3~5가지를 구체적으로 기획하세요. → 산출물 sessions/2026-07-20T18-31/youtube.md
 ### 📷 Instagram
 - [2026-07-19] 인스타그램 이oster디트에 대한 3시간의 작업 → 산출물 sessions/2026-07-19T21-46/instagram.md
 - [2026-07-20] 인스타그램 → 산출물 sessions/2026-07-20T02-53/instagram.md
@@ -42,9 +42,9 @@ _업데이트: 2026. 7. 21. 오전 3:18:40_
 - [2026-07-20] _agents/1(goal.md) → 산출물 sessions/2026-07-20T16-31/writer.md
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 blog post 및 article → 산출물 sessions/2026-07-20T17-31/writer.md
 ### 🔍 Researcher
-- [2026-07-20] 조사 결과 분석 및 시청fulness의 인식 → 산출물 sessions/2026-07-20T10-04/researcher.md
 - [2026-07-20] _agents/0(goal.md) → 산출물 sessions/2026-07-20T16-31/researcher.md
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 data analysis 및 pattern recognition → 산출물 sessions/2026-07-20T17-31/researcher.md
+- [2026-07-20] 최근 24시간 이내의 트렌드 데이터를 기반으로 '콩콩캔디'의 콘텐츠 스타일과 타겟 시청자층에 부합하는 유튜브용 트렌드 주제 또는 키워드 2~3개를 선정하고, 각 주제에 대한 간략한 요약과 영상 기획에 활용할 수 있는 잠재적 아이디어 2가지씩을 제시하세요. → 산출물 sessions/2026-07-20T18-31/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

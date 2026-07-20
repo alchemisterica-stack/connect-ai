@@ -233,3 +233,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-07-20] 조사 결과 분석 및 시청fulness의 인식 → 산출물 sessions/2026-07-20T10-04/researcher.md
 - [2026-07-20] _agents/0(goal.md) → 산출물 sessions/2026-07-20T16-31/researcher.md
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 data analysis 및 pattern recognition → 산출물 sessions/2026-07-20T17-31/researcher.md
+- [2026-07-20] 최근 24시간 이내의 트렌드 데이터를 기반으로 '콩콩캔디'의 콘텐츠 스타일과 타겟 시청자층에 부합하는 유튜브용 트렌드 주제 또는 키워드 2~3개를 선정하고, 각 주제에 대한 간략한 요약과 영상 기획에 활용할 수 있는 잠재적 아이디어 2가지씩을 제시하세요. → 산출물 sessions/2026-07-20T18-31/researcher.md
