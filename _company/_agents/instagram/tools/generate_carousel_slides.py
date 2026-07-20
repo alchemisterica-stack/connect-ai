@@ -295,6 +295,11 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
         bg_img = Image.new("RGBA", (1080, 1080), info["bg_color"] + (255,))
     bg_img = bg_img.resize((1080, 1080), Image.Resampling.LANCZOS)
 
+    # 순수 원본 배경 저장 (텍스트 얹기 전)
+    raw_bg_path = os.path.join(OUTPUT_DIR, f"bg_slide_{slide_idx + 1}.png")
+    bg_img.convert("RGB").save(raw_bg_path, "PNG")
+    print(f"  [RAW-BG] Saved raw background -> {raw_bg_path}")
+
     # 배경은 선명하게 유지
     bg_rgb = bg_img.convert("RGB")
     bg_img = bg_rgb.convert("RGBA")

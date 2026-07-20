@@ -244,6 +244,11 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
         print("  [BG] 그라디언트 폴백 사용")
         bg_feed = make_gradient(palette["gradient"], (W, H))
 
+    # 순수 원본 배경 저장 (텍스트 얹기 전)
+    raw_bg_feed_path = os.path.join(OUTPUT_DIR, "bg_single_card_feed.png")
+    bg_feed.convert("RGB").save(raw_bg_feed_path, "PNG")
+    print(f"  [RAW-BG] Saved raw background -> {raw_bg_feed_path}")
+
     bg_reel = bg_feed.resize((W2, H2), Image.Resampling.LANCZOS)
 
     # ── 3. 스크림 (아침=진하게, 저녁=부드럽게) ─────────────────────────
