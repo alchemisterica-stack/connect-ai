@@ -252,3 +252,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-19] 제품의Visual Design를 DONE. → 산출물 sessions/2026-07-19T16-31/designer.md
 - [2026-07-19] 기본적인 디자인의 아이디어를 구체화하고, 최소 1명과 분배된 후에 작업을 할 수 있는 `_agents/designergoal.md` → 산출물 sessions/2026-07-19T17-16/designer.md
 - [2026-07-19] 비주얼 디자인, 브랜드 비주얼, 컬러/타이포 → 산출물 sessions/2026-07-19T19-16/designer.md
+- [2026-07-20] 단일 작업의 디자인을 Completion에 맞게 수정하고, 최종 버전을 배포하세요. → 산출물 sessions/2026-07-20T05-08/designer.md
