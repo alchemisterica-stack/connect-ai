@@ -75,3 +75,4 @@ _코다리 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-19] 24시간 운영 중에 최적화된 단일 작업 분배 및 execution → 산출물 sessions/2026-07-19T22-31/developer.md
 - [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. [근거: 회사 목표, CEO 종합 보고서, 지난 의사결정 로그] → 산출물 sessio
 - [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. python scripts/instagram_feed_drafter.py --input
+- [2026-07-20] 코드 작성·편집·디버깅 · 자동화 스크립트, 자동化 시스템 · 웹사이트 · 테스트, git · 자기 검증 루프 (Claude Code 수준) → 산출물 sessions/2026-07-20T19-31/developer.md

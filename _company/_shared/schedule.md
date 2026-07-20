@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 21. 오전 4:05:06_
+_업데이트: 2026. 7. 21. 오전 5:25:48_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-20] **요리/반찬**: recipe_완도 전복죽_1784550740.md ([Link](https://congcandy.wordpress.com/?p=694))
@@ -10,9 +10,9 @@ _업데이트: 2026. 7. 21. 오전 4:05:06_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
-- [2026-07-20] 영화 기획 → 산출물 sessions/2026-07-20T02-53/youtube.md
 - [2026-07-20] 기존 youtube 채널 분석 및 최적화 → 산출물 sessions/2026-07-20T11-49/youtube.md
 - [2026-07-20] researcher 에이전트가 제시한 트렌드 주제 중 가장 잠재력이 높은 하나를 선정하여, 해당 주제로 제작할 유튜브 영상의 핵심 컨셉을 200자 내외로 설명하고, 가제와 영상에 포함될 주요 내용 3~5가지를 구체적으로 기획하세요. → 산출물 sessions/2026-07-20T18-31/youtube.md
+- [2026-07-20] 작업 1: 2026-07-20(0시)부터 2026-07-25(23시)까지 최소 24시간 운영 → 산출물 sessions/2026-07-20T19-31/youtube.md
 ### 📷 Instagram
 - [2026-07-19] 인스타그램 이oster디트에 대한 3시간의 작업 → 산출물 sessions/2026-07-19T21-46/instagram.md
 - [2026-07-20] 인스타그램 → 산출물 sessions/2026-07-20T02-53/instagram.md
@@ -22,13 +22,13 @@ _업데이트: 2026. 7. 21. 오전 4:05:06_
 - [2026-07-20] 주제 선정 및 시각적 디자인 → 산출물 sessions/2026-07-20T10-04/designer.md
 - [2026-07-20] 2026-07-20 ~ 2026-07-22의 UI/UX 디자인 및 color palette → 산출물 sessions/2026-07-20T17-31/designer.md
 ### 💻 코다리
-- [2026-07-19] 24시간 운영 중에 최적화된 단일 작업 분배 및 execution → 산출물 sessions/2026-07-19T22-31/developer.md
 - [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. [근거: 회사 목표, CEO 종합 보고서, 지난 의사결정 로그] → 산출물 sessio
 - [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. python scripts/instagram_feed_drafter.py --input
+- [2026-07-20] 코드 작성·편집·디버깅 · 자동화 스크립트, 자동化 시스템 · 웹사이트 · 테스트, git · 자기 검증 루프 (Claude Code 수준) → 산출물 sessions/2026-07-20T19-31/developer.md
 ### 💼 현빈
-- [2026-07-18] 2026-07-24 08:00:00 - 2026-07-25 23:59:00 (24시간) 업무 planning을 انجام하고, 팀의 목표를 명시 → 산출물 sessions/2026-07-18T18-24/business.md
 - [2026-07-19] 2026-07-19 (주) бизнес 전략과 분석을 선택하여 최적화 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서execution합니다. → 산출물 sessions/2026-07-19T01-16/business.md
 - [2026-07-20] Company 목표 및 개인 목표(_agents/{id}/goal.md)의 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-07-20T04-38/business.md
+- [2026-07-20] 수익화, 가격, 비즈니스 전략·분석, KPI → 산출물 sessions/2026-07-20T19-31/business.md
 ### 📱 영숙
 - [2026-07-17] 일정·할 일 및 작업 요약 → 산출물 sessions/2026-07-17T21-54/secretary.md
 - [2026-07-19] developer 에이전트의 YouTube API 연동 문제 해결 진행 상황을 면밀히 추적하고, 해결 완료 시 CEO에게 즉시 보고하며 다음 자율 사이클을 위한 브리핑에 포함할 준비를 하세요. [근거: 통합 스케줄, 당신의 개인 목표] → 산출물 sessions/2026-07-19T21-16/secretary.md

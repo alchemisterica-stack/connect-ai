@@ -84,7 +84,8 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-07-20"
     },
     {
       "id": "recipe_blog_generate",
@@ -155,7 +156,8 @@
         6
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py issue",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-07-20"
     },
     {
       "id": "license_guide_generate",
@@ -168,7 +170,8 @@
         6
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py guide",
-      "enabled": true
+      "enabled": true,
+      "lastFiredAt": "2026-07-20"
     },
     {
       "id": "email_pipeline_run",
