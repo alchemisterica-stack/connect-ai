@@ -1876,9 +1876,15 @@ def _main_impl():
     auto_mode = False
     category = ""
     input_arg = ""
+    custom_type = ""
     
-    if len(sys.argv) == 2 and sys.argv[1].lower() == "auto":
-        auto_mode = True
+    if len(sys.argv) == 2:
+        arg_val = sys.argv[1].lower()
+        if arg_val == "auto":
+            auto_mode = True
+        elif arg_val in ["issue", "guide"]:
+            auto_mode = True
+            custom_type = arg_val
     elif len(sys.argv) < 3:
         print("[USAGE] python blog_post_generator.py <category> <input_text_or_path>")
         print("        categories: study / mindset / recipe")
@@ -1905,27 +1911,36 @@ def _main_impl():
         with open(queue_path, "r", encoding="utf-8") as f:
             queue_data = json.load(f)
             
-        # 1일 1회 초과 발행 방지 안전 제어 장치 (동일 subject 카테고리 한정)
+        if custom_type:
+            current_subject = "사회복지사 1급 핵심 요약"
+        else:
+            current_subject = queue_data.get("current_subject", "")
+            if not current_subject and queue_data.get("queue"):
+                current_subject = queue_data["queue"][0]
+            
         today_str = time.strftime("%Y-%m-%d")
-        current_subject = queue_data.get("current_subject", "")
-        if not current_subject and queue_data.get("queue"):
-            current_subject = queue_data["queue"][0]
-            
-        today_study_posts = [
-            p for p in queue_data.get("completed_lessons", [])
-            if p.get("date") == today_str and p.get("status") == "published" and p.get("subject") == current_subject and p.get("subject") not in ["요리/반찬", "인스타그램"]
-        ]
-        if len(today_study_posts) >= 1:
-            print(f"\n[INFO] Daily limit reached for subject '{current_subject}'. Today ({today_str}) already published: {[p['lesson'] for p in today_study_posts]}")
-            print("Execution skipped to protect SEO rating from search engines.")
-            sys.exit(0)
-
-            
-        current_subject = queue_data.get("current_subject", "")
-        current_idx = queue_data.get("current_lesson_index", 0)
-        subj_queue = queue_data.get("queue", [])
-        completed_history = queue_data.get("completed_history", [])
         
+        # 1일 1회 초과 발행 방지 안전 제어 장치 (동일 subject 카테고리 한정, custom_type은 제외)
+        if not custom_type:
+            today_study_posts = [
+                p for p in queue_data.get("completed_lessons", [])
+                if p.get("date") == today_str and p.get("status") == "published" and p.get("subject") == current_subject and p.get("subject") not in ["요리/반찬", "인스타그램"]
+            ]
+            if len(today_study_posts) >= 1:
+                print(f"\n[INFO] Daily limit reached for subject '{current_subject}'. Today ({today_str}) already published: {[p['lesson'] for p in today_study_posts]}")
+                print("Execution skipped to protect SEO rating from search engines.")
+                sys.exit(0)
+
+        if not custom_type:
+            current_subject = queue_data.get("current_subject", "")
+            current_idx = queue_data.get("current_lesson_index", 0)
+            subj_queue = queue_data.get("queue", [])
+            completed_history = queue_data.get("completed_history", [])
+        else:
+            current_idx = 0
+            subj_queue = []
+            completed_history = []
+            
         if not current_subject:
             if subj_queue:
                 current_subject = subj_queue.pop(0)
@@ -1940,8 +1955,8 @@ def _main_impl():
         # Find raw folder
         raw_dir = os.path.join(HERE, "..", "..", "..", "00_Raw", current_subject)
         if not os.path.exists(raw_dir):
-            print(f"[ERROR] Raw materials folder not found at: {raw_dir}")
-            sys.exit(1)
+            print(f"[INFO] Auto-creating missing Raw materials folder: {raw_dir}")
+            os.makedirs(raw_dir, exist_ok=True)
             
         # List lesson files (pdf, txt, hwp)
         all_raw = os.listdir(raw_dir)
@@ -1954,6 +1969,18 @@ def _main_impl():
                 base = f.rsplit('.', 1)[0]
                 if not (f"{base}.pdf" in all_raw or f"{base}.PDF" in all_raw or f"{base}.hwp" in all_raw or f"{base}.HWP" in all_raw):
                     files.append(f)
+                    
+        if custom_type and not files:
+            dummy_filename = "사회복지사1급_최신이슈_해설.txt" if custom_type == "issue" else "사회복지사1급_과목공부법_안내.txt"
+            dummy_path = os.path.join(raw_dir, dummy_filename)
+            try:
+                with open(dummy_path, "w", encoding="utf-8") as dummy_f:
+                    dummy_f.write(f"사회복지사 1급 {custom_type} 생성용 텍스트 원고")
+                files.append(dummy_filename)
+                print(f"[SUCCESS] Created trigger study file for social worker: {dummy_filename}")
+            except Exception as dummy_err:
+                print(f"[WARN] Failed to create dummy file: {dummy_err}")
+                
         if not files:
             print(f"[ERROR] No lesson files found in: {raw_dir}")
             sys.exit(1)
@@ -2291,32 +2318,36 @@ def _main_impl():
                 except Exception as mem_err:
                     print(f"[WARN] Failed to update memory.md: {mem_err}")
 
-            next_idx = current_idx + 1
-            if next_idx >= len(files):
-                # Completed this subject!
-                completed_history.append(current_subject)
-                if subj_queue:
-                    next_subject = subj_queue.pop(0)
-                    queue_data["current_subject"] = next_subject
-                    queue_data["current_lesson_index"] = 0
-                    queue_data["queue"] = subj_queue
-                    queue_data["completed_history"] = completed_history
-                    print(f"\n🎉 [과목 완료] '{current_subject}' 과목의 모든 회차가 완료되었습니다!")
-                    print(f"👉 다음 과목 '{next_subject}' 발행을 대기열에서 꺼내어 준비합니다.")
-                else:
-                    queue_data["current_subject"] = ""
-                    queue_data["current_lesson_index"] = 0
-                    queue_data["queue"] = []
-                    queue_data["completed_history"] = completed_history
-                    print(f"\n🎉 [대기열 최종 완료] 모든 대기열 과목('{current_subject}')의 발행이 최종 완료되었습니다!")
-                    print("👉 다음 과목을 대기열에 추가해 주세요.")
+            if custom_type:
+                print(f"\n📆 [임시/추가 발행 완료] 사회복지사 1급 {custom_type} 콘텐츠 초안 생성이 완료되었습니다.")
+                print(f"👉 기존 큐 인덱스는 {current_idx} 단계로 유지되며 큐 데이터는 갱신되지 않습니다.")
             else:
-                queue_data["current_lesson_index"] = next_idx
-                next_file = files[next_idx]
-                print(f"\n📆 [초안 작성 완료] '{current_subject}' 과목의 {current_idx + 1}번째 차시 초안 생성이 완료되었습니다. (다음 예정: {next_file})")
-                
-            with open(queue_path, "w", encoding="utf-8") as f:
-                json.dump(queue_data, f, indent=2, ensure_ascii=False)
+                next_idx = current_idx + 1
+                if next_idx >= len(files):
+                    # Completed this subject!
+                    completed_history.append(current_subject)
+                    if subj_queue:
+                        next_subject = subj_queue.pop(0)
+                        queue_data["current_subject"] = next_subject
+                        queue_data["current_lesson_index"] = 0
+                        queue_data["queue"] = subj_queue
+                        queue_data["completed_history"] = completed_history
+                        print(f"\n🎉 [과목 완료] '{current_subject}' 과목의 모든 회차가 완료되었습니다!")
+                        print(f"👉 다음 과목 '{next_subject}' 발행을 대기열에서 꺼내어 준비합니다.")
+                    else:
+                        queue_data["current_subject"] = ""
+                        queue_data["current_lesson_index"] = 0
+                        queue_data["queue"] = []
+                        queue_data["completed_history"] = completed_history
+                        print(f"\n🎉 [대기열 최종 완료] 모든 대기열 과목('{current_subject}')의 발행이 최종 완료되었습니다!")
+                        print("👉 다음 과목을 대기열에 추가해 주세요.")
+                else:
+                    queue_data["current_lesson_index"] = next_idx
+                    next_file = files[next_idx]
+                    print(f"\n📆 [초안 작성 완료] '{current_subject}' 과목의 {current_idx + 1}번째 차시 초안 생성이 완료되었습니다. (다음 예정: {next_file})")
+                    
+                with open(queue_path, "w", encoding="utf-8") as f:
+                    json.dump(queue_data, f, indent=2, ensure_ascii=False)
     else:
         # Standard mode fallback
         current_subject = category
