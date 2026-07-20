@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 20. 오전 9:20:58_
+_업데이트: 2026. 7. 20. 오전 11:04:36_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -31,13 +31,13 @@ _업데이트: 2026. 7. 20. 오전 9:20:58_
 - [2026-07-18] 새로운 mission의 contents를 편집하고, 새로운 music과 sound effect을 생성합니다. (BGMAutomatic generation) → 산출물 sessions/2026-07-18T01-54/editor.md
 - [2026-07-18] 2026-07-22 08:00:00 - 2026-07-23 23:59:00 (24시간) 작업을 수행하고, 소프트웨어에 대한 정보를 제공하여 기여 → 산출물 sessions/2026-07-18T18-24/editor.md
 ### ✍️ Writer
-- [2026-07-19] 작은 단편한 content를 작성하고, 최소 1명과 분배된 후에 작업을 할 수 있는 `_agents/copywritergoal.md` → 산출물 sessions/2026-07-19T17-16/writer.md
 - [2026-07-19] 카피라이팅, 영상 스크립트, 캡션, 블로그, 후크 → 산출물 sessions/2026-07-19T19-16/writer.md
 - [2026-07-19] 제목, 캡션, 사ampo드 작성 및 기획 → 산출물 sessions/2026-07-19T22-31/writer.md
+- [2026-07-20] 영화 스크립트를 작성하여 2명에게 분배 → 산출물 sessions/2026-07-20T00-53/writer.md
 ### 🔍 Researcher
-- [2026-07-19] 2026-07-19을 분석하여 목표에 맞는 가장 가치 있는 단일 작업 선택하고, 적절한 1~2명 에이전트에게 분배해서 실행. → 산출물 sessions/2026-07-19T16-31/researcher.md
 - [2026-07-19] 우선 목표 설정 및 근본적이고 실행 가능한 분석을 수행하는 _agents/ researchergoal.md → 산출물 sessions/2026-07-19T17-16/researcher.md
 - [2026-07-19] 트렌드/경쟁사 리서치 및 데이터 수집·요약 → 산출물 sessions/2026-07-19T22-31/researcher.md
+- [2026-07-20] 2026-07-20 일자까지의 트렌드 분석 및 경쟁사 리서치 → 산출물 sessions/2026-07-20T00-53/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.

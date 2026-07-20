@@ -258,12 +258,17 @@ def fetch_pollinations_background(prompt, retries=3, wait=3):
 # Drawing helpers
 # ---------------------------------------------------------------------------
 
-def draw_text_shadow(draw, position, text, font, fill, shadow_color=(0, 0, 0, 90),
+def draw_text_shadow(draw, position, text, font, fill, shadow_color=(0, 0, 0, 140),
                      offset=(2, 2)):
-    """Draw text with a shadow for readability."""
-    sx, sy = position[0] + offset[0], position[1] + offset[1]
-    draw.text((sx, sy), text, font=font, fill=shadow_color)
-    draw.text(position, text, font=font, fill=fill)
+    """글씨 가독성 확보를 위해 아웃라인 스트로크 및 깊이감 있는 그림자를 가미합니다."""
+    is_light_text = sum(fill[:3]) > 380 if len(fill) >= 3 else True
+    stroke_w = 1
+    stroke_c = (0, 0, 0, 160) if is_light_text else (255, 255, 255, 120)
+    
+    for ox, oy in [(-1, -1), (1, -1), (-1, 1), (1, 1), (offset[0], offset[1])]:
+        draw.text((position[0] + ox, position[1] + oy), text, font=font, fill=shadow_color)
+        
+    draw.text(position, text, font=font, fill=fill, stroke_width=stroke_w, stroke_fill=stroke_c)
 
 
 def draw_rounded_rect(draw, box, radius, fill, outline=None, outline_width=1):
@@ -290,53 +295,49 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
         bg_img = Image.new("RGBA", (1080, 1080), info["bg_color"] + (255,))
     bg_img = bg_img.resize((1080, 1080), Image.Resampling.LANCZOS)
 
-    # Slight Gaussian blur
-    bg_rgb = bg_img.convert("RGB").filter(ImageFilter.GaussianBlur(radius=6))
+    # 배경은 선명하게 유지
+    bg_rgb = bg_img.convert("RGB")
     bg_img = bg_rgb.convert("RGBA")
 
     # ---- Calculate background brightness for auto-contrast ------------
     brightness = calculate_background_brightness(bg_img)
     print(f"  [CONTRAST] Slide background brightness: {brightness:.1f}")
 
-    # ---- Glassmorphism card overlay -----------------------------------
-    overlay = Image.new("RGBA", (1080, 1080), (0, 0, 0, 0))
-    ov_draw = ImageDraw.Draw(overlay)
-
-    card_bg = info["card_bg"]
-    
-    # 대비 지능형 로직 이식: 밝은 배경은 카드 알파를 높이고, 어두운 배경은 맑게 유지
-    if brightness > 140:
-        alpha_val = 245 if is_bold_cover else 225
-    else:
-        alpha_val = 180 if is_bold_cover else 150
-        
-    card_bg_color = (card_bg[0], card_bg[1], card_bg[2], alpha_val)
-    print(f"  [CONTRAST] Auto card opacity set to alpha={alpha_val}")
-    
-    border_color = (255, 255, 255, 100)
-
     # Layout configuration
     if layout_type == "ellipse_center":
-        card_box = [100, 150, 980, 930]
-        ov_draw.ellipse(card_box, fill=card_bg_color, outline=border_color, width=2)
         usable_box = [150, 200, 930, 880]
         text_align = "center"
     elif layout_type == "circle_left":
-        card_box = [80, 420, 720, 1060]
-        ov_draw.ellipse(card_box, fill=card_bg_color, outline=border_color, width=2)
-        usable_box = [130, 460, 670, 1020]
+        usable_box = [130, 250, 950, 850]
         text_align = "left"
     elif layout_type == "rect_right":
-        card_box = [450, 400, 1020, 1020]
-        draw_rounded_rect(ov_draw, card_box, radius=20, fill=card_bg_color, outline=border_color, outline_width=2)
-        usable_box = [490, 440, 980, 980]
+        usable_box = [130, 250, 950, 850]
         text_align = "right"
     else:
         # rect_center (Default Center Rect)
-        card_box = [80, 80, 1000, 1000]
-        draw_rounded_rect(ov_draw, card_box, radius=30, fill=card_bg_color, outline=border_color, outline_width=2)
         usable_box = [120, 120, 960, 960]
         text_align = "center"
+
+    # ---- 텍스트 박스 도형 제거 및 가독성 비네트 필터 적용 ----
+    overlay = Image.new("RGBA", (1080, 1080), (0, 0, 0, 0))
+    ov_draw = ImageDraw.Draw(overlay)
+
+    # 텍스트가 얹어질 중앙 백그라운드 쪽에 연한 비네팅 그라데이션 필터 적용
+    vignette = Image.new("RGBA", (1080, 1080), (0, 0, 0, 0))
+    vig_draw = ImageDraw.Draw(vignette)
+    vig_color = (0, 0, 0, 40) if brightness > 140 else (0, 0, 0, 60)
+    vig_draw.rectangle([100, 100, 980, 980], fill=vig_color)
+    vignette = vignette.filter(ImageFilter.GaussianBlur(radius=80))
+    bg_img = Image.alpha_composite(bg_img, vignette)
+
+    # ---- 기하학 미니멀 데코 드로잉 (모서리 L선 크롭마크형) ----
+    deco_color = (255, 255, 255, 80) if brightness < 120 else (0, 0, 0, 40)
+    # 좌측 상단 모서리 라인
+    ov_draw.line((50, 80, 50, 50), fill=deco_color, width=1)
+    ov_draw.line((50, 50, 80, 50), fill=deco_color, width=1)
+    # 우측 하단 모서리 라인
+    ov_draw.line((1030, 1000, 1030, 1030), fill=deco_color, width=1)
+    ov_draw.line((1000, 1030, 1030, 1030), fill=deco_color, width=1)
 
     # Composite card onto background
     img = Image.alpha_composite(bg_img, overlay)
