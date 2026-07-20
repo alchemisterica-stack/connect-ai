@@ -252,3 +252,4 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-20] _agents/1(goal.md) → 산출물 sessions/2026-07-20T16-31/writer.md
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 blog post 및 article → 산출물 sessions/2026-07-20T17-31/writer.md
 - [2026-07-20] 새로운 문구 및 캡션을 작성하여Company Goal과 Mission statement에 대한 내용을 cập nhật하는 task → 산출물 sessions/2026-07-20T20-31/writer.md
+- [2026-07-20] 이 선택된 작업에 대한 카피라이팅, 캡션, 게시 시간, 인게이지먼트, 썸네일 브리프를 작성할 것 → 산출물 sessions/2026-07-20T23-31/writer.md
