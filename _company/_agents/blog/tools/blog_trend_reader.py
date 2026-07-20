@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Blog Trend Reader (블로그 트랜드 읽기)
 
-Scrapes or simulates trending Naver search keywords and suggests high-traffic topics
-specifically optimized for study summaries, cooking side dishes, and mental wellness.
-Incorporates duplicate checking for recipe topics and creates latest_trend_report.md.
+Scrapes trending Google keywords and news data to dynamically detect surging certificates
+(e.g., due to legal changes, exam schedules, or employment surges) and mirrors to report.
 """
 import os
 import json
@@ -11,6 +10,9 @@ import sys
 import time
 import datetime
 import re
+import xml.etree.ElementTree as ET
+import urllib.parse
+import urllib.request
 
 # Set paths
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -55,8 +57,6 @@ def select_recipe(pool, completed):
 
 def search_web(query, num_results=3):
     """Performs a light web search using DuckDuckGo HTML service and returns top results."""
-    import urllib.parse
-    import urllib.request
     print(f"[TREND-SEARCH] Querying web for: '{query}'")
     try:
         encoded_query = urllib.parse.quote(query)
@@ -65,7 +65,7 @@ def search_web(query, num_results=3):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=15) as response:
+        with urllib.request.urlopen(req, timeout=12) as response:
             html = response.read().decode('utf-8', errors='replace')
             
         result_blocks = html.split('<div class="links_main')
@@ -99,9 +99,8 @@ def search_web(query, num_results=3):
 def detect_surging_certificates():
     """
     1. 구글 트랜드 RSS를 읽어 실시간 핫 토픽 수집
-    2. 뉴스 영역에서 '자격증 의무 선임 개정 가산점' 관련 급상승 언급 자격증 스캔
+    2. 뉴스 영역에서 '자격증 의무 선임 가산점 개정' 관련 급상승 언급 자격증 스캔
     """
-    import urllib.request
     print("[INFO] Sensing Google Trends RSS (KR)...")
     trending_topics = []
     try:
@@ -199,6 +198,8 @@ def main():
                 ac_data = json.load(ac_f)
                 active_subj = ac_data.get("subject", "청소년지도사")
                 active_dish = ac_data.get("cooking_dish")
+                if active_dish == "소고기애호박죽" or active_dish == "소고기 애호박 죽":
+                    active_dish = "완도 전복죽"
                 print(f"[INFO] Sensed current business context: subject={active_subj}, dish={active_dish}")
         except Exception as ac_err:
             print(f"[WARN] Failed to load active_campaign.json: {ac_err}")
@@ -207,11 +208,11 @@ def main():
     month = datetime.datetime.now().month
     if month in [6, 7, 8]:
         seasonal_pool = ["오이냉국", "열무비빔밥", "가지볶음", "메밀국수", "콩국수", "오이소박이", "호박볶음", "미역냉국"]
-        toddler_pool = ["소고기 애호박 죽", "아기 계란찜", "닭고기 감자 진밥", "유아용 안매운 어묵볶음", "연두부 달걀탕"]
+        toddler_pool = ["완도 전복죽", "아기 계란찜", "닭고기 감자 진밥", "유아용 안매운 어묵볶음", "연두부 달걀탕"]
         banchan_pool = ["깻잎장아찌", "꽈리고추 멸치볶음", "오이무침", "소고기 장조림", "부추무침"]
     else:
         seasonal_pool = ["달래된장찌개", "냉이무침", "쑥국", "취나물무침", "봄조개 아욱국", "죽순볶음"]
-        toddler_pool = ["소고기 쑥갓 죽", "아기 감자국", "아기 봄나물 비빔밥", "닭고기 완자전"]
+        toddler_pool = ["완도 전복죽", "아기 감자국", "아기 봄나물 비빔밥", "닭고기 완자전"]
         banchan_pool = ["마늘종무침", "계란장조림", "버섯볶음", "미역줄기볶음", "시금치나물"]
 
     selected_seasonal = select_recipe(seasonal_pool, completed)

@@ -31,7 +31,7 @@
         6,
         0
       ],
-      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single --slot morning",
       "enabled": true
     },
     {
@@ -48,7 +48,7 @@
         6,
         0
       ],
-      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single",
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single --slot evening",
       "enabled": true
     },
     {
@@ -65,7 +65,7 @@
         6,
         0
       ],
-      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow",
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow --slot night",
       "enabled": true
     },
     {
@@ -141,11 +141,11 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\generate_cooking_cardnews.py",
-      "enabled": true
+      "enabled": false
     },
     {
-      "id": "social_worker_issue_generate",
-      "label": "사회복지사 1급 최신 이슈 해설 생성",
+      "id": "license_issue_generate",
+      "label": "감지 자격증 최신 이슈 해설 생성",
       "hour": 5,
       "minute": 0,
       "days": [
@@ -157,8 +157,8 @@
       "enabled": true
     },
     {
-      "id": "social_worker_guide_generate",
-      "label": "사회복지사 1급 과목 공부 핵심 안내 생성",
+      "id": "license_guide_generate",
+      "label": "감지 자격증 과목 공부 핵심 안내 생성",
       "hour": 5,
       "minute": 0,
       "days": [
@@ -201,7 +201,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\instagram\\tools\\publish_instagram_single.py",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "insta_publish_evening",
@@ -218,7 +218,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\instagram\\tools\\publish_instagram_single.py",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "insta_publish_night",
@@ -235,6 +235,17 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\instagram\\tools\\publish_instagram_slideshow.py",
+      "enabled": false
+    },
+    {
+      "id": "weekly_strategy_report",
+      "label": "주간 4대 신규 콘텐츠 기획 및 에이전트 매핑 보고",
+      "hour": 22,
+      "minute": 5,
+      "days": [
+        6
+      ],
+      "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\weekly_strategy_report.py",
       "enabled": true
     }
   ]
