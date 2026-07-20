@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 20. 오후 4:35:16_
+_업데이트: 2026. 7. 20. 오후 5:04:20_
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -15,9 +15,9 @@ _업데이트: 2026. 7. 20. 오후 4:35:16_
 - [2026-07-20] 단일 작업의 디자인을 Completion에 맞게 수정하고, 최종 버전을 배포하세요. → 산출물 sessions/2026-07-20T05-08/designer.md
 - [2026-07-20] 시작 및 execution → 산출물 sessions/2026-07-20T06-49/designer.md
 ### 💻 코다리
-- [2026-07-19] YouTube API '자격증명 부족' 오류의 근본 원인을 파악하기 위해 API 키의 유효성, Google Cloud Project의 API 활성화 상태 및 권한 설정, 그리고 채널 ID의 정확성을 포함한 모든 관련 기술적 설정을 재검토하고 분석하세요. 원인 파악 후 해결책을 구현하고, 성공적인 API 연동을 최종적으로 검증하는 스크립트를 실행하여 보고해야 합니다. [근거: 통합 스케줄, 지난 의사결정 로그, 최근 회사 대화 요약] → 산출물 sessions/2026-07-19T21-16/developer.md
 - [2026-07-19] 24시간 운영 중에 최적화된 단일 작업 분배 및 execution → 산출물 sessions/2026-07-19T22-31/developer.md
 - [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. [근거: 회사 목표, CEO 종합 보고서, 지난 의사결정 로그] → 산출물 sessio
+- [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. python scripts/instagram_feed_drafter.py --input
 ### 💼 현빈
 - [2026-07-18] 2026-07-24 08:00:00 - 2026-07-25 23:59:00 (24시간) 업무 planning을 انجام하고, 팀의 목표를 명시 → 산출물 sessions/2026-07-18T18-24/business.md
 - [2026-07-19] 2026-07-19 (주) бизнес 전략과 분석을 선택하여 최적화 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서execution합니다. → 산출물 sessions/2026-07-19T01-16/business.md
