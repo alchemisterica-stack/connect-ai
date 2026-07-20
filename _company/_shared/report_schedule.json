@@ -22,7 +22,7 @@
       ],
       "action": "briefing",
       "enabled": true,
-      "lastFiredAt": "2026-07-13"
+      "lastFiredAt": "2026-07-20"
     },
     {
       "id": "sched-briefing-weekday-evening",
@@ -120,7 +120,7 @@
       "agentId": "instagram",
       "tool": "publish_instagram_single",
       "enabled": true,
-      "lastFiredAt": "2026-07-18"
+      "lastFiredAt": "2026-07-19"
     },
     {
       "id": "sched-insta-publish-evening",
