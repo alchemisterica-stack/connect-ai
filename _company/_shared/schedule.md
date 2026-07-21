@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 22. 오전 3:02:43_
+_업데이트: 2026. 7. 22. 오전 5:04:38_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-21] **인스타그램**: 눈부시게 맑은 하늘 아래 유독 혼자 덩그러니.md ([Link](https://www.instagram.com/p/DbDsJAslExN/))
@@ -23,8 +23,8 @@ _업데이트: 2026. 7. 22. 오전 3:02:43_
 - [2026-07-21] 가치 있는 캡션, 썸네일 브리프 → 산출물 sessions/2026-07-21T16-44/designer.md
 ### 💻 코다리
 - [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 
-- [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 
 - [2026-07-21] writer 에이전트가 `my-ai-office/instagram/wando_abalone_porridge_content_draft.md` 경로에 작성한 '완도 전복죽' 카드뉴스 원고와 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로의 디자인 브리프를 활용하여, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wand
+- [2026-07-21] 기존 '완도 전복죽' 카드뉴스 디자인 브리프와 브랜드 가이드라인(콩콩캔디 로고, Noto Sans KR Bold 폰트, 제목/핵심 키워드 Accent Yellow, 테두리/그림자 Primary Blue)을 철저히 준수하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, '완도 전복죽' 인스타그램 카드뉴스 이미지 파일들을 최종 생성하여 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 저장하세요. [근거: 회사 목표, 지난 의사결정 로그
 ### 💼 현빈
 - [2026-07-20] Company 목표 및 개인 목표(_agents/{id}/goal.md)의 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-07-20T04-38/business.md
 - [2026-07-20] 수익화, 가격, 비즈니스 전략·분석, KPI → 산출물 sessions/2026-07-20T19-31/business.md
@@ -38,9 +38,9 @@ _업데이트: 2026. 7. 22. 오전 3:02:43_
 - [2026-07-21] 이제 이 Task가 완료되어야 하는 것이며, 다른 에이전트 1명에게 동시적으로 공유할 수 있도록 preparing → 산출물 sessions/2026-07-21T13-44/editor.md
 - [2026-07-21] 음악 합성 및 BGM 생성 → 산출물 sessions/2026-07-21T16-44/editor.md
 ### ✍️ Writer
-- [2026-07-21] 이제 가치 있는 텍스트을 작성하고, 에이전트 2명에게 동시적으로 공유할 수 있도록 preparing → 산출물 sessions/2026-07-21T13-44/writer.md
 - [2026-07-21] 카피라이팅· 영상 스크립트·블로그 → 산출물 sessions/2026-07-21T14-44/writer.md
 - [2026-07-21] 유튜브 캡션, 릴스/피드, 해시태그, 게시 시간, 인게이지먼트 → 산출물 sessions/2026-07-21T16-44/writer.md
+- [2026-07-21] developer 에이전트가 생성한 '완도 전복죽' 인스타그램 카드뉴스 이미지에 맞춰, '요리 초보도 성공하는 완도 전복죽 정갈하고 맛있는 황금 레시피' 주제로 매력적인 캡션을 작성하세요. `latest_trend_report.md`의 요리/반찬 카테고리 추천 해시태그 중 5개 이상을 포함하고, 타겟 청중의 공감을 얻을 수 있는 친근하고 유용한 톤앤매너를 유지하세요. [근거: 회사 목표, 지난 의사결정 로그, latest_trend_report.md] → 산출물 sessions/2026-07-21T19-44/writer.md
 ### 🔍 Researcher
 - [2026-07-21] 데이터 수집과 분석을 performed로 인해 그에 따라 다른 각도로 진전시키기 → 산출물 sessions/2026-07-21T13-44/researcher.md
 - [2026-07-21] 경쟁사 리서치 · 데이터 수집·요약 → 산출물 sessions/2026-07-21T14-44/researcher.md
