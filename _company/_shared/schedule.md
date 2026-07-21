@@ -1,12 +1,12 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 21. 오후 5:44:20_
+_업데이트: 2026. 7. 21. 오후 8:50:38_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
+- [2026-07-21] **인스타그램**: 눈부시게 맑은 하늘 아래 유난히 나만 정지된.md ([Link](https://www.instagram.com/reel/DbDa3dTAWV-/))
 - [2026-07-21] **인스타그램**: 눈부신 20도의 햇살이 괜히 야속하게 느껴지는.md ([Link](https://www.instagram.com/reel/DbCIczsj45-/))
 - [2026-07-21] **인스타그램**: 눈부신 20도의 햇살이 괜히 야속하게 느껴지는.md ([Link](https://www.instagram.com/reel/DbCIKxflTxS/))
 - [2026-07-20] **요리/반찬**: recipe_완도 전복죽_1784550740.md ([Link](https://congcandy.wordpress.com/?p=694))
 - [2026-07-20] **요리/반찬**: recipe_소고기애호박죽_1784549637.md ([Link](https://congcandy.wordpress.com/?p=691))
-- [2026-07-20] **인스타그램**: 창밖으로 쏟아지는 햇살이 무색할 만큼 유난히.md ([Link](https://www.instagram.com/reel/DbA2HwvgD5d/))
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -22,9 +22,9 @@ _업데이트: 2026. 7. 21. 오후 5:44:20_
 - [2026-07-21] developer 에이전트가 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 생성한 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 검토하여 Primary Blue (#4A67A3)와 Accent Yellow (#FFD700) 브랜드 컬러, Noto Sans KR Bold 폰트 사용 여부 및 모든 콘텐츠 상단에 회사 로고 배치 등 브랜드 가이드라인 준수 여부를 확인하고, 필요한 시각적 개선 사항을 제안하여 최종 디자인을 확정하세요. [근거: 지난 의사결정 로그, 회사 정
 - [2026-07-21] 완도 전복죽 인스타그램 카드뉴스에 Accent Yellow (#FFD700) 컬러를 제목 또는 핵심 키워드에 적용하는 구체적인 디자인 브리프를 작성하세요. Primary Blue 계열의 미세한 테두리 또는 그림자 효과 적용 여부를 포함하여 시각적 강조 효과를 극대화할 수 있는 방안을 제시하고, `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 저장하세요. [근거: CEO 종합, 지난 의사결정 로그] → 산출물 sessions/20
 ### 💻 코다리
-- [2026-07-21] writer 에이전트가 생성한 `my-ai-office/content/wando_abalone_porridge_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. [근거: 회사 목표, 의사결정 로그] → 산출물 sessions/
 - [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 
-- [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에
+- [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 
+- [2026-07-21] writer 에이전트가 `my-ai-office/instagram/wando_abalone_porridge_content_draft.md` 경로에 작성한 '완도 전복죽' 카드뉴스 원고와 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로의 디자인 브리프를 활용하여, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wand
 ### 💼 현빈
 - [2026-07-20] Company 목표 및 개인 목표(_agents/{id}/goal.md)의 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-07-20T04-38/business.md
 - [2026-07-20] 수익화, 가격, 비즈니스 전략·분석, KPI → 산출물 sessions/2026-07-20T19-31/business.md
@@ -38,9 +38,9 @@ _업데이트: 2026. 7. 21. 오후 5:44:20_
 - [2026-07-20] 2026-07-20 ~ 2026-07-22의 video editing 및 sound design → 산출물 sessions/2026-07-20T17-31/editor.md
 - [2026-07-21] 영화/음악에 맞는 BGM 자동생성(시작) && 사운드 디자인 → 산출물 sessions/2026-07-21T04-44/editor.md
 ### ✍️ Writer
-- [2026-07-20] 이 선택된 작업에 대한 카피라이팅, 캡션, 게시 시간, 인게이지먼트, 썸네일 브리프를 작성할 것 → 산출물 sessions/2026-07-20T23-31/writer.md
 - [2026-07-21] 내용 작성 → 산출물 sessions/2026-07-21T00-31/writer.md
 - [2026-07-21] '완도 전복죽 레시피' 인스타그램 카드뉴스에 들어갈 핵심 레시피, 재료, 조리법, 그리고 매력적인 캡션을 작성하여 `my-ai-office/content/wando_abalone_porridge_cardnews_draft.md` 파일로 저장합니다. [근거: 회사 목표, 의사결정 로그, 트렌드 리포트] → 산출물 sessions/2026-07-21T03-44/writer.md
+- [2026-07-21] 최신 트렌드 리포트와 이전 의사결정 로그(완도 전복죽 카드뉴스 기획)를 참고하여, '요리 초보도 성공하는 완도 전복죽 정갈하고 맛있는 황금 레시피' 제목으로 인스타그램 카드뉴스에 들어갈 상세 레시피 원고와 인스타그램 게시용 캡션을 작성하고, 해시태그를 포함하여 `my-ai-office/instagram/wando_abalone_porridge_content_draft.md` 파일로 저장하세요. [근거: 회사 미션, 지난 의사결정 로그, 최우선 집중 분야, 실시간 트렌드 분석 보고서] → 산출물 sessions/2026-07-21T1
 ### 🔍 Researcher
 - [2026-07-20] _agents/0(goal.md) → 산출물 sessions/2026-07-20T16-31/researcher.md
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 data analysis 및 pattern recognition → 산출물 sessions/2026-07-20T17-31/researcher.md
