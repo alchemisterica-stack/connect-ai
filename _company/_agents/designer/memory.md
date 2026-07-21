@@ -264,3 +264,4 @@ _Designer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 �
 - [2026-07-21] 완도 전복죽 인스타그램 카드뉴스에 Accent Yellow (#FFD700) 컬러를 제목 또는 핵심 키워드에 적용하는 구체적인 디자인 브리프를 작성하세요. Primary Blue 계열의 미세한 테두리 또는 그림자 효과 적용 여부를 포함하여 시각적 강조 효과를 극대화할 수 있는 방안을 제시하고, `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 저장하세요. [근거: CEO 종합, 지난 의사결정 로그] → 산출물 sessions/20
 - [2026-07-21] 고객需求에 맞는 designing과 형태를 구체화하기 → 산출물 sessions/2026-07-21T13-44/designer.md
 - [2026-07-21] 브랜드 비주얼·컷/타이포 브리프, 컬러/타이포 → 산출물 sessions/2026-07-21T14-44/designer.md
+- [2026-07-21] 가치 있는 캡션, 썸네일 브리프 → 산출물 sessions/2026-07-21T16-44/designer.md
