@@ -253,3 +253,5 @@ _Writer 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 쓰�
 - [2026-07-20] 2026-07-19 ~ 2026-07-22의 blog post 및 article → 산출물 sessions/2026-07-20T17-31/writer.md
 - [2026-07-20] 새로운 문구 및 캡션을 작성하여Company Goal과 Mission statement에 대한 내용을 cập nhật하는 task → 산출물 sessions/2026-07-20T20-31/writer.md
 - [2026-07-20] 이 선택된 작업에 대한 카피라이팅, 캡션, 게시 시간, 인게이지먼트, 썸네일 브리프를 작성할 것 → 산출물 sessions/2026-07-20T23-31/writer.md
+- [2026-07-21] 내용 작성 → 산출물 sessions/2026-07-21T00-31/writer.md
+- [2026-07-21] '완도 전복죽 레시피' 인스타그램 카드뉴스에 들어갈 핵심 레시피, 재료, 조리법, 그리고 매력적인 캡션을 작성하여 `my-ai-office/content/wando_abalone_porridge_cardnews_draft.md` 파일로 저장합니다. [근거: 회사 목표, 의사결정 로그, 트렌드 리포트] → 산출물 sessions/2026-07-21T03-44/writer.md
