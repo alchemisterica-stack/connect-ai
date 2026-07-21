@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 21. 오후 4:45:07_
+_업데이트: 2026. 7. 21. 오후 5:44:20_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-21] **인스타그램**: 눈부신 20도의 햇살이 괜히 야속하게 느껴지는.md ([Link](https://www.instagram.com/reel/DbCIczsj45-/))
@@ -22,8 +22,8 @@ _업데이트: 2026. 7. 21. 오후 4:45:07_
 - [2026-07-21] developer 에이전트가 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 생성한 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 검토하여 Primary Blue (#4A67A3)와 Accent Yellow (#FFD700) 브랜드 컬러, Noto Sans KR Bold 폰트 사용 여부 및 모든 콘텐츠 상단에 회사 로고 배치 등 브랜드 가이드라인 준수 여부를 확인하고, 필요한 시각적 개선 사항을 제안하여 최종 디자인을 확정하세요. [근거: 지난 의사결정 로그, 회사 정
 - [2026-07-21] 완도 전복죽 인스타그램 카드뉴스에 Accent Yellow (#FFD700) 컬러를 제목 또는 핵심 키워드에 적용하는 구체적인 디자인 브리프를 작성하세요. Primary Blue 계열의 미세한 테두리 또는 그림자 효과 적용 여부를 포함하여 시각적 강조 효과를 극대화할 수 있는 방안을 제시하고, `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 저장하세요. [근거: CEO 종합, 지난 의사결정 로그] → 산출물 sessions/20
 ### 💻 코다리
-- [2026-07-20] 코드 작성·편집·디버깅 · 자동화 스크립트, 자동化 시스템 · 웹사이트 · 테스트, git · 자기 검증 루프 (Claude Code 수준) → 산출물 sessions/2026-07-20T19-31/developer.md
 - [2026-07-21] writer 에이전트가 생성한 `my-ai-office/content/wando_abalone_porridge_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. [근거: 회사 목표, 의사결정 로그] → 산출물 sessions/
+- [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 
 - [2026-07-21] designer 에이전트가 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로에 생성한 디자인 브리프를 바탕으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 재생성하세요. Accent Yellow가 적용된 최종 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에
 ### 💼 현빈
 - [2026-07-20] Company 목표 및 개인 목표(_agents/{id}/goal.md)의 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-07-20T04-38/business.md
