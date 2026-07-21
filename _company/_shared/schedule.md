@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 21. 오후 2:18:27_
+_업데이트: 2026. 7. 21. 오후 3:55:30_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-21] **인스타그램**: 눈부신 20도의 햇살이 괜히 야속하게 느껴지는.md ([Link](https://www.instagram.com/reel/DbCIczsj45-/))
@@ -14,13 +14,13 @@ _업데이트: 2026. 7. 21. 오후 2:18:27_
 - [2026-07-20] researcher 에이전트가 제시한 트렌드 주제 중 가장 잠재력이 높은 하나를 선정하여, 해당 주제로 제작할 유튜브 영상의 핵심 컨셉을 200자 내외로 설명하고, 가제와 영상에 포함될 주요 내용 3~5가지를 구체적으로 기획하세요. → 산출물 sessions/2026-07-20T18-31/youtube.md
 - [2026-07-20] 작업 1: 2026-07-20(0시)부터 2026-07-25(23시)까지 최소 24시간 운영 → 산출물 sessions/2026-07-20T19-31/youtube.md
 ### 📷 Instagram
-- [2026-07-19] 인스타그램 이oster디트에 대한 3시간의 작업 → 산출물 sessions/2026-07-19T21-46/instagram.md
 - [2026-07-20] 인스타그램 → 산출물 sessions/2026-07-20T02-53/instagram.md
 - [2026-07-20] 사용자의Instagram帐户 분석 및 최적화 → 산출물 sessions/2026-07-20T11-49/instagram.md
+- [2026-07-21] designer 에이전트가 확정한 완도 전복죽 인스타그램 카드뉴스 최종 비주얼 에셋과 developer 에이전트가 생성한 캡션을 기반으로, 인게이지먼트를 극대화할 수 있는 게시 시간, 해시태그 전략, 캡션 최종 검토를 포함한 인스타그램 게시 계획을 수립하고, 콘텐츠 발행 준비를 완료하세요. [근거: 팀 설명, 회사 목표, 지난 의사결정 로그] → 산출물 sessions/2026-07-21T06-44/instagram.md
 ### 🎨 Designer
-- [2026-07-20] 현재 project의 스타일과 구성을 확인하고, 가장 가치 있는 단일 작업을 identify하는 → 산출물 sessions/2026-07-20T23-31/designer.md
 - [2026-07-21] 고유한 브랜드 및 썸네일 생성 → 산출물 sessions/2026-07-21T00-31/designer.md
 - [2026-07-21] 신선한 디자인을 tạo해 현재 가장 가치 있는 단일 작업1개를 결정하고, 적절한1-2명 에이전트에게 배분해서 실행하세요 → 산출물 sessions/2026-07-21T04-44/designer.md
+- [2026-07-21] developer 에이전트가 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 생성한 완도 전복죽 인스타그램 카드뉴스 이미지 파일들을 검토하여 Primary Blue (#4A67A3)와 Accent Yellow (#FFD700) 브랜드 컬러, Noto Sans KR Bold 폰트 사용 여부 및 모든 콘텐츠 상단에 회사 로고 배치 등 브랜드 가이드라인 준수 여부를 확인하고, 필요한 시각적 개선 사항을 제안하여 최종 디자인을 확정하세요. [근거: 지난 의사결정 로그, 회사 정
 ### 💻 코다리
 - [2026-07-20] writer 에이전트가 생성한 `my-ai-office/content/pumpkin_stir_fry_cardnews_draft.md` 파일을 기반으로, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일 및 최종 캡션을 `my-ai-office/instagram/pumpkin_stir_fry_cardnews/` 경로에 생성하세요. 스크립트 실행 후 결과 파일 경로를 보고해야 합니다. python scripts/instagram_feed_drafter.py --input
 - [2026-07-20] 코드 작성·편집·디버깅 · 자동화 스크립트, 자동化 시스템 · 웹사이트 · 테스트, git · 자기 검증 루프 (Claude Code 수준) → 산출물 sessions/2026-07-20T19-31/developer.md
