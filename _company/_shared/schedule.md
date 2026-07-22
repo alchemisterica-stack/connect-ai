@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 22. 오전 9:45:50_
+_업데이트: 2026. 7. 22. 오후 7:41:09_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-22] **인스타그램**: 창밖으로 쏟아지는 눈부신 햇살이 낯설게 느껴지.md ([Link](https://www.instagram.com/reel/DbEs8tSDS_M/))
@@ -22,13 +22,13 @@ _업데이트: 2026. 7. 22. 오전 9:45:50_
 - [2026-07-21] 브랜드 비주얼·컷/타이포 브리프, 컬러/타이포 → 산출물 sessions/2026-07-21T14-44/designer.md
 - [2026-07-21] 가치 있는 캡션, 썸네일 브리프 → 산출물 sessions/2026-07-21T16-44/designer.md
 ### 💻 코다리
-- [2026-07-21] writer 에이전트가 `my-ai-office/instagram/wando_abalone_porridge_content_draft.md` 경로에 작성한 '완도 전복죽' 카드뉴스 원고와 `my-ai-office/design_briefs/wando_abalone_porridge_accent_yellow_design_brief.md` 경로의 디자인 브리프를 활용하여, `scripts/instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지 파일들을 `my-ai-office/instagram/wand
 - [2026-07-21] 기존 '완도 전복죽' 카드뉴스 디자인 브리프와 브랜드 가이드라인(콩콩캔디 로고, Noto Sans KR Bold 폰트, 제목/핵심 키워드 Accent Yellow, 테두리/그림자 Primary Blue)을 철저히 준수하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, '완도 전복죽' 인스타그램 카드뉴스 이미지 파일들을 최종 생성하여 `my-ai-office/instagram/wando_abalone_porridge_cardnews/` 경로에 저장하세요. [근거: 회사 목표, 지난 의사결정 로그
 - [2026-07-22] 데일리 브리핑에서 보고된 'name 'SESSIONS_DIR' is not defined' 오류를 유발하는 블로그 자동 발행 스크립트(`scripts/blog_publisher.py` 등 관련 스크립트)를 면밀히 검토하고 디버깅하여 오류를 수정하세요. 수정 완료 후 스크립트가 정상적으로 동작하는지 테스트를 수행하고, 다음 블로그 포스팅이 자동 발행될 수 있도록 준비하세요. [근거: 통합 스케줄, 회사 미션] → 산출물 sessions/2026-07-22T00-44/developer.md
+- [2026-07-22] 최근 결정한 작업을 반복적으로 실행하고, 24시간 내에 메모리에 비슷한 항목이 있으면 다른 방향으로 진전시king → 산출물 sessions/2026-07-22T01-44/developer.md
 ### 💼 현빈
-- [2026-07-20] Company 목표 및 개인 목표(_agents/{id}/goal.md)의 가장 가치 있는 단일 작업 1개를 결정하고, 적절한 1~2명 에이전트에게 분배해서 실행 → 산출물 sessions/2026-07-20T04-38/business.md
 - [2026-07-20] 수익화, 가격, 비즈니스 전략·분석, KPI → 산출물 sessions/2026-07-20T19-31/business.md
 - [2026-07-21] 사전 planning과 수익화 전략 → 산출물 sessions/2026-07-21T00-31/business.md
+- [2026-07-22] 회사의 목표와 개인 목표 확인 및 최근 quyết định kiểm토 → 산출물 sessions/2026-07-22T01-44/business.md
 ### 📱 영숙
 - [2026-07-17] 일정·할 일 및 작업 요약 → 산출물 sessions/2026-07-17T21-54/secretary.md
 - [2026-07-19] developer 에이전트의 YouTube API 연동 문제 해결 진행 상황을 면밀히 추적하고, 해결 완료 시 CEO에게 즉시 보고하며 다음 자율 사이클을 위한 브리핑에 포함할 준비를 하세요. [근거: 통합 스케줄, 당신의 개인 목표] → 산출물 sessions/2026-07-19T21-16/secretary.md
@@ -42,9 +42,9 @@ _업데이트: 2026. 7. 22. 오전 9:45:50_
 - [2026-07-21] developer 에이전트가 생성한 '완도 전복죽' 인스타그램 카드뉴스 이미지에 맞춰, '요리 초보도 성공하는 완도 전복죽 정갈하고 맛있는 황금 레시피' 주제로 매력적인 캡션을 작성하세요. `latest_trend_report.md`의 요리/반찬 카테고리 추천 해시태그 중 5개 이상을 포함하고, 타겟 청중의 공감을 얻을 수 있는 친근하고 유용한 톤앤매너를 유지하세요. [근거: 회사 목표, 지난 의사결정 로그, latest_trend_report.md] → 산출물 sessions/2026-07-21T19-44/writer.md
 - [2026-07-21] 카피라이팅 và 캡션 작성 → 산출물 sessions/2026-07-21T20-44/writer.md
 ### 🔍 Researcher
-- [2026-07-21] 데이터 수집과 분석을 performed로 인해 그에 따라 다른 각도로 진전시키기 → 산출물 sessions/2026-07-21T13-44/researcher.md
 - [2026-07-21] 경쟁사 리서치 · 데이터 수집·요약 → 산출물 sessions/2026-07-21T14-44/researcher.md
 - [2026-07-21] 유튜브 데이터 수집 및 분석 → 산출물 sessions/2026-07-21T16-44/researcher.md
+- [2026-07-22] 2026-07-22 12:00부터 24시간 내에 메모리에 비슷한 항목이 나타날 때까지 데이터 수집 → 산출물 sessions/2026-07-22T01-44/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
