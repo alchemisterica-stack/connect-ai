@@ -193,7 +193,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
       "enabled": true,
-      "lastFiredAt": "2026-07-21"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "insta_publish_morning",
