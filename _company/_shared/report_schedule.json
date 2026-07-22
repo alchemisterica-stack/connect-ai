@@ -16,7 +16,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\render_local_content.py",
       "enabled": true,
-      "lastFiredAt": "2026-07-21"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "instagram_publish_morning",
@@ -70,7 +70,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow --slot night",
       "enabled": true,
-      "lastFiredAt": "2026-07-21"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "youth_blog_generate",
@@ -88,7 +88,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
       "enabled": true,
-      "lastFiredAt": "2026-07-21"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "recipe_blog_generate",
@@ -133,7 +133,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\auto_senser.py",
       "enabled": true,
-      "lastFiredAt": "2026-07-21"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "recipe_cardnews_generate",
@@ -161,7 +161,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py issue",
       "enabled": true,
-      "lastFiredAt": "2026-07-20"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "license_guide_generate",
@@ -175,7 +175,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py guide",
       "enabled": true,
-      "lastFiredAt": "2026-07-20"
+      "lastFiredAt": "2026-07-22"
     },
     {
       "id": "email_pipeline_run",
