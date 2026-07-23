@@ -28,6 +28,8 @@ except ImportError:
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(HERE, "blog_post_generator.json")
 DRAFTS_ROOT = os.path.join(HERE, "..", "drafts")
+COMPANY_DIR = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
+SESSIONS_DIR = os.path.join(COMPANY_DIR, "sessions")
 
 # Default Config
 DEFAULT_CONFIG = {
@@ -39,17 +41,6 @@ import urllib.request
 import urllib.parse
 import re
 import xml.etree.ElementTree as ET
-
-# Paths
-HERE = os.path.dirname(os.path.abspath(__file__))
-CONFIG_PATH = os.path.join(HERE, "blog_post_generator.json")
-DRAFTS_ROOT = os.path.join(HERE, "..", "drafts")
-
-# Default Config
-DEFAULT_CONFIG = {
-    "OLLAMA_URL": "http://127.0.0.1:11434",
-    "MODEL": "llama3.2:1b"
-}
 
 def fetch_online_context(query):
     return ""
@@ -1574,7 +1565,7 @@ def auto_publish_post(result, category, current_subject, target_file_name, metad
                         
                         # 비주얼 중복 검수 가동 (study / mindset)
                         qc_passed = True
-                        if automation_utils:
+                        if automation_utils and category != "study":
                             for p_path in [banner_path, blogger_banner_path]:
                                 if p_path and os.path.exists(p_path):
                                     is_passed, reason = automation_utils.run_self_qc_image(p_path)
