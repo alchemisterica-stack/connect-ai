@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 23. 오후 1:31:28_
+_업데이트: 2026. 7. 23. 오후 2:00:00_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-23] **인스타그램**: 창밖으로 들어오는 눈부신 햇살이 괜히 야속하게.md ([Link](https://www.instagram.com/reel/DbHR2l_AmM-/))
@@ -18,9 +18,9 @@ _업데이트: 2026. 7. 23. 오후 1:31:28_
 - [2026-07-21] instagram 채널 분석 및 인стрุ่먼트 작성 → 산출물 sessions/2026-07-21T20-44/instagram.md
 - [2026-07-22] developer 에이전트가 생성한 '청소년지도사' 인스타그램 카드뉴스 이미지 파일과 writer 에이전트가 제공한 텍스트 콘텐츠를 기반으로, 인게이지먼트를 극대화할 수 있는 캡션, 해시태그 전략, 최적 게시 시간을 포함한 최종 인스타그램 게시 계획을 수립하고, 콘텐츠 발행 준비를 완료하세요. [근거: 팀 설명, 회사 목표, 지난 의사결정 로그, 실시간 트렌드 분석 보고서] → 산출물 sessions/2026-07-22T13-44/instagram.md
 ### 🎨 Designer
-- [2026-07-21] 가치 있는 캡션, 썸네일 브리프 → 산출물 sessions/2026-07-21T16-44/designer.md
 - [2026-07-22] 브랜드 비주얼 및 썸네일 creation → 산출물 sessions/2026-07-22T22-44/designer.md
 - [2026-07-23] 다음 week 내로 가장 가치 있는 단일 작업 1개를 quyết定하여 실행 → 산출물 sessions/2026-07-23T01-44/designer.md
+- [2026-07-23] 단순 데이터 조회 · 정보 확인 명령을 통해 company-wide analyze result을 생성합니다. latest decision and meeting notes를 검토하여 결정합니다. → 산출물 sessions/2026-07-23T04-44/designer.md
 ### 💻 코다리
 - [2026-07-22] writer 에이전트가 제공한 '청소년지도사' 카드뉴스 텍스트 콘텐츠를 사용하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, 지난 의사결정 로그에서 확정된 브랜드 가이드라인(콩콩캔디 로고 상단 배치, 메인 폰트 Noto Sans KR Bold, 제목 및 핵심 키워드 Accent Yellow 적용, 테두리/그림자 Primary Blue 계열 적용)을 철저히 준수하여 인스타그램 카드뉴스 이미지 파일들을 최종 생성한 후, `my-ai-office/instagram/youth_instructor_c
 - [2026-07-22] writer 에이전트가 제공한 '청소년지도사' 카드뉴스 텍스트 콘텐츠를 사용하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, 지난 의사결정 로그에서 확정된 브랜드 가이드라인(콩콩캔디 로고 상단 배치, 메인 폰트 Noto Sans KR Bold, 제목 및 핵심 키워드 Accent Yellow 적용, 테두리/그림자 Primary Blue 계열 적용)을 철저히 준수하여 인스타그램 카드뉴스 이미지 파일들을 최종 생성한 후, `my-ai-office/instagram/youth_instructor_c
