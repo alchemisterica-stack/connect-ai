@@ -308,13 +308,39 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--title",          default="아무것도 하기 싫은\n날이 있어요.")
-    parser.add_argument("--subtitle",       default="그냥 쉬어도 괜찮아요")
-    parser.add_argument("--theme",          default="consolation")
+    parser.add_argument("--title",          default=None)
+    parser.add_argument("--subtitle",       default=None)
+    parser.add_argument("--theme",          default=None)
     parser.add_argument("--style",          default="normal",
                         choices=["normal","bold"])
     parser.add_argument("--exclude-colors", default="")
     args = parser.parse_args()
-    create_single_card(args.title, args.subtitle, args.theme,
+
+    title = args.title
+    subtitle = args.subtitle
+    theme = args.theme
+
+    if not title or not subtitle:
+        draft_path = os.path.join(OUTPUT_DIR, "current_draft.json")
+        if os.path.exists(draft_path):
+            try:
+                with open(draft_path, "r", encoding="utf-8") as f:
+                    draft_data = json.load(f)
+                    single_info = draft_data.get("single", {})
+                    if single_info:
+                        title = single_info.get("title", title)
+                        subtitle = single_info.get("subtitle", subtitle)
+                    theme = draft_data.get("theme", theme)
+            except Exception as e:
+                print(f"[WARN] Failed to auto-load draft in single card: {e}")
+
+    if not title:
+        title = "오늘 하루도 참\n고생 많았어."
+    if not subtitle:
+        subtitle = "그저 존재만으로도 충분해요."
+    if not theme:
+        theme = "consolation"
+
+    create_single_card(title, subtitle, theme,
                        style=args.style,
                        exclude_colors=getattr(args,"exclude_colors",""))
