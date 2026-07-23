@@ -1,12 +1,12 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 23. 오전 8:19:47_
+_업데이트: 2026. 7. 23. 오전 9:44:33_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
+- [2026-07-23] **인스타그램**: 창밖으로 들어오는 눈부신 햇살이 괜히 야속하게.md ([Link](https://www.instagram.com/reel/DbHR2l_AmM-/))
 - [2026-07-22] **인스타그램**: 눈부시게 맑은 하늘 아래 괜히 저만 멈춰 서.md ([Link](https://www.instagram.com/p/DbGQnkslCw8/))
 - [2026-07-22] **인스타그램**: 창가로 쏟아지는 스물네 번째 여름의 햇살이 참.md ([Link](https://www.instagram.com/reel/DbF_XHeEpoI/))
 - [2026-07-22] **인스타그램**: 창밖으로 쏟아지는 눈부신 햇살이 낯설게 느껴지.md ([Link](https://www.instagram.com/reel/DbEs8tSDS_M/))
 - [2026-07-21] **인스타그램**: 눈부시게 맑은 하늘 아래 유독 혼자 덩그러니.md ([Link](https://www.instagram.com/p/DbDsJAslExN/))
-- [2026-07-21] **인스타그램**: 눈부시게 맑은 하늘 아래 유난히 나만 정지된.md ([Link](https://www.instagram.com/reel/DbDa3dTAWV-/))
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -22,9 +22,9 @@ _업데이트: 2026. 7. 23. 오전 8:19:47_
 - [2026-07-21] 가치 있는 캡션, 썸네일 브리프 → 산출물 sessions/2026-07-21T16-44/designer.md
 - [2026-07-22] 브랜드 비주얼 및 썸네일 creation → 산출물 sessions/2026-07-22T22-44/designer.md
 ### 💻 코다리
-- [2026-07-22] 최근 결정한 작업을 반복적으로 실행하고, 24시간 내에 메모리에 비슷한 항목이 있으면 다른 방향으로 진전시king → 산출물 sessions/2026-07-22T01-44/developer.md
 - [2026-07-22] writer 에이전트가 제공한 '청소년지도사' 카드뉴스 텍스트 콘텐츠를 사용하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, 지난 의사결정 로그에서 확정된 브랜드 가이드라인(콩콩캔디 로고 상단 배치, 메인 폰트 Noto Sans KR Bold, 제목 및 핵심 키워드 Accent Yellow 적용, 테두리/그림자 Primary Blue 계열 적용)을 철저히 준수하여 인스타그램 카드뉴스 이미지 파일들을 최종 생성한 후, `my-ai-office/instagram/youth_instructor_c
 - [2026-07-22] writer 에이전트가 제공한 '청소년지도사' 카드뉴스 텍스트 콘텐츠를 사용하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, 지난 의사결정 로그에서 확정된 브랜드 가이드라인(콩콩캔디 로고 상단 배치, 메인 폰트 Noto Sans KR Bold, 제목 및 핵심 키워드 Accent Yellow 적용, 테두리/그림자 Primary Blue 계열 적용)을 철저히 준수하여 인스타그램 카드뉴스 이미지 파일들을 최종 생성한 후, `my-ai-office/instagram/youth_instructor_c
+- [2026-07-23] 데일리 브리핑에서 보고된 '청소년지도사 블로그 자동 발행' 스크립트의 'name 'SESSIONS_DIR' is not defined' 에러를 디버깅하고 수정하여, 블로그 자동 발행 기능이 정상적으로 작동하도록 조치하세요. [근거: 회사 목표, 통합 스케줄, CEO 개인 메모리] → 산출물 sessions/2026-07-23T00-44/developer.md
 ### 💼 현빈
 - [2026-07-21] 사전 planning과 수익화 전략 → 산출물 sessions/2026-07-21T00-31/business.md
 - [2026-07-22] 회사의 목표와 개인 목표 확인 및 최근 quyết định kiểm토 → 산출물 sessions/2026-07-22T01-44/business.md
