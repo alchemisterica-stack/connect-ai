@@ -1,5 +1,5 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 23. 오후 5:45:21_
+_업데이트: 2026. 7. 23. 오후 10:45:07_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
 - [2026-07-23] **인스타그램**: 눈부시게 맑은 하늘 아래 문득 내일이라는 단.md ([Link](https://www.instagram.com/reel/DbIG845n51L/))
@@ -18,13 +18,13 @@ _업데이트: 2026. 7. 23. 오후 5:45:21_
 - [2026-07-21] instagram 채널 분석 및 인стрุ่먼트 작성 → 산출물 sessions/2026-07-21T20-44/instagram.md
 - [2026-07-22] developer 에이전트가 생성한 '청소년지도사' 인스타그램 카드뉴스 이미지 파일과 writer 에이전트가 제공한 텍스트 콘텐츠를 기반으로, 인게이지먼트를 극대화할 수 있는 캡션, 해시태그 전략, 최적 게시 시간을 포함한 최종 인스타그램 게시 계획을 수립하고, 콘텐츠 발행 준비를 완료하세요. [근거: 팀 설명, 회사 목표, 지난 의사결정 로그, 실시간 트렌드 분석 보고서] → 산출물 sessions/2026-07-22T13-44/instagram.md
 ### 🎨 Designer
-- [2026-07-22] 브랜드 비주얼 및 썸네일 creation → 산출물 sessions/2026-07-22T22-44/designer.md
 - [2026-07-23] 다음 week 내로 가장 가치 있는 단일 작업 1개를 quyết定하여 실행 → 산출물 sessions/2026-07-23T01-44/designer.md
 - [2026-07-23] 단순 데이터 조회 · 정보 확인 명령을 통해 company-wide analyze result을 생성합니다. latest decision and meeting notes를 검토하여 결정합니다. → 산출물 sessions/2026-07-23T04-44/designer.md
+- [2026-07-23] developer 에이전트가 준비한 `instagram_feed_drafter.py` 스크립트를 활용하여, writer 에이전트가 제공한 '청소년지도사' 카드뉴스 텍스트 콘텐츠에 대한 비주얼 에셋을 브랜드 가이드라인(콩콩캔디 로고 상단 배치, Noto Sans KR Bold 폰트, 제목/핵심 키워드 Accent Yellow 적용)에 맞춰 자동 생성하고, `my-ai-office`에 이미지 파일로 저장하세요. → 산출물 sessions/2026-07-23T13-44/designer.md
 ### 💻 코다리
-- [2026-07-22] writer 에이전트가 제공한 '청소년지도사' 카드뉴스 텍스트 콘텐츠를 사용하여 `scripts/instagram_feed_drafter.py` 스크립트를 실행하고, 지난 의사결정 로그에서 확정된 브랜드 가이드라인(콩콩캔디 로고 상단 배치, 메인 폰트 Noto Sans KR Bold, 제목 및 핵심 키워드 Accent Yellow 적용, 테두리/그림자 Primary Blue 계열 적용)을 철저히 준수하여 인스타그램 카드뉴스 이미지 파일들을 최종 생성한 후, `my-ai-office/instagram/youth_instructor_c
 - [2026-07-23] 데일리 브리핑에서 보고된 '청소년지도사 블로그 자동 발행' 스크립트의 'name 'SESSIONS_DIR' is not defined' 에러를 디버깅하고 수정하여, 블로그 자동 발행 기능이 정상적으로 작동하도록 조치하세요. [근거: 회사 목표, 통합 스케줄, CEO 개인 메모리] → 산출물 sessions/2026-07-23T00-44/developer.md
 - [2026-07-23] writer 에이전트가 작성한 '청소년지도사' 카드뉴스 텍스트 콘텐츠 초안을 기반으로, `instagram_feed_drafter.py` 스크립트를 실행하여 인스타그램 카드뉴스 이미지와 캡션 파일을 `my-ai-office` 내에 생성하세요. 이 때, 지난 의사결정 로그에 명시된 브랜드 가이드라인(콩콩캔디 로고 상단 배치, Noto Sans KR Bold 폰트, 제목/핵심 키워드 Accent Yellow 적용 등)을 스크립트에 반영합니다. [근거: 회사 미션, 최우선 집중 분야, 지난 의사결정 로그] → 산출물 sessions/20
+- [2026-07-23] 인스타그램 카드뉴스 비주얼 생성을 위한 `instagram_feed_drafter.py` 스크립트의 정확한 경로를 확인하고 실행 가능하도록 조치하며, 필요시 스크립트를 디버깅하여 오류를 해결하세요. 결과물은 `my-ai-office` 내에 저장될 수 있도록 준비합니다. → 산출물 sessions/2026-07-23T13-44/developer.md
 ### 💼 현빈
 - [2026-07-21] 사전 planning과 수익화 전략 → 산출물 sessions/2026-07-21T00-31/business.md
 - [2026-07-22] 회사의 목표와 개인 목표 확인 및 최근 quyết định kiểm토 → 산출물 sessions/2026-07-22T01-44/business.md
