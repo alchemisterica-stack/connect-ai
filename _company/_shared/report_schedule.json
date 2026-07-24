@@ -16,7 +16,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\render_local_content.py",
       "enabled": true,
-      "lastFiredAt": "2026-07-23"
+      "lastFiredAt": "2026-07-24"
     },
     {
       "id": "instagram_publish_morning",
