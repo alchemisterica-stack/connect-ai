@@ -161,7 +161,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py issue",
       "enabled": true,
-      "lastFiredAt": "2026-07-22"
+      "lastFiredAt": "2026-07-23"
     },
     {
       "id": "license_guide_generate",
