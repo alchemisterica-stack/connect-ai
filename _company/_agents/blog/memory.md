@@ -1,6 +1,12 @@
 # 📝 블로그 에이전트 메모리 (Memory)
 
 ## 최근 소식 & 히스토리
+- [2026-07-25] 청소년지도방법론_1~14주 강의교안 - 13주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=742, Blogger: 실패)
+- [2026-07-25] 사회복지사 1급 핵심 요약 - 사회복지사1급_최신이슈_해설.txt 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=738, Blogger: https://congcandy.blogspot.com/2026/07/1-1_0484163612.html)
+- [2026-07-25] 청소년지도방법론_1~14주 강의교안 - 13주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=739, Blogger: https://congcandy.blogspot.com/2026/07/114-13-1.html)
+- [2026-07-25] 사회복지사 1급 핵심 요약 - 사회복지사1급_과목공부법_안내.txt 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=735, Blogger: https://congcandy.blogspot.com/2026/07/1-1_0359534900.html)
+- [2026-07-25] 사회복지사 1급 핵심 요약 - 사회복지사1급_과목공부법_안내.txt 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=737, Blogger: https://congcandy.blogspot.com/2026/07/1-1_01743060405.html)
+- [2026-07-25] 사회복지사 1급 핵심 요약 - 사회복지사1급_최신이슈_해설.txt 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=726, Blogger: https://congcandy.blogspot.com/2026/07/1-1_0397401044.html)
 - [2026-07-24] 사회복지사 1급 핵심 요약 - 사회복지사1급_최신이슈_해설.txt 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=715, Blogger: https://congcandy.blogspot.com/2026/07/1-1_0540740336.html)
 - [2026-07-24] 청소년지도방법론_1~14주 강의교안 - 12주차_2교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=709, Blogger: https://congcandy.blogspot.com/2026/07/114-12-2.html)
 - [2026-07-23] 청소년지도방법론_1~14주 강의교안 - 12주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=703, Blogger: https://congcandy.blogspot.com/2026/07/114-12-1.html)

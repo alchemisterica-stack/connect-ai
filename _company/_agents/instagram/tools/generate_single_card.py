@@ -115,14 +115,14 @@ def fetch_pollinations(prompt, size=(1080, 1080)):
     for attempt in range(2):
         try:
             print(f"  [BG] Pollinations 시도 {attempt+1}...")
-            r = requests.get(url, timeout=55)
+            r = requests.get(url, timeout=8)
             if r.status_code == 200 and len(r.content) > 10000:
                 img = Image.open(io.BytesIO(r.content)).convert("RGB")
                 print(f"  [BG] 성공 ({len(r.content)//1024}KB)")
                 return img.resize(size, Image.Resampling.LANCZOS)
         except Exception as e:
             print(f"  [BG] 실패: {e}")
-        time.sleep(2)
+        time.sleep(1)
     return None
 
 def make_gradient(colors, size=(1080, 1080)):
@@ -215,12 +215,10 @@ def draw_centered(W, H, draw, t_lines, tf, s_lines, sf,
 # 메인 카드 생성
 # ══════════════════════════════════════════════════════════════════════
 def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
-                        style="normal", exclude_colors=""):
+                        style="normal", exclude_colors="", target_type="all"):
     """
     style='bold'   → 🌅 아침 08:30: 밝은 톤, Pretendard Bold, 강한 스크림
     style='normal' → 🌆 저녁 20:30: 어두운 톤, 명조체, 부드러운 스크림
-    style='bold'   → [MORNING BOLD]: 밝은 톤, Pretendard Bold, 강한 스크림
-    style='normal' → [EVENING NORMAL]: 어두운 톤, 명조체, 부드러운 스크림
     """
     W, H   = 1080, 1080
     W2, H2 = 1080, 1920
@@ -229,14 +227,25 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
     slot_label = "[MORNING BOLD]" if is_bold else "[EVENING NORMAL]"
     print(f"\n[CARD] {slot_label} | theme='{theme_name}'")
 
-    # ── 1. 팔레트 선택 (3일 중복 방지) ────────────────────────────────
-    used_colors = load_recent_used_colors()
-    # exclude_colors 인자도 반영
-    if exclude_colors:
-        used_colors += [c.strip() for c in exclude_colors.split(",") if c.strip()]
+    # ── 1. 팔레트 선택 (3일 중복 방지 / 복구 시에는 기존 톤 복원) ──
+    color_key = None
+    if target_type != "all":
+        try:
+            preset_file = os.path.join(OUTPUT_DIR, "used_color.txt")
+            if os.path.exists(preset_file):
+                with open(preset_file, "r", encoding="utf-8") as pf:
+                    color_key = pf.read().strip()
+        except Exception as e:
+            print(f"[WARN] Failed to load previous color for single card retry: {e}")
 
     palettes = MORNING_PALETTES if is_bold else EVENING_PALETTES
-    color_key, palette = pick_palette(palettes, used_colors)
+    if color_key and color_key in palettes:
+        palette = palettes[color_key]
+    else:
+        used_colors = load_recent_used_colors()
+        if exclude_colors:
+            used_colors += [c.strip() for c in exclude_colors.split(",") if c.strip()]
+        color_key, palette = pick_palette(palettes, used_colors)
 
     # ── 2. 배경 생성 ───────────────────────────────────────────────────
     bg_feed = fetch_pollinations(palette["prompt"], (W, H))
@@ -283,8 +292,18 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
 
     print(f"  [FONT] {ts}px | scrim={scrim} | palette='{color_key}'")
 
-    # ── 6. 렌더 ──────────────────────────────────────────────────────────
-    for (img, IW, IH) in [(feed, W, H), (reel, W2, H2)]:
+    # ── 6. 렌더 & 7. 저장 ──────────────────────────────────────────────
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    feed_path = os.path.join(OUTPUT_DIR, "single_card_feed.png")
+    reel_path = os.path.join(OUTPUT_DIR, "single_card_reels.png")
+
+    targets = []
+    if target_type == "all" or target_type == "feed":
+        targets.append((feed, W, H, feed_path))
+    if target_type == "all" or target_type == "reels":
+        targets.append((reel, W2, H2, reel_path))
+
+    for (img, IW, IH, path) in targets:
         d = ImageDraw.Draw(img)
         t_lines = wrap_text(title, tf, IW - 240, d)
         s_lines = wrap_text(subtitle, sf, IW - 280, d) if subtitle else []
@@ -292,16 +311,12 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
         brand = "@rolling.s.cong01"
         bw = d.textbbox((0,0), brand, font=bf)[2]
         d.text(((IW - bw)//2, IH - 52), brand, font=bf, fill=bc)
+        img.convert("RGB").save(path)
+        print(f"[SAVED] {path}")
 
-    # ── 7. 저장 & 색상 기록 ─────────────────────────────────────────────
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    feed_path = os.path.join(OUTPUT_DIR, "single_card_feed.png")
-    reel_path = os.path.join(OUTPUT_DIR, "single_card_reels.png")
-    feed.convert("RGB").save(feed_path)
-    reel.convert("RGB").save(reel_path)
-    save_used_color(color_key)
-    print(f"[SAVED] {feed_path}")
-    print(f"[SAVED] {reel_path}")
+    if target_type == "all":
+        save_used_color(color_key)
+
     return feed_path, reel_path
 
 
@@ -314,6 +329,8 @@ if __name__ == "__main__":
     parser.add_argument("--style",          default="normal",
                         choices=["normal","bold"])
     parser.add_argument("--exclude-colors", default="")
+    parser.add_argument("--target-type",    default="all",
+                        choices=["all", "feed", "reels"])
     args = parser.parse_args()
 
     title = args.title
@@ -343,4 +360,5 @@ if __name__ == "__main__":
 
     create_single_card(title, subtitle, theme,
                        style=args.style,
-                       exclude_colors=getattr(args,"exclude_colors",""))
+                       exclude_colors=getattr(args,"exclude_colors",""),
+                       target_type=args.target_type)

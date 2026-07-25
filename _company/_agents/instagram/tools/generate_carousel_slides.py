@@ -100,7 +100,7 @@ SLIDES_INFO = [
     },
     {   # Slide 5 – CTA
         "prompt": (
-            "Cute 3D pastel clay art illustration of an instagram bookmark "
+            "Cute 3D pastel clay art illustration of a social media bookmark "
             "and heart floating in a warm cozy bedroom space, soft volumetric "
             "lighting, vibrant pink and peach tones, cheerful aesthetic, "
             "highly detailed, no text"
@@ -222,7 +222,7 @@ def auto_wrap(text, chars_per_line=16):
 # Background generation via Pollinations AI
 # ---------------------------------------------------------------------------
 
-def fetch_pollinations_background(prompt, retries=3, wait=3):
+def fetch_pollinations_background(prompt, retries=2, wait=1):
     """Download an AI-generated 1080×1080 background from Pollinations."""
     seed = random.randint(0, 99999999)
     encoded = urllib.parse.quote(prompt)
@@ -234,7 +234,7 @@ def fetch_pollinations_background(prompt, retries=3, wait=3):
     for attempt in range(1, retries + 1):
         try:
             print(f"  [AI-BG] Attempt {attempt}/{retries} - requesting image...")
-            resp = requests.get(url, timeout=60)
+            resp = requests.get(url, timeout=8)
             if resp.status_code == 200 and len(resp.content) > 1000:
                 img = Image.open(io.BytesIO(resp.content))
                 print(f"  [AI-BG] Success on attempt {attempt}.")
@@ -303,6 +303,14 @@ def create_card_slide(slide_idx, info, title_font, sub_font, brand_font, serif_f
     # 배경은 선명하게 유지
     bg_rgb = bg_img.convert("RGB")
     bg_img = bg_rgb.convert("RGBA")
+
+    # ── [대안 A] 5장 슬라이드 색조 통일 필터 (Tint Overlay) 적용 ──
+    # 오늘의 테마 바탕색(info["bg_color"])을 15% 정도(알파값 38) 얇게 덮어 씌워 색상 톤을 조화롭게 일치시킵니다.
+    tint_color = info["bg_color"]  # (R, G, B)
+    tint_alpha = 38  # 15% opacity
+    tint_layer = Image.new("RGBA", bg_img.size, tint_color + (tint_alpha,))
+    bg_img = Image.alpha_composite(bg_img, tint_layer)
+    print(f"  [COLOR-TINT] Applied 15% tint overlay using color: {tint_color}")
 
     # ---- Calculate background brightness for auto-contrast ------------
     brightness = calculate_background_brightness(bg_img)
@@ -469,11 +477,34 @@ def main():
         default="",
         help="Comma-separated list of color presets to exclude"
     )
+    parser.add_argument(
+        "--slide-idx",
+        type=int,
+        default=0,
+        help="Specify slide index (1 to 5) to render only that specific slide (default: 0 for all)"
+    )
     args = parser.parse_args()
 
-    # 1. Randomly choose layout type to enforce variation
-    layout_choices = ["rect_center", "ellipse_center", "circle_left", "rect_right"]
-    layout_type = random.choice(layout_choices)
+    # 1. Choose layout type (Preserve previous layout if retrying a single slide)
+    layout_type = None
+    layout_file = os.path.join(OUTPUT_DIR, "used_layout.txt")
+    if args.slide_idx > 0:
+        try:
+            if os.path.exists(layout_file):
+                with open(layout_file, "r", encoding="utf-8") as lf:
+                    layout_type = lf.read().strip()
+        except Exception as e:
+            print(f"[WARN] Failed to load previous layout type: {e}")
+            
+    if not layout_type:
+        layout_choices = ["rect_center", "ellipse_center", "circle_left", "rect_right"]
+        layout_type = random.choice(layout_choices)
+        try:
+            with open(layout_file, "w", encoding="utf-8") as lf:
+                lf.write(layout_type)
+        except Exception as e:
+            print(f"[WARN] Failed to save layout type: {e}")
+
     print(f"[LAYOUT] Enforcing layout style: {layout_type}")
     print(f"[STYLE] Running in style mode: {args.style}")
 
@@ -519,24 +550,32 @@ def main():
         }
     ]
     
-    # 제외 대상 색상 필터링
-    excluded = [c.strip().lower() for c in args.exclude_colors.split(",") if c.strip()]
-    available_presets = [p for p in COLOR_PRESETS if p["name"].lower() not in excluded]
-    
-    if not available_presets:
-        print("[WARN] All presets excluded by filter. Falling back to full pool.")
-        available_presets = COLOR_PRESETS
-        
-    chosen_preset = random.choice(available_presets)
+    # 2. Choose color preset (Preserve previous color if retrying a single slide)
+    chosen_preset = None
+    if args.slide_idx > 0:
+        try:
+            preset_file = os.path.join(OUTPUT_DIR, "used_color.txt")
+            if os.path.exists(preset_file):
+                with open(preset_file, "r", encoding="utf-8") as pf:
+                    prev_preset_name = pf.read().strip()
+                chosen_preset = next((p for p in COLOR_PRESETS if p["name"].lower() == prev_preset_name.lower()), None)
+        except Exception as e:
+            print(f"[WARN] Failed to load previous color preset: {e}")
+
+    if not chosen_preset:
+        excluded = [c.strip().lower() for c in args.exclude_colors.split(",") if c.strip()]
+        available_presets = [p for p in COLOR_PRESETS if p["name"].lower() not in excluded]
+        if not available_presets:
+            available_presets = COLOR_PRESETS
+        chosen_preset = random.choice(available_presets)
+        try:
+            preset_file = os.path.join(OUTPUT_DIR, "used_color.txt")
+            with open(preset_file, "w", encoding="utf-8") as pf:
+                pf.write(chosen_preset["name"])
+        except Exception as e:
+            print(f"[WARN] Failed to save color preset name: {e}")
+
     print(f"[THEME-COLOR] Enforcing slide deck theme: '{chosen_preset['name']}'")
-    
-    # 선택된 톤 파일에 기록 (스케줄러 캘린더 업데이트용)
-    try:
-        preset_file = os.path.join(OUTPUT_DIR, "used_color.txt")
-        with open(preset_file, "w", encoding="utf-8") as pf:
-            pf.write(chosen_preset["name"])
-    except Exception as e:
-        print(f"[WARN] Failed to write chosen color preset to file: {e}")
     
     for slide in SLIDES_INFO:
         slide["bg_color"] = chosen_preset["bg"]
@@ -548,11 +587,14 @@ def main():
 
     paths = []
     for idx, info in enumerate(SLIDES_INFO):
+        if args.slide_idx > 0 and (idx + 1) != args.slide_idx:
+            # Skip other slides when retrying a specific slide
+            continue
         p = create_card_slide(idx, info, title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path, layout_type, args.style)
         paths.append(p)
 
     print("\n" + "=" * 60)
-    print("[DONE] All 5 slides generated successfully!")
+    print(f"[DONE] Target slides generated successfully!")
     print(f"Output directory: {OUTPUT_DIR}")
     for p in paths:
         print(f"  - {os.path.basename(p)}")
