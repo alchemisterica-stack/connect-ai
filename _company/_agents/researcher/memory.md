@@ -258,3 +258,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-07-26] 지난 3개월간 유튜브 및 숏폼 플랫폼(틱톡, 인스타그램 릴스 등)에서 '캔디', '디저트', '간식' 관련 콘텐츠 중 조회수 및 인게이지먼트가 급상승하고 있는 새로운 트렌드 3가지 이상을 조사하고, 각 트렌드의 특징과 성공 요인을 간략히 요약하세요. → 산출물 sessions/2026-07-26T17-24/researcher.md
 - [2026-07-26] 트렌드 및 데이터 리서치(1인 기업 오케스트레이션) → 산출물 sessions/2026-07-26T18-24/researcher.md
 - [2026-07-26] 데이터 수집 및 분석 → 산출물 sessions/2026-07-26T21-24/researcher.md
+- [2026-07-26] Research and gather data on trends in the industry for the next 24 hours. → 산출물 sessions/2026-07-26T22-24/researcher.md
