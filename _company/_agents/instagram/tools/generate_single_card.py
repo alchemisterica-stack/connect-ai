@@ -227,6 +227,12 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
     slot_label = "[MORNING BOLD]" if is_bold else "[EVENING NORMAL]"
     print(f"\n[CARD] {slot_label} | theme='{theme_name}'")
 
+    # 1차 전체 기동 시 앞선 슬라이드쇼 생성 부하(Rate Limit) 회피를 위해 API 요청 전 5초 대기
+    if target_type == "all":
+        import time
+        print("  [API-DELAY] Sleeping 5s before single card rendering to bypass API cooldown...")
+        time.sleep(5)
+
     # ── 1. 팔레트 선택 (3일 중복 방지 / 복구 시에는 기존 톤 복원) ──
     color_key = None
     if target_type != "all":

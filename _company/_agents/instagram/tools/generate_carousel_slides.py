@@ -590,6 +590,10 @@ def main():
         if args.slide_idx > 0 and (idx + 1) != args.slide_idx:
             # Skip other slides when retrying a specific slide
             continue
+        # API Rate Limit (429) 회피를 위해 슬라이드 연속 요청 간 60초(1분)의 딜레이 부여
+        if idx > 0 and args.slide_idx == 0:
+            print(f"  [API-DELAY] Sleeping 60s before rendering Slide {idx + 1} to prevent Rate Limit (429)...")
+            time.sleep(60)
         p = create_card_slide(idx, info, title_font, sub_font, brand_font, serif_font, title_font_bold_lg, chosen_font_path, layout_type, args.style)
         paths.append(p)
 
