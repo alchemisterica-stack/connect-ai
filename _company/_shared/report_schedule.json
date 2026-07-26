@@ -34,7 +34,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\retry_instagram_render.py",
       "enabled": true,
-      "lastFiredAt": "2026-07-25"
+      "lastFiredAt": "2026-07-26"
     },
     {
       "id": "instagram_publish_morning",
