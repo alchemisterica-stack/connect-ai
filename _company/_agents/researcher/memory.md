@@ -259,3 +259,4 @@ _Researcher 에이전트만 읽고 쓰는 개인 노트. 학습·교훈·자주 
 - [2026-07-26] 트렌드 및 데이터 리서치(1인 기업 오케스트레이션) → 산출물 sessions/2026-07-26T18-24/researcher.md
 - [2026-07-26] 데이터 수집 및 분석 → 산출물 sessions/2026-07-26T21-24/researcher.md
 - [2026-07-26] Research and gather data on trends in the industry for the next 24 hours. → 산출물 sessions/2026-07-26T22-24/researcher.md
+- [2026-07-27] 한국 유튜브에서 '콩콩캔디' 채널의 핵심 타겟층(10-20대)과 연관될 수 있는 3-5가지의 최신 콘텐츠 트렌드(예: 특정 챌린지, DIY, 스토리텔링 형식, 신선한 시각적 요소 등)를 조사하고, 각 트렌드의 인기 요인 및 관련 경쟁사 영상을 2개 이상 포함하여 요약해주세요. → 산출물 sessions/2026-07-27T20-44/researcher.md
