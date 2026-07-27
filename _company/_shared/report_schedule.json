@@ -3,7 +3,7 @@
     {
       "id": "instagram_render",
       "label": "인스타그램 렌더링",
-      "hour": 3,
+      "hour": 0,
       "minute": 0,
       "days": [
         1,
@@ -15,13 +15,12 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\render_local_content.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "instagram_render_retry",
       "label": "인스타그램 렌더링 재시도 (03:30)",
-      "hour": 3,
+      "hour": 0,
       "minute": 30,
       "days": [
         1,
@@ -33,8 +32,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\retry_instagram_render.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "instagram_publish_morning",
@@ -51,8 +49,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single --slot morning",
-      "enabled": true,
-      "lastFiredAt": "2026-07-25"
+      "enabled": true
     },
     {
       "id": "instagram_publish_evening",
@@ -69,8 +66,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single --slot evening",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "instagram_publish_night",
@@ -87,8 +83,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow --slot night",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "youth_blog_generate",
@@ -105,8 +100,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\.connect-ai-brain\\_company\\_agents\\blog\\tools\\blog_post_generator.py auto",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "recipe_blog_generate",
@@ -150,8 +144,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\auto_senser.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "recipe_cardnews_generate",
@@ -208,8 +201,7 @@
         0
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
-      "enabled": true,
-      "lastFiredAt": "2026-07-26"
+      "enabled": true
     },
     {
       "id": "insta_publish_morning",
@@ -271,8 +263,7 @@
         6
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\weekly_strategy_report.py",
-      "enabled": true,
-      "lastFiredAt": "2026-07-25"
+      "enabled": true
     }
   ]
 }
