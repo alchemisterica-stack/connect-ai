@@ -215,7 +215,8 @@ def draw_centered(W, H, draw, t_lines, tf, s_lines, sf,
 # 메인 카드 생성
 # ══════════════════════════════════════════════════════════════════════
 def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
-                        style="normal", exclude_colors="", target_type="all"):
+                        style="normal", exclude_colors="", target_type="all",
+                        output_suffix=""):
     """
     style='bold'   → 🌅 아침 08:30: 밝은 톤, Pretendard Bold, 강한 스크림
     style='normal' → 🌆 저녁 20:30: 어두운 톤, 명조체, 부드러운 스크림
@@ -260,7 +261,8 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
         bg_feed = make_gradient(palette["gradient"], (W, H))
 
     # 순수 원본 배경 저장 (텍스트 얹기 전)
-    raw_bg_feed_path = os.path.join(OUTPUT_DIR, "bg_single_card_feed.png")
+    _bg_suffix = f"_{output_suffix}" if output_suffix else ""
+    raw_bg_feed_path = os.path.join(OUTPUT_DIR, f"bg_single_card_feed{_bg_suffix}.png")
     bg_feed.convert("RGB").save(raw_bg_feed_path, "PNG")
     print(f"  [RAW-BG] Saved raw background -> {raw_bg_feed_path}")
 
@@ -300,8 +302,9 @@ def create_single_card(title, subtitle, theme_name="warm", layout_type=None,
 
     # ── 6. 렌더 & 7. 저장 ──────────────────────────────────────────────
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    feed_path = os.path.join(OUTPUT_DIR, "single_card_feed.png")
-    reel_path = os.path.join(OUTPUT_DIR, "single_card_reels.png")
+    _suffix = f"_{output_suffix}" if output_suffix else ""
+    feed_path = os.path.join(OUTPUT_DIR, f"single_card_feed{_suffix}.png")
+    reel_path = os.path.join(OUTPUT_DIR, f"single_card_reels{_suffix}.png")
 
     targets = []
     if target_type == "all" or target_type == "feed":
@@ -337,6 +340,8 @@ if __name__ == "__main__":
     parser.add_argument("--exclude-colors", default="")
     parser.add_argument("--target-type",    default="all",
                         choices=["all", "feed", "reels"])
+    parser.add_argument("--output-suffix",  default="",
+                        help="Suffix for output filenames (e.g. 'morning' -> single_card_feed_morning.png)")
     args = parser.parse_args()
 
     title = args.title
@@ -344,12 +349,15 @@ if __name__ == "__main__":
     theme = args.theme
 
     if not title or not subtitle:
+        # output-suffix에 따라 적절한 드래프트 키를 선택 (morning → morning_single, evening → evening_single)
+        _draft_key_map = {"morning": "morning_single", "evening": "evening_single"}
+        _draft_key = _draft_key_map.get(args.output_suffix, "single")
         draft_path = os.path.join(OUTPUT_DIR, "current_draft.json")
         if os.path.exists(draft_path):
             try:
                 with open(draft_path, "r", encoding="utf-8") as f:
                     draft_data = json.load(f)
-                    single_info = draft_data.get("single", {})
+                    single_info = draft_data.get(_draft_key, draft_data.get("single", {}))
                     if single_info:
                         title = single_info.get("title", title)
                         subtitle = single_info.get("subtitle", subtitle)
@@ -367,4 +375,5 @@ if __name__ == "__main__":
     create_single_card(title, subtitle, theme,
                        style=args.style,
                        exclude_colors=getattr(args,"exclude_colors",""),
-                       target_type=args.target_type)
+                       target_type=args.target_type,
+                       output_suffix=args.output_suffix)
