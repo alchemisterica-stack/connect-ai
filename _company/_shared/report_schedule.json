@@ -52,7 +52,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type single --slot morning",
       "enabled": true,
-      "lastFiredAt": "2026-07-27"
+      "lastFiredAt": "2026-07-28"
     },
     {
       "id": "instagram_publish_evening",
