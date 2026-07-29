@@ -88,7 +88,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\scripts\\publish_instagram_schedule.py --type slideshow --slot night",
       "enabled": true,
-      "lastFiredAt": "2026-07-28"
+      "lastFiredAt": "2026-07-29"
     },
     {
       "id": "youth_blog_generate",
@@ -211,7 +211,7 @@
       ],
       "action": "run_command:python C:\\Users\\User\\my-ai-office\\email_pipeline.py --auto",
       "enabled": true,
-      "lastFiredAt": "2026-07-28"
+      "lastFiredAt": "2026-07-29"
     },
     {
       "id": "insta_publish_morning",
