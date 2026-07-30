@@ -1,12 +1,12 @@
 # 📋 통합 스케줄
-_업데이트: 2026. 7. 30. 오전 3:09:13_
+_업데이트: 2026. 7. 30. 오전 11:34:29_
 
 ## 📢 실제 온라인 발행 완료 이력 (최근 5건)
+- [2026-07-30] **인스타그램**: 창가로 들어오는 햇살이 유난히 다정한 오전이에.md ([Link](https://www.instagram.com/reel/DbZTGCuGOII/))
+- [2026-07-30] **청소년활동론_1~14주 강의교안**: 1주차_2교시.pdf ([WP](https://congcandy.wordpress.com/?p=810), [Blogger](https://congcandy.blogspot.com/2026/07/114-1-2_0423055895.html))
 - [2026-07-29] **인스타그램**: 창밖으로 쏟아지는 햇살이 유난히 눈부신 20도.md ([Link](https://www.instagram.com/p/DbYR8BflH_J/))
 - [2026-07-29] **인스타그램**: 눈부신 20도의 햇살이 창가를 두드리는 이런.md ([Link](https://www.instagram.com/reel/DbWuUDcDu4j/))
 - [2026-07-29] **청소년활동론_1~14주 강의교안**: 1주차_1교시.pdf ([WP](https://congcandy.wordpress.com/?p=797))
-- [2026-07-28] **인스타그램**: 햇살이 다정한 맑은 날이네요.md ([Link](https://www.instagram.com/p/DbVtJ_rlGMp/))
-- [2026-07-28] **인스타그램**: 창밖으로 들어오는 20도의 기분 좋은 바람이.md ([Link](https://www.instagram.com/reel/DbUKHVvjXj1/))
 
 ## 🤖 에이전트 최근 활동
 ### 📺 레오
@@ -26,9 +26,9 @@ _업데이트: 2026. 7. 30. 오전 3:09:13_
 - [2026-07-29] writer가 작성한 '청소년지도사 최신 트렌드 분석 및 시험 과목 완벽 가이드' 텍스트 콘텐츠를 기반으로, `pack_apply` 도구를 사용하여 인스타그램 카드뉴스 이미지를 생성하세요. `KIT_NAME`은 `instagram_cardnews_generator`로, `USER_INTENT`는 '청소년지도사 최신 트렌드 분석 및 시험 과목 완벽 가이드'로 지정하고, 생성된 이미지 파일들을 `my-ai-office/instagram_cardnews` 경로에 저장하세요. → 산출물 sessions/2026-07-29T12-44/dev
 - [2026-07-29] writer 에이전트가 제공한 '청소년지도사 최신 트렌드 분석 및 시험 과목 완벽 가이드' 텍스트 콘텐츠를 사용하여 인스타그램 카드뉴스 이미지를 생성하는 Python 스크립트(generate_cardnews.py)를 작성하고 실행하세요. 이미지 크기는 1080x1080px, 메인 배경색은 #4A67A3, 강조색은 #FFD700, 폰트는 Noto Sans KR Bold, 제목은 48pt, 본문은 28pt를 준수해야 합니다. 생성된 이미지 파일들은 'my-ai-office/instagram_cardnews/' 경로에 물리적으로 저장해야
 ### 💼 현빈
-- [2026-07-28] 회사 목표 · 최근 결정 → 산출물 sessions/2026-07-28T05-44/business.md
 - [2026-07-28] recent decision · key finding → 자격증명 부족으로 차단됨
 - [2026-07-28] 가치단점 파악 및 경쟁사 분석에 대한 제안 bitte. → 산출물 sessions/2026-07-28T22-44/business.md
+- [2026-07-30] 목표 설정 → 자격증명 부족으로 차단됨
 ### 📱 영숙
 - [2026-07-23] 작업 관리 및 메모리스트 → 산출물 sessions/2026-07-23T21-44/secretary.md
 - [2026-07-25] 사용자 목표: 1인 기업 24시간 운영중. 회사 목표, 각 에이전트의 개인목표 및 최_recent 사유결정, 메모리 확인. → 산출물 sessions/2026-07-25T00-24/secretary.md
@@ -42,9 +42,9 @@ _업데이트: 2026. 7. 30. 오전 3:09:13_
 - [2026-07-29] 카피라이팅, 영상 스크립트, 캡션, 블로그, 후크 → 산출물 sessions/2026-07-29T15-44/writer.md
 - [2026-07-29] 제목, 캐릭터, 소설 및 비평서 → 산출물 sessions/2026-07-29T17-44/writer.md
 ### 🔍 Researcher
-- [2026-07-28] 최근 3개월간 유튜브 숏츠와 인스타그램 릴스에서 K-pop 및 캔디 리뷰/챌린지 관련하여 높은 조회수와 참여도를 보이는 트렌드 3가지 이상을 조사하고, 각 트렌드의 특징과 성공 요인을 분석하여 요약하세요. → 산출물 sessions/2026-07-28T09-44/researcher.md
 - [2026-07-29] 최신 유튜브 트렌드와 경쟁사 성공 사례를 분석하여 콩콩캔디 채널에 적용 가능한 새로운 콘텐츠 아이디어 또는 기존 콘텐츠 개선 방향을 3가지 이상 제안하세요. → 산출물 sessions/2026-07-29T14-44/researcher.md
 - [2026-07-29] 트렌드/경쟁사 리서치, 데이터 수집·요약, 사실 확인 → 산출물 sessions/2026-07-29T15-44/researcher.md
+- [2026-07-30] 가치있는 작업 선택 → 산출물 sessions/2026-07-29T18-44/researcher.md
 ### 📝 블로그
 - [2026-06-12] 청소년복지론 - 4주차_1교시.pdf 발행 완료 (WordPress: https://congcandy.wordpress.com/?p=72, Blogger: https://congcandy.blogspot.com/2026/06/blog-post_367.html)
 - [2026-06-01] 블로그 에이전트 신규 임용 완료.
